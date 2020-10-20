@@ -1,4 +1,22 @@
-﻿## Programming
+﻿RLC DEVS:
+
+## Programming
+InUniverse
+J8Bit_Forager
+
+## Original Art
+Evie
+Keaton
+J8Bit_Forager
+FlowerSnek
+
+## Original Audio
+J8Bit_Forager
+
+
+ORIGINAL MEGAMIX ENGINE DEVS:
+
+## Programming
 WreckingPrograms (creator of Mega Engine)
 SnoruntPyro
 ACESpark
