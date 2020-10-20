@@ -696,10 +696,16 @@ if (phase != 0)
         var cl = (option == i);
         
         // Icon
-        draw_sprite_ext(global.weaponIcon[w], 0, 0, yOff, 1, 1, 0, col[!cl, 2], 1);
-        draw_sprite_ext(global.weaponIcon[w], 1, 0, yOff, 1, 1, 0, col[0, cl], 1);
-        draw_sprite_ext(global.weaponIcon[w], 2, 0, yOff, 1, 1, 0, col[1, cl], 1);
-        draw_sprite_ext(global.weaponIcon[w], 3, 0, yOff, 1, 1, 0, col[1, 2], cl);
+        //inuni edit: just draw the provided greyscale image straight-up if unselected
+        if cl
+        {
+            draw_sprite_ext(global.weaponIcon[w], 0, 0, yOff, 1, 1, 0, col[!cl, 2], 1);
+            draw_sprite_ext(global.weaponIcon[w], 1, 0, yOff, 1, 1, 0, col[0, cl], 1);
+            draw_sprite_ext(global.weaponIcon[w], 2, 0, yOff, 1, 1, 0, col[1, cl], 1);
+            draw_sprite_ext(global.weaponIcon[w], 3, 0, yOff, 1, 1, 0, col[1, 2], cl);
+        }
+        else
+            draw_sprite_ext(global.weaponIcon[w], 0, 0, yOff, 1, 1, 0, c_white, 1);
         
         if (!global.weaponLocked[w])
         {
