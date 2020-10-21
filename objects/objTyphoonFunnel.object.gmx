@@ -57,6 +57,8 @@ waveWidth = 6;
 
 animTimer = 0;
 deflectSoundTimer = 0;
+
+gravLock = undefined;
 </string>
           </argument>
         </arguments>
@@ -83,6 +85,8 @@ deflectSoundTimer = 0;
 
 if (!global.frozen)
 {
+    var wID = global.weaponID[? objTyphoonFunnel];
+
     //can be realeased manually by letting go of fire,
     //and is released automatically if player hits ground or is missing
     if (!instance_exists(parent) || !global.keyShoot[parent.playerID]
@@ -121,25 +125,34 @@ if (!global.frozen)
         trueY = parent.y;
         //force player into shooting pose
         parent.shootTimer = 14;
-        //slowfall
-        if !parent.inWater
-        {
+        
+        if !parent.inWater || global.ammo[playerID, wID] == 0
+        {   //slowfall
             //slow parent's fall if they're out of water
             if parent.yspeed * parent.gravDir &gt; 0.5
                 parent.yspeed = 0.5 * sign(parent.gravDir);
         }
-        else    //i.e. if parent.inWater
+        else    //i.e. if parent.inWater &amp;&amp; global.ammo[playerID, wID] != 0
         {
             //increased horizontal movement, and free vertical movement
             var ydir = global.keyDown[playerID] - global.keyUp[playerID];
             var xdir = global.keyRight[playerID] - global.keyLeft[playerID];
+            //keep player from leaving water vertically
+            if ydir != 0 &amp;&amp; ydir != parent.gravDir
+            {
+                with(parent)
+                {
+                    if !instance_place(x, y + ydir + ((bbox_top - bbox_bottom) * gravDir), objWater)
+                        ydir = 0;
+                }
+            }
             parent.yspeed = ydir * 1.5;
             with(parent)
-                shiftObject(xdir, -(grav * gravfactor * gravDir), true);
+                shiftObject(xdir, 0, true);
             //but! it drains energy passively
-            global.ammo[playerID, global.weaponID[? objTyphoonFunnel]] = max(0,
-                global.ammo[playerID, global.weaponID[? objTyphoonFunnel]]
-                - (0.04 / (global.energySaver + 1)));
+            global.ammo[playerID, wID] -= 0.04 / (global.energySaver + 1);
+            if global.ammo[playerID, wID] == 0      //keeps the hud from showing you have 1 use left when you run out
+                global.ammo[playerID, wID] = 0;
         }
     }
     else //while not following parent...
