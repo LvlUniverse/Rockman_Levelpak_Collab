@@ -88,10 +88,10 @@ liftAccel = 0.05;
         if (gravDir * other.liftSpeed &lt; 0 &amp;&amp; !climbing)
         {
             if (!global.gravityLiftLockJumpMap[? id])
-                global.gravityLiftLockJumpMap[? id] = lockPoolLock(localPlayerLock[PL_LOCK_JUMP]);
+                global.gravityLiftLockJumpMap[? id] = lockPoolLock(localPlayerLock[PL_LOCK_JUMP], localPlayerLock[PL_LOCK_ALLOWUPTRANSITION]);
         }
         else
-            global.gravityLiftLockJumpMap[? id] = lockPoolRelease(localPlayerLock[PL_LOCK_JUMP], global.gravityLiftLockJumpMap[? id]);
+            global.gravityLiftLockJumpMap[? id] = lockPoolRelease(localPlayerLock[PL_LOCK_JUMP], localPlayerLock[PL_LOCK_ALLOWUPTRANSITION], global.gravityLiftLockJumpMap[? id]);
         
         // lock movement except when on the ground:
         if (ground)

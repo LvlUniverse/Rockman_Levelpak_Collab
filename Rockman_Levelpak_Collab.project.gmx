@@ -6781,8 +6781,8 @@
     <room>rooms\lvlMovingWaterTest</room>
     <room>rooms\lvlDeflectTest</room>
   </rooms>
-  <constants number="36">
-    <constant name="PL_LOCK_MAX">14</constant>
+  <constants number="37">
+    <constant name="PL_LOCK_MAX">15</constant>
     <constant name="PL_LOCK_AERIAL">13</constant>
     <constant name="PL_LOCK_GROUND">12</constant>
     <constant name="PL_LOCK_CHARGE">11</constant>
@@ -6797,6 +6797,7 @@
     <constant name="PL_LOCK_TURN">2</constant>
     <constant name="PL_LOCK_PHYSICS">1</constant>
     <constant name="PL_LOCK_MOVE">0</constant>
+    <constant name="PL_LOCK_ALLOWUPTRANSITION">14</constant>
     <constant name="DEBUG_SPAWN">true</constant>
     <constant name="DIFF_EASY">0</constant>
     <constant name="DIFF_NORMAL">1</constant>

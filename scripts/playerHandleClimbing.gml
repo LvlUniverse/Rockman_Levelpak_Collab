@@ -45,7 +45,8 @@ if (!playerIsLocked(PL_LOCK_CLIMB))
             climbLock = lockPoolLock(localPlayerLock[PL_LOCK_MOVE],
                 localPlayerLock[PL_LOCK_SLIDE],
                 localPlayerLock[PL_LOCK_GRAVITY],
-                localPlayerLock[PL_LOCK_TURN]);
+                localPlayerLock[PL_LOCK_TURN],
+                localPlayerLock[PL_LOCK_ALLOWUPTRANSITION]);
             ground = false;
             if jumpCounter == 0
             {

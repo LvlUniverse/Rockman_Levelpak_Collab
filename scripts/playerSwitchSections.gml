@@ -71,7 +71,7 @@ if (x < (global.sectionLeft + 8) && place_meeting(x - xspeed - 6, y, objSectionA
 // Down
 if (bboxGetYCenter() > (global.sectionBottom - (6 + (plat > 0) * 8)) && position_meeting(x, global.sectionBottom - 8, objSectionArrowDown))
 {
-    if ((climbing || gravDir != -1 || plat/* || playerIsLocked(PL_LOCK_GRAVITY)*/)
+    if ((climbing || gravDir != -1 || plat || playerIsLocked(PL_LOCK_ALLOWUPTRANSITION))
         && (!place_meeting(x, global.sectionBottom, objSolid)))
     {
         if (!plat)
@@ -91,9 +91,7 @@ if (bboxGetYCenter() > (global.sectionBottom - (6 + (plat > 0) * 8)) && position
 // Up
 if (bboxGetYCenter() < (global.sectionTop + (6 + (plat > 0) * 8)) && position_meeting(x, global.sectionTop + 8, objSectionArrowUp))
 {
-    if ((climbing || gravDir != 1 || plat 
-        || (playerIsLocked(PL_LOCK_GRAVITY) && !instance_exists(objDischargeDashDash) && !instance_exists(objTeleportPhaser) 
-        && !(instance_exists(vehicle) && vehicle.object_index == objItem4)))
+    if ((climbing || gravDir != 1 || plat || playerIsLocked(PL_LOCK_ALLOWUPTRANSITION))
         && (!place_meeting(x, global.sectionTop, objSolid) || !blockCollision))
     {
         if (!plat)
