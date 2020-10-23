@@ -36,14 +36,44 @@ contactDamage = 6;
 facePlayerOnSpawn = true;
 
 // Enemy specific code
-animTimer = 0;
 animFrame = 0;
-animOffset = 0;
-timer = 0;
-phase = 0;
-shootCount = 0;
-phaseRepeatCount = 0;
-prevPhase = 0;
+
+trackerIndex = 0;
+damageTracker = allocateArray(60, 0);
+totalDamage = 0;
+displayCooldown = 0;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="1">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///damage tracker moves to next frame before collision events
+event_inherited();
+
+if !global.frozen
+{
+    trackerIndex += 1;
+    if trackerIndex &gt; 60
+        trackerIndex = 0;
+    damageTracker[trackerIndex] = 0;
+}
 </string>
           </argument>
         </arguments>
@@ -68,130 +98,18 @@ prevPhase = 0;
             <kind>1</kind>
             <string>event_inherited();
 
+//a gachapon wiht most of its code excised
+
 if (entityCanStep())
 {
-    if (instance_exists(target))
-    {
-        if (abs(target.x - x) &gt; 8)
-        {
+    if instance_exists(target) &amp;&amp; abs(target.x - x) &gt; 8
             calibrateDirection();
-        }
-    }
     
     animFrame += 0.2;
-    var didLoop = false;
-    if (floor(animFrame) &gt; 1)
-    {
-        animFrame = 0;
-        didLoop = true;
-    }
+    image_index = floor(animFrame) mod 2;
     
-    /*
-    switch (phase)
-    {
-        case 0: // Idle: choose an attack 
-            if (timer == 0 &amp;&amp; prevPhase == 0)
-                phaseRepeatCount = 0;
-            timer += 1;
-            animOffset = 0;
-            if (timer &gt; 60)
-            {
-                phase = irandom(1) + 1;
-                if (phase == prevPhase &amp;&amp; prevPhase != 0)
-                {
-                    phaseRepeatCount += 1;
-                    if (phaseRepeatCount &gt; 1)
-                    {
-                        phaseRepeatCount = 0;
-                        if (phase == 1)
-                            phase = 2;
-                        else
-                            phase = 1;
-                    }
-                }
-                if (phase == 1)
-                    animFrame = 0;
-                prevPhase = phase;
-                timer = 0;
-                shootCount = 0;
-            }
-            break;
-        case 1: // aim and shoot 
-            if (timer &gt; 16)
-            {
-                if (animOffset != 4)
-                {
-                    animOffset = 4;
-                    didLoop = false;
-                    animFrame = 0;
-                }
-                if (didLoop)
-                {
-                    animFrame = 1;
-                    var i = instance_create(x, y - 64, objEnemyBullet);
-                    i.sprite_index = sprTotemPolenProjectile;
-                    i.blockCollision = false;
-                    i.grav = 0.25;
-                    i.yspeed = -5;
-                    i.contactDamage = 2;
-                    animFrame = 1;
-                    if (instance_exists(target))
-                    {
-                        i.xspeed = xSpeedAim(i.x, i.y, target.x, target.y, i.yspeed, i.grav, 2.65);
-                    }
-                    timer = 0;
-                    shootCount += 1;
-                    if (shootCount == 3)
-                    {
-                        phase = 0;
-                    }
-                }
-            }
-            else
-            {
-                timer += 1;
-                animOffset = 0;
-            }
-            break;
-        case 2: // Regular shot 
-            if (timer &gt; 20)
-            {
-                var pao = floor(animOffset);
-                animOffset += 0.2;
-                if (floor(animOffset) &gt; 3 &amp;&amp; pao != floor(animOffset))
-                {
-                    animOffset = 3;
-                    shootCount += 1;
-                    timer = -1;
-                    var i = instance_create(x + 8 * image_xscale, y - 4, objEnemyBullet);
-                    i.xspeed = 3.5 * image_xscale;
-                    i.contactDamage = 2;
-                }
-            }
-            else if (timer &gt;= 0)
-            {
-                timer += 1;
-                animOffset = 0;
-            }
-            else if (timer &lt; 0)
-            {
-                timer -= 1;
-                animOffset -= 0.2;
-                if (floor(animOffset) &lt; 0)
-                {
-                    animOffset = 0;
-                    timer = 0;
-                    if (shootCount == 2)
-                    {
-                        phase = 0;
-                    }
-                }
-            }
-            break;
-    }
-    */
-    
-    image_index = floor(animOffset) * 2 + floor(animFrame);
+    if --displayCooldown &lt;= 0
+        totalDamage = 0;
 }
 </string>
           </argument>
@@ -247,9 +165,55 @@ prevPhase = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///never dies
+            <string>///never dies, but counts damage dealt
 event_inherited();
 healthpoints = 999;
+displayCooldown = 360;
+
+if global.damage != 0
+{
+    damageTracker[trackerIndex] += global.damage;
+    
+    totalDamage = 0;
+    for(var p = 0; p &lt; 60; p++)
+    {
+        totalDamage += damageTracker[p];
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///draw deeps
+event_inherited();
+
+if !dead
+{
+    if totalDamage != 0
+    {
+        draw_set_halign(fa_center);
+        draw_set_valign(fa_top);
+        draw_text(x, bbox_top - 24, string(totalDamage) + " DPS");
+    }
+}
 </string>
           </argument>
         </arguments>
