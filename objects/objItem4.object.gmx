@@ -45,6 +45,7 @@ canDamage = false;
 
 //object-specific
 jump = 0;
+jumpPeakY = undefined;
 
 active = false;
 
@@ -214,6 +215,7 @@ if (!global.frozen)
         
         if ground
         {
+            jumpPeakY = undefined;
             //landing anim
             if jump != 0
             {
@@ -246,6 +248,19 @@ if (!global.frozen)
         }
         else //i.e. if !ground
         {
+            //track jump height
+            if jumpPeakY == undefined
+            {
+                if sign(image_yscale) &gt; 0
+                    jumpPeakY = bbox_bottom;
+                else
+                    jumpPeakY = bbox_top;
+            }
+            if sign(image_yscale) &gt; 0
+                jumpPeakY = min(jumpPeakY, bbox_bottom);
+            else
+                jumpPeakY = max(jumpPeakY, bbox_top);
+        
             //stop jumping when jump button is released
             if jump == 1
             {
@@ -490,8 +505,11 @@ instance_destroy();
             <string>///make the mech feel the force a bit when it lands on a stronger enemy
 
 //don't hit enemies that aren't below you
-if (sign(image_yscale) == 1 &amp;&amp; other.bbox_top &lt; bbox_bottom - 32)
-    || (sign(image_yscale) == -1 &amp;&amp; other.bbox_bottom &gt; bbox_top + 32)
+if (jumpPeakY == undefined) 
+    || (sign(image_yscale) &gt; 0 &amp;&amp; other.bbox_top &lt; bbox_bottom - 32)
+    || (sign(image_yscale) &lt;= 0 &amp;&amp; other.bbox_bottom &gt; bbox_top + 32)
+    || (sign(image_yscale) &gt; 0 &amp;&amp; jumpPeakY &gt;= other.bbox_top) 
+    || (sign(image_yscale) &lt;= 0 &amp;&amp; jumpPeakY &lt;= other.bbox_bottom)
 {
     global.damage = 0;
     exit;
