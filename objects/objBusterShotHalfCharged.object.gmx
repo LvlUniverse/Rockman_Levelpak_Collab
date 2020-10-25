@@ -31,6 +31,8 @@ bulletLimitCost = 1;
 
 contactDamage = 1;
 
+pierces = 1;
+
 image_speed = 1 / 3;
 
 playSFX(sfxBusterHalfCharged);

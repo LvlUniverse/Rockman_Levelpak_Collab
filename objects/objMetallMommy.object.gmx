@@ -240,7 +240,7 @@ if (image_index == 0)
 else
 {
     // Stop charge shot (accurate to MM5)
-    if (other.object_index == objBusterShotCharged)
+    if (other.object_index == objBusterShotCharged || other.object_index == objBusterShotHalfCharged)
     {
         with (other)
         {
