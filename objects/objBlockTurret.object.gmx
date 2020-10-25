@@ -107,11 +107,11 @@ if (!global.frozen)
         hasLanded = false;
     
     //fire shots
-    shootTimer = ++shootTimer mod 60;
-    if (shootTimer &lt; 48) &amp;&amp; (shootTimer mod 8 == 0)
+    shootTimer = ++shootTimer mod 48;
+    if (shootTimer &lt; 36) &amp;&amp; (shootTimer mod 6 == 0)
     {
-        var s = instance_create(x + (14 * image_xscale), 
-            y + ((7 + -extended) * image_yscale), 
+        var s = instance_create(x + (18 * image_xscale), 
+            y + ((7 + -extended) * image_yscale) + -(image_yscale == -1), 
             objBlockTurretShot);
         s.image_xscale = image_xscale;
         //s.depth = depth + 1;
@@ -120,14 +120,30 @@ if (!global.frozen)
     //platform functions
     if !isHeld
     {
-        //rise and lower if jumped on
+        //while stood on...
         with(objMegaman)
         {
-            if (id == other.parent) &amp;&amp; !dead &amp;&amp; ground &amp;&amp; ycoll != 0 
+            if (id == other.parent) &amp;&amp; !dead &amp;&amp; ground
                 &amp;&amp; place_meeting(x, y + (sign(grav) * (other.extended + 1)), other)
             {
-               other.extendDir = -other.extendDir;
-               playSFX(sfxBladeManSeeSawCart1);
+                //switches height when landed on, and can also be controlled manually
+                var ydir = (global.keyUp[playerID] - global.keyDown[playerID]) * sign(other.image_yscale);
+                if (ydir != 0 &amp;&amp; ydir != other.extendDir) || (ydir == 0 &amp;&amp; ycoll != 0)
+                {
+                    other.extendDir = -other.extendDir;
+                    playSFX(sfxBladeManSeeSawCart1);
+                }
+                //turn to face the direction the player is facing
+                if sign(other.image_xscale) != sign(image_xscale)
+                {
+                    with(other)
+                    {
+                        x = x + (16 * image_xscale);
+                        image_xscale = abs(image_xscale) * sign(parent.image_xscale);
+                        mySolid.image_xscale = image_xscale;
+                        mySolid.x = x;
+                    }
+                }
             }
         }
         //change size accordingly, if there's room
@@ -141,6 +157,7 @@ if (!global.frozen)
         if !instance_exists(mySolid)
         {
             mySolid = instance_create(x, y, objSolidEntity);
+            //mySolid.visible = true;
             mySolid.image_xscale = image_xscale;
             mySolid.image_yscale = image_yscale;
             mySolid.faction = faction;
@@ -233,7 +250,7 @@ else    //if block turret exists...
                 other.shootTimer = 0;
                 y += 16 * other.image_yscale;
                 shiftObject(10 * other.image_xscale, 0, true);
-                xspeed = 1.5 * other.image_xscale;
+                //xspeed = 1.5 * other.image_xscale;
                 grav = 0.4 * other.image_yscale;
                 despawnRange = 4;
                 isSolid = true;
@@ -304,11 +321,12 @@ weaponSetup("BLOCK TURRET",
 if extended != 0
 {
     var myExtend;
+    var gravMod = (image_yscale == -1) * -2;
     for(var p = 1; p &lt;= 3; p++)
     {
         myExtend = (16 - extended) * ((4 - p) / 3);
         draw_sprite_part_ext(sprite_index, p, 0, 0, 16, 16 - myExtend, floor(x + 0.5), 
-            ceil(y + 0.5 + ((-4 + myExtend) * image_yscale)), 
+            ceil(y + 0.5 + gravMod + ((-4 + myExtend) * image_yscale)), 
             image_xscale, image_yscale, c_white, 1);
     }
 }
