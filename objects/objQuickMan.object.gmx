@@ -80,6 +80,20 @@ enemyDamageValue(objBusterShot, 2);
 enemyDamageValue(objBusterShotHalfCharged, 2);
 enemyDamageValue(objBusterShotCharged, 4);
 
+// Rockman Levelpack Collab weapons
+enemyDamageValue(objNekoClaw, 0);
+enemyDamageValue(objDischargeDashDash, 2);
+enemyDamageValue(objTinTrooper, 4);
+enemyDamageValue(objTinTrooper_Explosion, 4);
+enemyDamageValue(objFlameSweeperReturn, 4);
+enemyDamageValue(objSiphonTopaz, 0);
+enemyDamageValue(objTyphoonFunnel, 6);  //i think this is a more fun weakness than a screenclear
+enemyDamageValue(objHailBreakerShot, 2);
+enemyDamageValue(objBlockTurretShot, 0);
+enemyDamageValue(objItem4, 2);
+enemyDamageValue(objItem4Shot, 1);
+enemyDamageValue(objTeleportPhaser, 2);
+
 // MaGMML3
 enemyDamageValue(objSparkChaser, 4);
 enemyDamageValue(objLaserTrident, 3);

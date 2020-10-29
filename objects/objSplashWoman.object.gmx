@@ -90,6 +90,20 @@ enemyDamageValue(objBusterShot, 2);
 enemyDamageValue(objBusterShotHalfCharged, 2);
 enemyDamageValue(objBusterShotCharged, 4);
 
+// Rockman Levelpack Collab weapons
+enemyDamageValue(objNekoClaw, 5);
+enemyDamageValue(objDischargeDashDash, 4);  //you can absorb the fish
+enemyDamageValue(objTinTrooper, 2);
+enemyDamageValue(objTinTrooper_Explosion, 2);
+enemyDamageValue(objFlameSweeperReturn, 2);
+enemyDamageValue(objSiphonTopaz, 2);
+enemyDamageValue(objTyphoonFunnel, 1);
+enemyDamageValue(objHailBreakerShot, 2);
+enemyDamageValue(objBlockTurretShot, 3);
+enemyDamageValue(objItem4, 2);
+enemyDamageValue(objItem4Shot, 1);
+enemyDamageValue(objTeleportPhaser, 2);
+
 // MaGMML3
 enemyDamageValue(objSparkChaser, 5);
 enemyDamageValue(objLaserTrident, 2);

@@ -254,10 +254,10 @@ else
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (other.object_index != objTornadoBlow)
+            <string>if (other.object_index != objTornadoBlow &amp;&amp; other.object_index != objHailBreakerShot)
 {
     iFrames = 0;
-    if (other.object_index != objWaterShield) &amp;&amp; (other.object_index != objRainFlush)
+    if (other.object_index != objWaterShield) &amp;&amp; (other.object_index != objRainFlush) &amp;&amp; (other.object_index != objTyphoonFunnel)
     {
         curSunLevel++;
         if (curSunLevel &gt;= sunLevel)
@@ -292,10 +292,15 @@ else
     
     with (other)
     {
-        guardCancel = 2;
-        if (object_index != objRainFlush)
+        if object_index = objNekoClaw
+            guardCancel = 1;
+        else
         {
-            event_user(EV_DEATH);
+            guardCancel = 2;
+            if !(object_index == objRainFlush || object_index == objTyphoonFunnel)
+            {
+                event_user(EV_DEATH);
+            }
         }
     }
 }

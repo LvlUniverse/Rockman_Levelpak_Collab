@@ -67,6 +67,20 @@ enemyDamageValue(objBusterShot, 2);
 enemyDamageValue(objBusterShotHalfCharged, 2);
 enemyDamageValue(objBusterShotCharged, 4);
 
+// Rockman Levelpack Collab weapons
+enemyDamageValue(objNekoClaw, 0);
+enemyDamageValue(objDischargeDashDash, 16); //you can only hit air man with this if you bring a charge in from the level, so it can't really be his primary weakness
+enemyDamageValue(objTinTrooper, 0);
+enemyDamageValue(objTinTrooper_Explosion, 0);
+enemyDamageValue(objFlameSweeperReturn, 6);
+enemyDamageValue(objSiphonTopaz, 0);
+enemyDamageValue(objTyphoonFunnel, 0);
+enemyDamageValue(objHailBreakerShot, 1);
+enemyDamageValue(objBlockTurretShot, 0);
+enemyDamageValue(objItem4, 4);
+enemyDamageValue(objItem4Shot, 2);
+enemyDamageValue(objTeleportPhaser, 0);
+
 // MaGMML3
 enemyDamageValue(objSparkChaser, 4);
 enemyDamageValue(objLaserTrident, 2);

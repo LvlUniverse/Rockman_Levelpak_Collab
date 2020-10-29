@@ -53,6 +53,20 @@ enemyDamageValue(objBusterShot, 2);
 enemyDamageValue(objBusterShotHalfCharged, 2);
 enemyDamageValue(objBusterShotCharged, 4);
 
+// Rockman Levelpack Collab weapons
+enemyDamageValue(objNekoClaw, 1);
+enemyDamageValue(objDischargeDashDash, 4);
+enemyDamageValue(objTinTrooper, 1);
+enemyDamageValue(objTinTrooper_Explosion, 1);
+enemyDamageValue(objFlameSweeperReturn, 6); //although it's not of-element, it fills the same role as hard knuckle
+enemyDamageValue(objSiphonTopaz, 0);
+enemyDamageValue(objTyphoonFunnel, 1);
+enemyDamageValue(objHailBreakerShot, 1);
+enemyDamageValue(objBlockTurretShot, 2);
+enemyDamageValue(objItem4, 4);
+enemyDamageValue(objItem4Shot, 2);
+enemyDamageValue(objTeleportPhaser, 1);
+
 // MaGMML3
 enemyDamageValue(objSparkChaser, 1);
 enemyDamageValue(objLaserTrident, 2);

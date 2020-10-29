@@ -68,6 +68,21 @@ enemyDamageValue(objBusterShot, 2);
 enemyDamageValue(objBusterShotHalfCharged, 2);
 enemyDamageValue(objBusterShotCharged, 4);
 
+
+// Rockman Levelpack Collab weapons
+enemyDamageValue(objNekoClaw, 1);
+enemyDamageValue(objDischargeDashDash, 1);
+enemyDamageValue(objTinTrooper, 8);
+enemyDamageValue(objTinTrooper_Explosion, 8);
+enemyDamageValue(objFlameSweeperReturn, 2);
+enemyDamageValue(objSiphonTopaz, 1);
+enemyDamageValue(objTyphoonFunnel, 1);
+enemyDamageValue(objHailBreakerShot, 2);
+enemyDamageValue(objBlockTurretShot, 2);
+enemyDamageValue(objItem4, 1);
+enemyDamageValue(objItem4Shot, 0);
+enemyDamageValue(objTeleportPhaser, 2);
+
 // MaGMML3
 enemyDamageValue(objSparkChaser, 1);
 enemyDamageValue(objLaserTrident, 2);
