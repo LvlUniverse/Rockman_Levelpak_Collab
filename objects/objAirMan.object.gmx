@@ -72,7 +72,7 @@ enemyDamageValue(objNekoClaw, 0);
 enemyDamageValue(objDischargeDashDash, 16); //you can only hit air man with this if you bring a charge in from the level, so it can't really be his primary weakness
 enemyDamageValue(objTinTrooper, 0);
 enemyDamageValue(objTinTrooper_Explosion, 0);
-enemyDamageValue(objFlameSweeperReturn, 6);
+enemyDamageValue(objFlameSweeperReturn, 7);
 enemyDamageValue(objSiphonTopaz, 0);
 enemyDamageValue(objTyphoonFunnel, 0);
 enemyDamageValue(objHailBreakerShot, 1);

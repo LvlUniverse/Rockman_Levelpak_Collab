@@ -85,7 +85,7 @@ enemyDamageValue(objNekoClaw, 3);
 enemyDamageValue(objDischargeDashDash, 2);
 enemyDamageValue(objTinTrooper, 1);
 enemyDamageValue(objTinTrooper_Explosion, 1);
-enemyDamageValue(objFlameSweeperReturn, 5);
+enemyDamageValue(objFlameSweeperReturn, 6);
 enemyDamageValue(objSiphonTopaz, 2);
 enemyDamageValue(objTyphoonFunnel, 2);
 enemyDamageValue(objHailBreakerShot, 0);
