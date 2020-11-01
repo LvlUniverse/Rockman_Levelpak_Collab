@@ -169,8 +169,11 @@ if (!global.frozen &amp;&amp; !global.switchingSections)
     //or once the dash time is up
     if (dashTimer-- &lt; 0) || (parent.xDir == -sign(image_xscale)) 
         || (sign(parent.xcoll) == sign(image_xscale)) || parent.climbing
+        || parent.canMinJump
     {
         parent.xspeed = 0;
+        with(instance_create(x, y, objDischargeDashMomentum))
+            parent = other.parent;
         instance_destroy();
         exit;
     }

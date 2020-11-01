@@ -253,13 +253,10 @@ if global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT)
                     image_xscale = ladderXScale;
             }
             
-            a = instance_create(x, y, objDischargeDashDash);
+            var a = instance_create(x, y, objDischargeDashDash);
             a.image_xscale = image_xscale;
             dischargeDashCharges--;
-        }
-        else
-        {
-            //todo: something if weapon has no charges?
+            canMinJump = false;
         }
     }
 }
@@ -268,7 +265,7 @@ if global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT)
 if instance_exists(objDischargeDashDash)
 {
     chargeTimer++;
-    switch (floor((chargeTimer - 10) / 3 mod 3))
+    switch (floor((chargeTimer / 3) mod 3))
     {
         case 0:
             global.primaryCol[playerID] = global.weaponSecondaryColor[global.weapon[playerID]];

@@ -6626,6 +6626,7 @@
           <object>objects\objNekoClawKE</object>
           <objects name="Misc.">
             <object>objects\objDischargeDashDash</object>
+            <object>objects\objDischargeDashMomentum</object>
             <object>objects\objFlameSweeperReturn</object>
             <object>objects\objFlameSweeperKEReturn</object>
             <object>objects\objHailBreakerShot</object>
