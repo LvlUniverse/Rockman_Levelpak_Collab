@@ -84,6 +84,8 @@ if instance_exists(parent)
         hitTimer = 0;
         iFrames = 20;
     }
+    with(instance_create(x, y, objDischargeDashMomentum))
+        parent = other.parent;
 }
 </string>
           </argument>
@@ -122,6 +124,9 @@ else
     y = parent.y;
     image_xscale = parent.image_xscale * 1.5;
     image_yscale = parent.image_yscale;
+    //tell MM to do tengu blade sprites
+    with(parent)
+        playerHandleSprites("Tengu2");
 }
 
 if (!global.frozen &amp;&amp; !global.switchingSections)
@@ -160,7 +165,6 @@ if (!global.frozen &amp;&amp; !global.switchingSections)
             yspeed=0;
         }
         
-        playerHandleSprites("Tengu2");
         xspeed = other.dashSpeed * image_xscale; // movement force
         iFrames = -1;
     }
@@ -172,8 +176,6 @@ if (!global.frozen &amp;&amp; !global.switchingSections)
         || parent.canMinJump
     {
         parent.xspeed = 0;
-        with(instance_create(x, y, objDischargeDashMomentum))
-            parent = other.parent;
         instance_destroy();
         exit;
     }
@@ -189,15 +191,6 @@ if (!global.frozen &amp;&amp; !global.switchingSections)
         hspeed = -0.1 * image_xscale;
     }
 }
-else if (global.switchingSections)
-{   //animate between sections
-    with (parent)
-    {
-        playerHandleSprites("Tengu2");
-    }
-}
-
-visible = 0;
 </string>
           </argument>
         </arguments>

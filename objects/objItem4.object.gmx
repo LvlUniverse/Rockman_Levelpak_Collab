@@ -314,7 +314,7 @@ if (!global.frozen)
         //drain ammo
         global.ammo[playerID, global.weaponID[? objItem4]] = max(0,
             global.ammo[playerID, global.weaponID[? objItem4]]
-            - (0.02 / (global.energySaver + 1)));
+            - (0.015 / (global.energySaver + 1)));
         
         //animation system
         if animID != animIDLast
@@ -387,9 +387,9 @@ if (active)
 if (global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
 {
     if (!instance_exists(objItem4) &amp;&amp; !instance_exists(objItem4Teleport)
-    &amp;&amp; global.ammo[playerID, global.weapon[playerID]] &gt; 0)
+    &amp;&amp; global.ammo[playerID, global.weaponID[? objItem4]] &gt; 4)
     {
-        i = fireWeapon(26, 0, objItem4Teleport, 1, 0, 0, 0);
+        i = fireWeapon(26, 0, objItem4Teleport, 1, 4, 0, 0);
         with (i)
         {
             y = view_yview - 40;
@@ -451,7 +451,7 @@ if chargeTimer != 0
 weaponSetup("ITEM 4", 
     make_color_rgb(220, 0, 204), 
     make_color_rgb(255, 188, 255), 
-    sprWeaponIconsItem4, 1.2);  //costs 1.2 weapon energy per second of use
+    sprWeaponIconsItem4, 0.90);  //costs this much weapon energy per second of use
 </string>
           </argument>
         </arguments>

@@ -27,7 +27,7 @@
             <kind>1</kind>
             <string>event_inherited();
 
-penetrate = 3;
+penetrate = 2;
 pierces = 2;
 
 contactDamage = 1;
@@ -40,6 +40,7 @@ yspeed = 0;
 blockCollision = 1;
 bulletLimitCost = 1;
 
+shiftVisible = 3;
 despawnRange = -1;
 
 //variables
@@ -123,6 +124,13 @@ else
     
     x = parent.x; // stay attached to MM
     y = parent.y;
+    
+    //handle MM using teleport sprites, efen when paused
+    with (parent)
+    {
+        spriteX = 12 - other.img;
+        spriteY = 8;
+    }
 }
 
 if (!global.frozen)
@@ -151,10 +159,9 @@ if (!global.frozen)
             yspeed = 0;
         }
         else{
-            if (other.img &gt; 1) yspeed = other.ys * other.image_yscale; // movement force
+            if (other.img &gt; 1)
+                yspeed = other.ys * other.image_yscale; // movement force
             iFrames = -1;
-            spriteX = 12 - other.img;
-            spriteY = 8;
         }
     }
     if (isLocked(global.playerLock[PL_LOCK_MOVE]) &amp;&amp;
@@ -170,13 +177,6 @@ if (!global.frozen)
     {
         xspeed = 0;
         instance_destroy();
-    }
-}
-else if (global.switchingSections)
-{
-    with (parent)
-    {
-        playerHandleSprites("Teleport");
     }
 }
 </string>

@@ -87,6 +87,9 @@ if !global.frozen
             exit;
         }
     }
+    //if player has free movement, don't push them, but don't die either
+    if global.freeMovement
+        exit;
     
     //if parent is moving laterally, moves at dash speed
     var xdir = global.keyRight[parent.playerID] - global.keyLeft[parent.playerID];
