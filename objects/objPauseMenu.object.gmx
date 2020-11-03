@@ -119,7 +119,7 @@ quickScrollTimer = 0; // 24;
           <argument>
             <kind>1</kind>
             <string>// Can't control while options menu is open
-if (instance_exists(objOptionsMenu))
+if (instance_exists(objOptionsMenu) || instance_exists(objDescriptionMenu))
 {
     exit;
 }
@@ -157,6 +157,21 @@ switch (phase)
     // Idle
     case 2:
         event_user(0); // Moving the selection
+        
+        //when fire is pressed...
+        if (global.keySlidePressed[playerID])
+            //and the option is a valid help option...
+            &amp;&amp; (option &lt;= weaponVisibleN)
+        {
+            //open help menu
+            with(instance_create(x, y, objDescriptionMenu))
+            {
+                option = other.option;
+                link = other;
+            }
+            playSFX(sfxElementGrab);
+            exit;
+        }
         
         // Select the weapon/tank
         if (global.keyJumpPressed[playerID] || global.keyPausePressed[playerID])
@@ -496,7 +511,7 @@ var yDir = ((global.keyDownPressed[playerID] || (global.keyDown[playerID] &amp;&
 
 if (yDir != 0)
 {
-    playSFX(sfxMenuMove);
+    playSFX(sfxWeaponSwitch);
     
     if (option &lt; weaponVisibleN)
     {

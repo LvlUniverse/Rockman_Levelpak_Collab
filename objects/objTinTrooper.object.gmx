@@ -199,7 +199,9 @@ if (global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
 weaponSetup("TIN TROOPER", 
     make_color_rgb(128, 128, 128), 
     c_white, 
-    sprWeaponIconsTinTrooper, 1);
+    sprWeaponIconsTinTrooper, 1, 
+        " A small metal soldier that walks forward and explodes upon contact with an enemy.## The soldier can jump over small obstacles and gaps, can fit in narrow passageways, and will turn around at walls.", 
+        "3#1#2#1");
 </string>
           </argument>
         </arguments>

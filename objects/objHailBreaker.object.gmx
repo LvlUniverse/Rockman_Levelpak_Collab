@@ -215,7 +215,9 @@ if (global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
             <string>///weapon setup
 weaponSetup("HAIL BREAKER", 
     make_color_rgb(164, 228, 252), c_white, 
-    sprWeaponIconsHailBreaker, 4);
+    sprWeaponIconsHailBreaker, 4, 
+        " You summon a torrent of ice that freezes enemies and water all around you.## Frozen enemies can be walked on without harm.## The ice does not go away when you switch weapons.",
+        "0#3#1#4");
 </string>
           </argument>
         </arguments>

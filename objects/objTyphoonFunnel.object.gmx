@@ -297,7 +297,9 @@ if (other.healthpointsStart &lt;= 2)
 weaponSetup("TYPHOON FUNNEL", 
     make_color_rgb(55, 126, 134), 
     make_color_rgb(184, 248, 216), 
-    sprWeaponIconsTyphoonFunnel, 2);
+    sprWeaponIconsTyphoonFunnel, 2, 
+        " You summon a tall, narrow tropical storm. The storm will follow your movement and slow your fall, until you let go of FIRE or land on the ground.## The typhoon becomes stronger when it sucks up water, and allows free movement in water at an energy cost.",
+        "1#-#1#2");
 </string>
           </argument>
         </arguments>

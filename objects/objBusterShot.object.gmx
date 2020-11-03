@@ -161,7 +161,9 @@ else
     default:
     case "Mega Man":
     {
-        weaponSetup("MEGA BUSTER", -1, -1, sprWeaponIconsMegaBuster, 0);
+        weaponSetup("MEGA BUSTER", -1, -1, sprWeaponIconsMegaBuster, 0, 
+        " YOU FIRE BULLETS THAT FLY STRAIGHT.## YOU CAN CHARGE IT FOR A SHOT THAT IS LARGER, STRONGER, AND PIERCES ENEMIES IT KILLS.## YOU CAN FIRE THIS WITH ANY WEAPON USING THE Y BUTTON, THOUGH YOU CAN'T CHARGE IT IN THAT MODE.## THANKS TO SOLAR ENERGY, YOU CAN FIRE IT INFINITELY.",
+        "1#5#3#0");
         break;
     }
     case "Proto Man":

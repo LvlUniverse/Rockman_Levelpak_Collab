@@ -308,7 +308,9 @@ if (global.keyShoot[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
 weaponSetup("NEKO CLAW", 
     make_color_rgb(228, 92, 16), 
     c_white, 
-    sprWeaponIconsNekoClaw, 1/3);
+    sprWeaponIconsNekoClaw, 1/3, 
+    " A large hydaulic powered cat paw that pierces shields, and can retrieve minor items.## It can be aimed in seven directions, but its range is limited.## If you hold down FIRE, it will fire again as soon as it returns. If you are very close to a foe, it will fire rapidly for huge damage.",
+    "1#8#1#1/3");
 </string>
           </argument>
         </arguments>

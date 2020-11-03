@@ -451,7 +451,9 @@ if chargeTimer != 0
 weaponSetup("ITEM 4", 
     make_color_rgb(220, 0, 204), 
     make_color_rgb(255, 188, 255), 
-    sprWeaponIconsItem4, 0.90);  //costs this much weapon energy per second of use
+    sprWeaponIconsItem4, 0.90,   //costs this much weapon energy per second of use
+    " You call down and ride a large battle mech, with which you can walk on spikes, and crush foes by jumping on them.## The mech itself is invulnerable, but it does not protect the rider in any way.## The mech has a gun installed, though it is quite weak.",
+    "12#-#1#4");
 </string>
           </argument>
         </arguments>

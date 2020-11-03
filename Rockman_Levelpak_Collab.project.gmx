@@ -4228,6 +4228,7 @@
     </sprites>
     <sprites name="Menu">
       <sprites name="Pause">
+        <sprite>sprites\sprDescriptionMenuBG</sprite>
         <sprite>sprites\sprPauseMenuBG</sprite>
         <sprite>sprites\sprPauseMenuBarPrimary</sprite>
         <sprite>sprites\sprPauseMenuBarSecondary</sprite>
@@ -4716,6 +4717,7 @@
     </scripts>
     <scripts name="Weapons">
       <script>scripts\weaponSetup.gml</script>
+      <script>scripts\autoSpaceDescription.gml</script>
       <script>scripts\setWeaponLocked.gml</script>
       <script>scripts\specialDamageValue.gml</script>
       <script>scripts\getWeaponDamage.gml</script>
@@ -6576,6 +6578,7 @@
         <object>objects\objTitleScreen</object>
         <object>objects\objRoomSelector</object>
         <object>objects\objDebugMenu</object>
+        <object>objects\objDescriptionMenu</object>
         <object>objects\objPauseMenu</object>
         <object>objects\objOptionsMenu</object>
         <object>objects\objColoredTextOverlaysMenu</object>

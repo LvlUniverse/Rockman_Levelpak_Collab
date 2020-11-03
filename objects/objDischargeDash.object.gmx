@@ -352,7 +352,9 @@ else    //no damage if out of energy or parent is dead
 weaponSetup("DISCHARGE DASH", 
     make_color_rgb(216, 0, 204), 
     make_color_rgb(248, 216, 120), 
-    sprWeaponIconsDischargeDash, 1);
+    sprWeaponIconsDischargeDash, 1, 
+        " An electric barrier that can be charged by absorbing shots and weak enemies. Once charged, you press the fire button to perform an invincible dash, even in the air.## The barrier can hold up to three charges, but it will still protect you even if it's fully charged.",
+        "2#4.5#1#2");
 </string>
           </argument>
         </arguments>
