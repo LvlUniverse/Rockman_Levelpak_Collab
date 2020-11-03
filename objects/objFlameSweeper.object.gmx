@@ -28,7 +28,7 @@
             <string>event_inherited();
 
 bulletLimitCost = 1;
-contactDamage = -1;
+contactDamage = -2;
 
 despawnRange = 24;
 
