@@ -742,10 +742,11 @@ if (phase != 0)
             draw_set_color(col[!cl, (cl * 2) - (cl * !(hotBarArrangeMode mod 8 &lt; 4))]);
             
             wname = global.weaponName[w];
-            dot = string_pos(" ", wname);
-            if (dot)
+            if string_length(wname) &gt; 8
             {
-                wname = string_insert(".", string_delete(wname, 2, dot - 1), 2);
+                dot = string_pos(" ", wname);
+                if (dot)
+                    wname = string_insert(".", string_delete(wname, 2, dot - 1), 2);
             }
             
             draw_text(18, yOff, wname);
