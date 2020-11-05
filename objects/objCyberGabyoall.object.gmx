@@ -49,6 +49,8 @@ enemyDamageValue(objIceWall, 3);
 enemyDamageValue(objSakugarne, 3);
 enemyDamageValue(objThunderWool, 3);
 enemyDamageValue(objIceSlasher, 3);
+enemyDamageValue(objTinTrooper, 3);
+enemyDamageValue(objItem4, 3);
 dir = 1;
 init = 1;
 

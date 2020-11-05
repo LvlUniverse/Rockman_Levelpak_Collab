@@ -188,7 +188,7 @@ weaponSetup("SIPHON TOPAZ",
 
 yspeed = -5 * image_yscale;    //go up
 
-if animTimer = -1   //increase in power after first bounce
+if animTimer == -1   //increase in power after first bounce
 {
     contactDamage = 4;
     animTimer = 0;
