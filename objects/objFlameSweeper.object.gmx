@@ -36,7 +36,6 @@ penetrate = 3;
 pierces = 2;
 
 moveAngle = 0;
-imageAngle = 0;
 </string>
           </argument>
         </arguments>
@@ -63,9 +62,6 @@ imageAngle = 0;
 
 if (!global.frozen &amp;&amp; !dead)
 {
-    //animate
-    image_index = imageAngle;
-    
     //move
     if (canDamage)
     {
@@ -150,7 +146,7 @@ if (global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
         if (yDir != 0)
         {
             i.moveAngle += 25 * -mxdir * yDir;
-            i.imageAngle = 1;
+            i.image_index = 1;
             if yDir == -1
                 i.image_yscale = -i.image_yscale;
         }
