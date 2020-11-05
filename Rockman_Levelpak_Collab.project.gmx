@@ -4334,8 +4334,6 @@
         <sprite>sprites\sprSiphonTopazPickupM</sprite>
         <sprite>sprites\sprTyphoonFunnel</sprite>
         <sprite>sprites\sprTyphoonFunnelWater</sprite>
-        <sprite>sprites\sprTyphoonFunnelNoBlack</sprite>
-        <sprite>sprites\sprTyphoonFunnelWaterNoBlack</sprite>
         <sprite>sprites\sprHailBreakerShot</sprite>
         <sprite>sprites\sprHailBreakerTwinkle</sprite>
         <sprite>sprites\sprHailBreakerIceBlock</sprite>
