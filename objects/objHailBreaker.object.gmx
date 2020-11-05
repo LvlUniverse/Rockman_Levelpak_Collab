@@ -170,7 +170,7 @@ if (global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
     if !instance_exists(objHailBreakerShot) &amp;&amp; !instance_exists(objHailBreaker)
         &amp;&amp; global.ammo[playerID, global.weaponID[? objHailBreaker]] &gt; 0
     {
-        var w = fireWeapon(0, 0, objHailBreaker, 45, 4, 0, 0);
+        var w = fireWeapon(0, 0, objHailBreaker, 45, 5, 0, 0);
         if instance_exists(w)
         {
             xspeed = 0;
@@ -215,7 +215,7 @@ if (global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
             <string>///weapon setup
 weaponSetup("HAIL BREAKER", 
     make_color_rgb(164, 228, 252), c_white, 
-    sprWeaponIconsHailBreaker, 4);
+    sprWeaponIconsHailBreaker, 5);
 </string>
           </argument>
         </arguments>

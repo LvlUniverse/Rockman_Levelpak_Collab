@@ -120,7 +120,7 @@ if (!global.frozen)
 //fire when shot
 if (global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
 {
-    with (fireWeapon(19, 0, objSiphonTopaz, 2, 2, 2, 1))
+    with (fireWeapon(19, 0, objSiphonTopaz, 2, 3, 2, 1))
     {
         xspeed = image_xscale;
         yspeed = -5 * image_yscale;
@@ -161,7 +161,7 @@ if (global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
 weaponSetup("SIPHON TOPAZ", 
     make_color_rgb(132, 112, 34), 
     make_color_rgb(232, 185, 82), 
-    sprWeaponIconsSiphonTopaz, 3);
+    sprWeaponIconsSiphonTopaz, 4);
 </string>
           </argument>
         </arguments>

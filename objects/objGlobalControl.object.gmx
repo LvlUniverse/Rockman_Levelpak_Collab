@@ -1413,7 +1413,7 @@ depth = depthstart;
                         c_white, 1);
                     draw_set_valign(fa_middle);
                     draw_set_halign(fa_left);
-                    if global.weaponCost[global.weapon[z]] == 6
+                    if global.weaponCost[global.weapon[z]] == 8
                         draw_text(dx + 6, dy + 68, 
                             string(floor(global.ammo[z, global.weapon[z]] 
                             / (global.weaponCost[global.weapon[z]] / (global.energySaver + 1)))));

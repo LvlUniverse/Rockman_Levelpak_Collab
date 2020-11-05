@@ -151,7 +151,7 @@ if entityCanStep()
             <string>/// Fire weapon
 if (global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
 {
-    with(fireWeapon(18, 0, objTinTrooper, 2, 1, 2, 1))
+    with(fireWeapon(18, 0, objTinTrooper, 2, 2, 2, 1))
     {
         //sound
         playSFX(sfxTinTrooper);
@@ -199,7 +199,7 @@ if (global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
 weaponSetup("TIN TROOPER", 
     make_color_rgb(128, 128, 128), 
     c_white, 
-    sprWeaponIconsTinTrooper, 1);
+    sprWeaponIconsTinTrooper, 2);
 </string>
           </argument>
         </arguments>

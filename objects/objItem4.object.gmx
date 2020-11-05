@@ -314,7 +314,7 @@ if (!global.frozen)
         //drain ammo
         global.ammo[playerID, global.weaponID[? objItem4]] = max(0,
             global.ammo[playerID, global.weaponID[? objItem4]]
-            - (0.015 / (global.energySaver + 1)));
+            - (0.025 / (global.energySaver + 1)));
         
         //animation system
         if animID != animIDLast
@@ -451,7 +451,7 @@ if chargeTimer != 0
 weaponSetup("ITEM 4", 
     make_color_rgb(220, 0, 204), 
     make_color_rgb(255, 188, 255), 
-    sprWeaponIconsItem4, 0.90);  //costs this much weapon energy per second of use
+    sprWeaponIconsItem4, 1.5);  //costs this much weapon energy per second of use
 </string>
           </argument>
         </arguments>
