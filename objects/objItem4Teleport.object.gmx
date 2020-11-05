@@ -196,6 +196,7 @@ if (!global.frozen)
             {
                 image_index = 1;
                 playSFX(warpInSFX);
+                global.ammo[playerID, global.weaponID[? objItem4]] -= 4;
             }
             if (teleportTimer == 6)
             {

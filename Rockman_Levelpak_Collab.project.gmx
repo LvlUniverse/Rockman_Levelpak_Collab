@@ -4325,6 +4325,8 @@
         <sprite>sprites\mskDischargeDash1</sprite>
         <sprite>sprites\mskDischargeDash2</sprite>
         <sprite>sprites\sprTinTrooper</sprite>
+        <sprite>sprites\sprFlameSweeperSmall</sprite>
+        <sprite>sprites\sprFlameSweeperLarge</sprite>
         <sprite>sprites\sprFlameSweeperKESmall</sprite>
         <sprite>sprites\sprFlameSweeperKELarge</sprite>
         <sprite>sprites\sprSiphonTopaz</sprite>
@@ -4345,8 +4347,6 @@
       <sprite>sprites\sprInUniverse_4MIKerone</sprite>
       <sprite>sprites\sprTotemerPreview</sprite>
       <sprite>sprites\sprTotemer</sprite>
-      <sprite>sprites\sprFlameSweeperLarge</sprite>
-      <sprite>sprites\sprFlameSweeperSmall</sprite>
     </sprites>
   </sprites>
   <backgrounds name="background">
