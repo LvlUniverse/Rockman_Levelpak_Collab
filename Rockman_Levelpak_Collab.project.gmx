@@ -4259,6 +4259,13 @@
         <sprite>sprites\sprStageSelectCursor</sprite>
         <sprite>sprites\sprMM8BossIntroBorder</sprite>
       </sprites>
+      <sprites name="Equipment">
+        <sprite>sprites\sprEquipMenuBG</sprite>
+        <sprite>sprites\sprEquipCoin</sprite>
+        <sprite>sprites\sprEquipCoin10</sprite>
+        <sprite>sprites\sprEquipCoin100</sprite>
+        <sprite>sprites\sprEquipmentIcons</sprite>
+      </sprites>
     </sprites>
     <sprites name="Misc">
       <sprites name="Editor GFX">
@@ -6578,9 +6585,10 @@
         <object>objects\objTitleScreen</object>
         <object>objects\objRoomSelector</object>
         <object>objects\objDebugMenu</object>
-        <object>objects\objDescriptionMenu</object>
         <object>objects\objPauseMenu</object>
         <object>objects\objOptionsMenu</object>
+        <object>objects\objDescriptionMenu</object>
+        <object>objects\objEquipmentMenu</object>
         <object>objects\objColoredTextOverlaysMenu</object>
         <object>objects\objNewFile</object>
         <object>objects\objFileSelector</object>
