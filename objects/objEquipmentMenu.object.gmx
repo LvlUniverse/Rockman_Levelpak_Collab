@@ -31,7 +31,7 @@ visible = 0;
 phase = 0;
 link = 0;
 
-option = 0;
+option = 1;
 sortOption = 0;
 scrollOffset = 1;
 offsetTimer = -1;
@@ -152,7 +152,7 @@ switch (phase)  //copied from pause menu
         if global.keyShootPressed[0]
         {
             phase++;
-            playSFX(sfxElementGrab);
+            playSFX(sfxMenuSelect);
             break;
         }
         
@@ -254,12 +254,38 @@ switch (phase)  //copied from pause menu
 
 if phase == 2 &amp;&amp; (global.keyJumpPressed[0] || global.keyPausePressed[0])
 {
-    switch(option)
+    //option 0 means 'done' i guess?
+    if option == 0
     {
-        //default: play error since this option does nothing atm
-        default:
-            playSFX(sfxError);
-            break;
+        phase++;
+        playSFX(sfxMenuSelect);
+    }
+    else    //all options past that are acessories to toggle enabled
+    {
+        var thisItem = equipmentOwned[option];
+        var thisCost = equipmentCosts[thisItem];
+        if !equipmentActive[thisItem]
+        {
+            if bpUsed + thisCost &gt; bpOwned  //don't equip it if you don't have the points
+                playSFX(sfxError);
+            else
+            {
+                equipmentActive[thisItem] = true;
+                bpUsed += thisCost;
+                playSFX(sfxClamp);
+            }
+        }
+        else
+        {
+            equipmentActive[thisItem] = false;
+            bpUsed -= thisCost;
+            if bpUsed &lt; 0
+            {
+                printErr("BP for current equipment was less than zero somehow!!!!");
+                bpUsed = 0;
+            }
+            playSFX(sfxClamp);
+        }
     }
 }
 </string>
@@ -320,8 +346,6 @@ draw_sprite(sprite_index, 0, drawXPosition, drawYPosition);
 draw_set_halign(fa_left);
 draw_set_valign(fa_top);
 
-draw_text(x, y, string(option))//debug: draw option
-
 //badge list
 //assign surface
 if !surface_exists(badgeListSurface)
@@ -345,16 +369,19 @@ else
     draw_set_alpha(1);
 }
 var yOff = -round((offsetTimer mod 1) * 18);
-for (i = max(0, floor(offsetTimer)); i &lt;= min(ceil(offsetTimer) + shownAtOnce + -1, ownedCount - 1); i++)
+for (i = max(1, floor(offsetTimer)); i &lt;= min(ceil(offsetTimer) + shownAtOnce + -1, ownedCount - 1); i++)
 {
     draw_sprite(sprEquipmentIcons, equipmentOwned[i], 0, yOff);
     
     //non-selected options are darkened
     if (i != option)
         draw_set_color(global.nesPalette[0]);
+    
     draw_text(18, yOff, equipmentNames[equipmentOwned[i]]);
     draw_text(18, yOff + 8, string(equipmentCosts[equipmentOwned[i]]) + " BP");
     draw_set_color(c_white);
+    if equipmentActive[equipmentOwned[i]]
+        draw_text(badgesListW - 12, yOff + 8, "*");
     yOff += 18;
 }
 
@@ -362,9 +389,9 @@ for (i = max(0, floor(offsetTimer)); i &lt;= min(ceil(offsetTimer) + shownAtOnce
 surface_reset_target();
 draw_surface(badgeListSurface, badgesListX, badgesListY);
 
-//debug: draw scrolling info
-draw_text(x, y + 8, string(offsetTimer));
-draw_text(x, y + 16, string(scrollOffset));
+
+//BP used
+draw_text(bpTallyX, bpTallyY, "BP use#" + string(bpUsed) + "#/" + string(bpOwned));
 </string>
           </argument>
         </arguments>
