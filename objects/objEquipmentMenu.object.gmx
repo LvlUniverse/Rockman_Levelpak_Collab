@@ -33,25 +33,27 @@ link = 0;
 
 option = 0;
 sortOption = 0;
-weaponOffset = 0;
+scrollOffset = 1;
 offsetTimer = -1;
 
 sortMode = 0;   //todo: sort menu w/ shoulder button
 
 animTimer = 0;
 quickScrollTimer = 25;
+extremeSpeedTimer = 400;
 
 //cost of equipment piece, by image
 equipmentCosts = makeArray(3, 8, 3, 0, 6, 5, 12, 12);
-equipmentNames = makeArray("Energy Balancer", "Energy Charger", "Energy Converter", "Normal Item", "Skull Amulet", "Met Helmet", "Energy Saver", "Super Energy##Balancer");
+equipmentNames = makeArray("Energy Balancer", "Energy Charger", "Energy Converter", "Normal Item", "Skull Amulet", "Met Helmet", "Energy Saver", "Super E.Balancer");
 //whether the given equipment piece is active or not, by image. 
 //needs to be a global variable later
 equipmentActive = allocateArray(array_length_1d(equipmentCosts), false);
 
 //the order the equipment is in in the menu. equipment you haven't bought won't appear
 //needs to be a global variable later
-equipmentOwned = makeArray(0, 1, 2, 4, 5, 6, 7);
+equipmentOwned = makeArray(0, 1, 2, 4, 5, 6, 7, 1, 1, 1, 1, 2, 2, 1, 1, 4, 3, 1, 1, 1);
 ownedCount = array_length_1d(equipmentOwned);
+shownAtOnce = min(9, ownedCount);
 
 bpUsed = 0; //only really relevant in this menu, so it may not need to be stored globally
 bpOwned = 21; //since this is a collectible, it's gonna have to be made a global var no matter what
@@ -60,7 +62,9 @@ bpHundreds = 0; //todo: auto-calculate these
 bpTens = 1;
 
 badgesListX = 88;
-badgesListY = 8;
+badgesListY = 16;
+badgesListW = 146;
+badgesListH = 160;
 badgesDescX = 88;
 badgesDescY = 192;
 bpTallyX = 24;
@@ -69,6 +73,33 @@ showModeX = 24;
 showModeY = 8;
 sortMenuX = 0;  //not implemented yet
 sortMenuY = 0;
+
+badgeListSurface = surface_create(badgesListW, badgesListH);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="1" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///clear surface
+if surface_exists(badgeListSurface)
+    surface_free(badgeListSurface);
 </string>
           </argument>
         </arguments>
@@ -139,7 +170,12 @@ switch (phase)  //copied from pause menu
         var doScroll = false;
         if option != 0 &amp;&amp; yDir != 0
         {
-            if (quickScrollTimer-- == 25) || (quickScrollTimer == 0)
+            if (extremeSpeedTimer-- &lt;= 0)
+            {
+                if extremeSpeedTimer mod 3 = 0
+                    doScroll = true;
+            }
+            else if (quickScrollTimer-- == 25) || (quickScrollTimer == 0)
             {
                 doScroll = true;
                 if (quickScrollTimer == 0)
@@ -147,13 +183,16 @@ switch (phase)  //copied from pause menu
             }
         }
         else
+        {
             quickScrollTimer = 25;
+            extremeSpeedTimer = 400;
+        }
         if (doScroll)
         {
             option += yDir;
             if option &lt;= 0
-                option = ownedCount;
-            if option &gt; ownedCount
+                option = ownedCount - 1;
+            if option &gt;= ownedCount
                 option = 1;
             playSFX(sfxWeaponSwitch);
         }
@@ -228,6 +267,30 @@ if phase == 2 &amp;&amp; (global.keyJumpPressed[0] || global.keyPausePressed[0])
         </arguments>
       </action>
     </event>
+    <event eventtype="7" enumb="5">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///clear surface (defers to destroy event)
+event_perform(ev_destroy, 0);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="8" enumb="0">
       <action>
         <libid>1</libid>
@@ -259,6 +322,49 @@ draw_set_valign(fa_top);
 
 draw_text(x, y, string(option))//debug: draw option
 
+//badge list
+//assign surface
+if !surface_exists(badgeListSurface)
+    badgeListSurface = surface_create(badgesListW, badgesListH);
+surface_set_target(badgeListSurface);
+
+//scrolling behavior
+if (option != 0) &amp;&amp; (option &lt; ownedCount)
+    scrollOffset = clamp((option) - floor(shownAtOnce * 0.5), 1, ownedCount - shownAtOnce);
+if (abs(scrollOffset - offsetTimer) &lt; 0.05 || offsetTimer &lt; 0)
+    offsetTimer = scrollOffset;
+offsetTimer += (scrollOffset - offsetTimer) / 8;
+
+//draw list to surface
+if extremeSpeedTimer &gt; 0
+    draw_clear_alpha(c_black, 0);
+else
+{
+    draw_set_alpha(0.05);
+    draw_rectangle_colour(0, 0, badgesListW, badgesListH, c_black, c_black, c_black, c_black, false);
+    draw_set_alpha(1);
+}
+var yOff = -round((offsetTimer mod 1) * 18);
+for (i = max(0, floor(offsetTimer)); i &lt;= min(ceil(offsetTimer) + shownAtOnce + -1, ownedCount - 1); i++)
+{
+    draw_sprite(sprEquipmentIcons, equipmentOwned[i], 0, yOff);
+    
+    //non-selected options are darkened
+    if (i != option)
+        draw_set_color(global.nesPalette[0]);
+    draw_text(18, yOff, equipmentNames[equipmentOwned[i]]);
+    draw_text(18, yOff + 8, string(equipmentCosts[equipmentOwned[i]]) + " BP");
+    draw_set_color(c_white);
+    yOff += 18;
+}
+
+//draw surface to game
+surface_reset_target();
+draw_surface(badgeListSurface, badgesListX, badgesListY);
+
+//debug: draw scrolling info
+draw_text(x, y + 8, string(offsetTimer));
+draw_text(x, y + 16, string(scrollOffset));
 </string>
           </argument>
         </arguments>
