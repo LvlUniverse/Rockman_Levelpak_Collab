@@ -6772,6 +6772,7 @@
       <room>rooms\rmNewFile</room>
       <room>rooms\rmStageSelect</room>
       <room>rooms\rmOptions</room>
+      <room>rooms\rmEquipmentTest</room>
       <room>rooms\rmGameOver</room>
       <room>rooms\rmCredits</room>
       <room>rooms\rmWeaponGet</room>
