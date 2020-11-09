@@ -217,33 +217,37 @@ else    //if block turret exists...
         if isHeld
         {
             r = false;
-            //super arm code
-            other.isShoot = 6;
-            other.shootTimer = 0;
-            blockCollision = false;
-            grav = 0;
-            despawnRange = -1;
-            isSolid = false;
-            with(other)
-            {
-                originToBBoxBottom = bbox_bottom - round(y);
-                originToBBoxTop = round(y) - bbox_top;
-                originToBBoxCenter = (bbox_left + bbox_right) / 2 - round(x);
-                var superArmDesiredX = x - originToBBoxCenter;
-                var superArmDesiredY = y - originToBBoxBottom - 6 - (isSlide * -4);
-                if (image_yscale == -1)
-                {
-                    superArmDesiredY = y + originToBBoxTop + 6;
-                }
-            }
-            //print(string(x - superArmDesiredX) + ", " + string(y - superArmDesiredY));
-            x = superArmDesiredX;
-            y = superArmDesiredY;
             xspeed = 0;
             yspeed = 0;
             image_xscale = other.image_xscale
             image_yscale = other.image_yscale;
-            if(doShoot) //if it's held and you press fire, place it down
+            //super arm code
+            if(!doShoot)
+            {
+                other.isShoot = 6;
+                other.shootTimer = 0;
+                blockCollision = false;
+                grav = 0;
+                despawnRange = -1;
+                isSolid = false;
+                //follow mega
+                with(other)
+                {
+                    originToBBoxBottom = bbox_bottom - round(y);
+                    originToBBoxTop = round(y) - bbox_top;
+                    originToBBoxCenter = (bbox_left + bbox_right) / 2 - round(x);
+                    var superArmDesiredX = x - originToBBoxCenter - (image_xscale == -1);
+                    var superArmDesiredY = y - originToBBoxBottom;
+                    if (image_yscale == -1)
+                    {
+                        superArmDesiredY = y + originToBBoxTop + 6;
+                    }
+                }
+                event_perform_object(objBlockTurret, ev_other, ev_user0);
+                x = superArmDesiredX - (xoff * other.image_xscale);
+                y = superArmDesiredY - (yoff * other.image_yscale);
+            }
+            else    //i.e. if doShoot       put it on the ground
             {
                 isHeld = false;
                 other.isShoot = 2;
@@ -298,6 +302,58 @@ weaponSetup("BLOCK TURRET",
         </arguments>
       </action>
     </event>
+    <event eventtype="7" enumb="10">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///offsets while held
+
+if (parent.isSlide)
+{   //sliding
+    xoff = 0;
+    yoff = 1;
+}
+else if (parent.climbing)
+{   //climbing
+    xoff = 8;
+    yoff = 6;
+}
+else if (!parent.ground)
+{   //jumping
+    xoff = 4;
+    yoff = 11;
+}
+else
+{
+    if (parent.stepTimer &gt;= parent.stepFrames)
+    {   //walking
+        xoff = 2;
+        yoff = 6;
+    }
+    else
+    {   //standng
+        xoff = 2;
+        yoff = 6;
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="8" enumb="0">
       <action>
         <libid>1</libid>
@@ -325,18 +381,18 @@ if extended != 0
     for(var p = 1; p &lt;= 3; p++)
     {
         myExtend = (16 - extended) * ((4 - p) / 3);
-        draw_sprite_part_ext(sprite_index, p, 0, 0, 16, 16 - myExtend, floor(x + 0.5), 
+        draw_sprite_part_ext(sprite_index, p, 0, 0, 16, 16 - myExtend, x, 
             ceil(y + 0.5 + gravMod + ((-4 + myExtend) * image_yscale)), 
             image_xscale, image_yscale, c_white, 1);
     }
 }
 
 //base
-draw_sprite_ext(sprite_index, 0, floor(x + 0.5), 
+draw_sprite_ext(sprite_index, 0, x, 
     floor(y + 0.5 + -(extended * image_yscale)), 
     image_xscale, image_yscale, 0, c_white, 1);
 //gun
-draw_sprite_ext(sprite_index, 4, floor(x + 0.5), floor(y + 0.5), 
+draw_sprite_ext(sprite_index, 4, x, floor(y + 0.5), 
     image_xscale, image_yscale, 0, c_white, 1);
 </string>
           </argument>
