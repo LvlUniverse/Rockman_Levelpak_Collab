@@ -43,6 +43,7 @@ rotRadius = 0;
 targetRotRadius = 20;
 animTimer = 0;
 we = 0;
+antiRapidBuffer = 0;
 
 bufferRecharge = false;
 
@@ -139,6 +140,9 @@ if !global.frozen || instance_exists(objSectionSwitcher)
             mask_index = mskDischargeDash2;
         else
             mask_index = mskDischargeDash1;
+        
+        //timer goes down
+        antiRapidBuffer--;
     }
     else
     {   //die if player dies
@@ -197,7 +201,12 @@ if canDamage &amp;&amp; !other.dead &amp;&amp; (global.ammo[playerID, global.wea
                     }
                 }
                 //drain weapon energy in either case
-                global.ammo[playerID, global.weaponID[? objDischargeDash]] -= 1 / (global.energySaver + 1);
+                if antiRapidBuffer &lt;= 0
+                    global.ammo[playerID, global.weaponID[? objDischargeDash]] -= 1 / (global.energySaver + 1);
+                else
+                    global.ammo[playerID, global.weaponID[? objDischargeDash]] -= 0.2 / (global.energySaver + 1);
+                
+                antiRapidBuffer = 4;
             }
             break;
     }
@@ -385,7 +394,12 @@ if instance_exists(parent)
         animTimer = 0;
         playSFX(sfxEnkerCharge);
     }
-    global.ammo[playerID, global.weaponID[? objDischargeDash]] -= 1 / (global.energySaver + 1);
+    if antiRapidBuffer &lt;= 0
+        global.ammo[playerID, global.weaponID[? objDischargeDash]] -= 1 / (global.energySaver + 1);
+    else
+        global.ammo[playerID, global.weaponID[? objDischargeDash]] -= 0.2 / (global.energySaver + 1);
+    
+    antiRapidBuffer = 4;
 }
 </string>
           </argument>
