@@ -129,7 +129,7 @@ if (!global.frozen &amp;&amp; !dead)
 //fire when shot
 if (global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
 {
-    i = fireWeapon(14, 0, objFlameSweeperKE, 2, 1, 1, 0);
+    i = fireWeapon(14, 0, objFlameSweeperAlter, 2, 1, 1, 0);
     if (instance_exists(i))
     {
         //sound
