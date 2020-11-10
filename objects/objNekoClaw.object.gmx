@@ -50,6 +50,7 @@ turnLock = undefined;
 
 heldItem = noone;
 grappled = noone;
+grappleLock = undefined;
 </string>
           </argument>
         </arguments>
@@ -75,8 +76,10 @@ grappled = noone;
             <string>///clear locks when destroyed
 lockPoolRelease(turnLock);
 
-if instance_exists(parent) &amp;&amp; parent.shootStandStillLock != 0 &amp;&amp; !global.keyShoot[playerID]
+if instance_exists(parent) &amp;&amp; parent.shootStandStillLock != 0 &amp;&amp; (!global.keyShoot[playerID] || parent.isHit)
     parent.shootStandStillLock = lockPoolRelease(parent.shootStandStillLock);
+if grappleLock != undefined
+    lockPoolRelease(grappleLock);
 </string>
           </argument>
         </arguments>
@@ -168,19 +171,22 @@ if (!global.frozen)
             //look for poles to grab
             if (canDamage)
             {
-                var p = instance_nearest(x, y, objThunderClawPole)
-                if p != noone &amp;&amp; place_meeting(x, y, p)
+                with(objThunderClawPole)
                 {
-                    grappled = p;
-                    playSFX(sfx4MIWireAdaptorLatch);
-                    hitFreeze = 0;
-                    canDamage = false;
-                    image_index = (image_index mod 4) + 4;
-                    exit;   //if a pole was grabbed, don't check for items
+                    if instance_place(x, y, other)
+                    {
+                        other.grappled = id;
+                        playSFX(sfx4MIWireAdaptorLatch);
+                        other.hitFreeze = 0;
+                        other.canDamage = false;
+                        other.image_index = (other.image_index mod 4) + 4;
+                        other.grappleLock = lockPoolLock(other.parent.localPlayerLock[PL_LOCK_MOVE]);
+                        break;
+                    }
                 }
             }
             //look for items to grab
-            with(prtPickup)
+            if (grappled == noone) then with(prtPickup)
             {
                 if grabable &amp;&amp; instance_place(x, y, other)
                 {
