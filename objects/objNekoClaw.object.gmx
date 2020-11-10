@@ -213,19 +213,8 @@ if (!global.frozen)
         x = grappled.x + 8 + -(itemXOff / 2);
         y = grappled.y + 8 + -(itemYOff / 2);
         
-        if dist &lt;= 0
-        {   //when returned, stay in place until player lets go of fire
-            dist = 0;
-            if !global.keyShoot[playerID]
-            {
-                parent.shootTimer = 15;
-                parent.yspeed = 0;
-                instance_destroy();
-                exit;
-            }
-        }
-        else    //if not returned, retract
-            dist -= 8;
+        //retract until fully returned
+        dist = max(dist - 8, 0);
         
         //move the player, instead of moving with player
         event_user(0);
@@ -233,6 +222,24 @@ if (!global.frozen)
         var ppy = (yoff * parent.image_yscale) + (-sin(degtorad(moveAngle)) * dist);
         with(parent)
             shiftObject((other.x - ppx) - x, (other.y - ppy) - y, true);
+        parent.yspeed = 0;
+        
+        //you can jump out of it
+        if global.keyJumpPressed[playerID]
+        {
+            parent.shootTimer = 15;
+            with(parent)
+                playerJump();
+            instance_destroy();
+            exit;
+        }
+        else if global.keyShootPressed[playerID] &amp;&amp; (dist == 0)
+        {   //or let go if you fire again
+            parent.shootTimer = 15;
+            parent.yspeed = 0;
+            instance_destroy();
+            exit;
+        }
     }
 }
 </string>
