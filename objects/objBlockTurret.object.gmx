@@ -27,11 +27,12 @@
             <kind>1</kind>
             <string>event_inherited();
 
-canDamage = false; //this thing firs shots, but isn't really a shot itself
+contactDamage = -2; //this thing fires shots, but isn't really a shot itself
 
 grav = 0.4; //heavy!
 
 isSolid = true;
+fnsolid = 1;
 blockCollision = 1;
 
 bulletLimitCost = 0;
@@ -43,6 +44,8 @@ shootTimer = 0;
 isHeld = false;
 haslanded = false;
 mySolid = noone;
+
+isMySolid = false;
 </string>
           </argument>
         </arguments>
@@ -93,7 +96,7 @@ if instance_exists(mySolid)    //destroy my solid if held, just in case...
             <kind>1</kind>
             <string>event_inherited();
 
-if (!global.frozen)
+if (!global.frozen &amp;&amp; !isMySolid)
 {
     //if is being held, but parent has died, un-helds itself
     if isHeld &amp;&amp; (!instance_exists(parent) || parent.dead)
@@ -168,12 +171,13 @@ if (!global.frozen)
         //control solid
         if !instance_exists(mySolid)
         {
-            mySolid = instance_create(x, y, objSolidEntity);
-            //mySolid.visible = true;
+            mySolid = instance_create(x, y, objBlockTurret);
+            mySolid.visible = false;
             mySolid.image_xscale = image_xscale;
             mySolid.image_yscale = image_yscale;
-            mySolid.faction = faction;
-            mySolid.fnsolid = fnsolid;
+            mySolid.blockCollision = false;
+            mySolid.isMySolid = true;
+            mySolid.grav = 0;
         }
         mySolid.xspeed = x - mySolid.x;
         mySolid.yspeed = (y - (extended * image_yscale)) - mySolid.y;
@@ -309,6 +313,40 @@ weaponSetup("BLOCK TURRET",
     make_color_rgb(168, 0, 32), 
     make_color_rgb(248, 88, 152), 
     sprWeaponIconsBlockTurret, 8);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="17">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///explodes when deflected
+
+if guardCancel == 4 &amp;&amp; !isHeld &amp;&amp; !isMySolid
+{
+    var i = instance_create(bboxGetXCenter(), bboxGetYCenter(), objTinTrooper_Explosion)
+    if instance_exists(i)
+    {
+        i.canDamage = false;
+        playSFX(sfxExplosion2);
+    }
+    instance_destroy();
+}
 </string>
           </argument>
         </arguments>

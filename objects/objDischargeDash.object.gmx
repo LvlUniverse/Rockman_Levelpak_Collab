@@ -175,6 +175,21 @@ if !global.frozen || instance_exists(objSectionSwitcher)
 
 if canDamage &amp;&amp; !other.dead &amp;&amp; (global.ammo[playerID, global.weaponID[? objDischargeDash]] &gt; 0)
 {
+    //special case for electric hazards, making them harmless but not destroying them, regardless of reflectability
+    if other.sprite_index == sprElecThunder || other.sprite_index == sprElectricGabyoallCurrent
+    {
+        if other.contactDamage != 0
+        {
+            other.contactDamage = 0;
+            if parent.dischargeDashCharges &lt; 3
+            {
+                parent.dischargeDashCharges++;
+                animTimer = 0;
+                playSFX(sfxEnkerCharge);
+            }
+        }
+        exit;
+    }
     switch (other.reflectable)
     {
         case -1:
