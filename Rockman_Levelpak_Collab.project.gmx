@@ -4021,7 +4021,6 @@
         <sprite>sprites\sprBoubou</sprite>
         <sprite>sprites\sprBoubouThick</sprite>
         <sprite>sprites\sprMM8SledStop</sprite>
-        <sprite>sprites\sprTenguLeaf</sprite>
         <sprite>sprites\sprMM8Door</sprite>
         <sprite>sprites\sprMM8DoorG</sprite>
         <sprite>sprites\sprMM8Button</sprite>
@@ -4034,6 +4033,8 @@
         <sprite>sprites\sprSkullElevatorShaft</sprite>
         <sprite>sprites\sprTenguWind</sprite>
         <sprite>sprites\sprTenguWindTrigger</sprite>
+        <sprite>sprites\sprTenguLeaf</sprite>
+        <sprite>sprites\sprThunderClawPole</sprite>
       </sprites>
       <sprites name="MM9">
         <sprite>sprites\sprMM9SpinningPlatform</sprite>
@@ -6368,6 +6369,7 @@
         <object>objects\objMM8Switch</object>
         <object>objects\objTenguWind</object>
         <object>objects\objTenguWindSpeedTrigger</object>
+        <object>objects\objThunderClawPole</object>
         <objects name="Don't Use">
           <object>objects\objSkullElevatorMask</object>
           <object>objects\objTenguLeaf</object>
