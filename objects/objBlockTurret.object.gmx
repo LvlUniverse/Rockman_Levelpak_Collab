@@ -95,6 +95,16 @@ if instance_exists(mySolid)    //destroy my solid if held, just in case...
 
 if (!global.frozen)
 {
+    //if is being held, but parent has died, un-helds itself
+    if isHeld &amp;&amp; (!instance_exists(parent) || parent.dead)
+    {
+        isHeld = false;
+        grav = 0.4 * image_yscale;
+        despawnRange = 4;
+        isSolid = true;
+        blockCollision = true;
+    }
+    
     //stop when it hits the ground
     if ground &amp;&amp; !haslanded &amp;&amp; !isHeld
     {
@@ -133,6 +143,7 @@ if (!global.frozen)
                     other.extendDir = -other.extendDir;
                     playSFX(sfxBladeManSeeSawCart1);
                 }
+                /*
                 //turn to face the direction the player is facing
                 if sign(other.image_xscale) != sign(image_xscale)
                 {
@@ -144,6 +155,7 @@ if (!global.frozen)
                         mySolid.x = x;
                     }
                 }
+                */
             }
         }
         //change size accordingly, if there's room

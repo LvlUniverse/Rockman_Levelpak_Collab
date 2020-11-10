@@ -274,18 +274,18 @@ if (global.ammo[playerID, global.weapon[playerID]] &gt; 0)
                     {
                         case 0: // Light blue helmet, black shirt, blue outline 
                                     global.primaryCol[playerID] = rockSecondaryCol;
-                                    global.secondaryCol[playerID] = c_black;
+                                    global.secondaryCol[playerID] = global.nesPalette[40];
                                     global.outlineCol[playerID] = rockPrimaryCol;
                                     break;
                                 case 1: // Black helmet, blue shirt, light blue outline 
-                                    global.primaryCol[playerID] = c_black;
+                                    global.primaryCol[playerID] = global.nesPalette[40];
                                     global.secondaryCol[playerID] = rockPrimaryCol;
                                     global.outlineCol[playerID] = rockSecondaryCol;
                                     break;
                                 case 2: // Blue helmet, light blue shirt, blue outline 
                                     global.primaryCol[playerID] = rockPrimaryCol;
                                     global.secondaryCol[playerID] = rockSecondaryCol;
-                                    global.outlineCol[playerID] = c_black;
+                                    global.outlineCol[playerID] = global.nesPalette[40];
                                     break;
                     }
                 }
