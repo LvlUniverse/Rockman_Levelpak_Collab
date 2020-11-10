@@ -4328,8 +4328,6 @@
         <sprite>sprites\sprTinTrooper</sprite>
         <sprite>sprites\sprFlameSweeperSmall</sprite>
         <sprite>sprites\sprFlameSweeperLarge</sprite>
-        <sprite>sprites\sprFlameSweeperKESmall</sprite>
-        <sprite>sprites\sprFlameSweeperKELarge</sprite>
         <sprite>sprites\sprSiphonTopaz</sprite>
         <sprite>sprites\sprSiphonTopazPickupS</sprite>
         <sprite>sprites\sprSiphonTopazPickupM</sprite>
@@ -4342,6 +4340,8 @@
         <sprite>sprites\sprBlockTurretShot</sprite>
         <sprite>sprites\sprItem4</sprite>
         <sprite>sprites\sprItem4Teleport</sprite>
+        <sprite>sprites\sprFlameSweeperAlterSmall</sprite>
+        <sprite>sprites\sprFlameSweeperAlterLarge</sprite>
       </sprites>
       <sprite>sprites\sprInUniverse_4MIKerone</sprite>
       <sprite>sprites\sprTotemerPreview</sprite>
@@ -6624,13 +6624,12 @@
           <object>objects\objBlockTurret</object>
           <object>objects\objTeleportPhaser</object>
           <object>objects\objItem4</object>
-          <object>objects\objFlameSweeperKE</object>
-          <object>objects\objNekoClawKE</object>
+          <object>objects\objFlameSweeperAlter</object>
           <objects name="Misc.">
             <object>objects\objDischargeDashDash</object>
             <object>objects\objDischargeDashMomentum</object>
             <object>objects\objFlameSweeperReturn</object>
-            <object>objects\objFlameSweeperKEReturn</object>
+            <object>objects\objFlameSweeperAlterReturn</object>
             <object>objects\objHailBreakerShot</object>
             <object>objects\objAnimatedParticle</object>
             <object>objects\objHailBreakerTempIce</object>

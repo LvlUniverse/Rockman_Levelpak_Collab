@@ -20,8 +20,8 @@
   <width>13</width>
   <height>13</height>
   <frames>
-    <frame index="0">images\sprFlameSweeperKESmall_0.png</frame>
-    <frame index="1">images\sprFlameSweeperKESmall_1.png</frame>
-    <frame index="2">images\sprFlameSweeperKESmall_2.png</frame>
+    <frame index="0">images\sprFlameSweeperAlterSmall_0.png</frame>
+    <frame index="1">images\sprFlameSweeperAlterSmall_1.png</frame>
+    <frame index="2">images\sprFlameSweeperAlterSmall_2.png</frame>
   </frames>
 </sprite>
