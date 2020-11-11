@@ -56,10 +56,15 @@ ownedCount = array_length_1d(equipmentOwned);
 shownAtOnce = min(9, ownedCount);
 
 bpUsed = 0; //only really relevant in this menu, so it may not need to be stored globally
-bpOwned = 21; //since this is a collectible, it's gonna have to be made a global var no matter what
+bpOwned = 31; //since this is a collectible, it's gonna have to be made a global var no matter what
 
 bpHundreds = 0; //todo: auto-calculate these
-bpTens = 1;
+bpTens = 2;
+bpOnes = 11;
+coinsTotal = bpHundreds + bpTens + bpOnes;
+bpHeights = allocateArray(coinsTotal, 0);
+bpAnim = allocateArray(coinsTotal, 0);
+bpAnimDest = allocateArray(coinsTotal, 0);
 
 badgesListX = 88;
 badgesListY = 16;
@@ -264,8 +269,10 @@ if phase == 2 &amp;&amp; (global.keyJumpPressed[0] || global.keyPausePressed[0])
     {
         var thisItem = equipmentOwned[option];
         var thisCost = equipmentCosts[thisItem];
+        var cPrev = bpUsed;
         if !equipmentActive[thisItem]
         {
+            //try to equip it if it's unequipped
             if bpUsed + thisCost &gt; bpOwned  //don't equip it if you don't have the points
                 playSFX(sfxError);
             else
@@ -277,6 +284,7 @@ if phase == 2 &amp;&amp; (global.keyJumpPressed[0] || global.keyPausePressed[0])
         }
         else
         {
+            //unequip it if it's equipped
             equipmentActive[thisItem] = false;
             bpUsed -= thisCost;
             if bpUsed &lt; 0
@@ -286,7 +294,101 @@ if phase == 2 &amp;&amp; (global.keyJumpPressed[0] || global.keyPausePressed[0])
             }
             playSFX(sfxClamp);
         }
+        //update coin display if bp used was changed
+        if cPrev != bpUsed
+        {
+            var pts = bpUsed;
+            var denom = 100;
+            for (var c = 0; c &lt; coinsTotal; c++)
+            {
+                if c = bpHundreds
+                    denom = 10;
+                else if c = bpTens
+                    denom = 1;
+                
+                if pts &gt;= denom
+                {
+                    pts -= denom;
+                    bpAnimDest[c] = true;
+                }
+                else
+                    bpAnimDest[c] = false;
+            }
+        }
     }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///gui effects
+
+//smoothly scrolling badge list
+if (option != 0) &amp;&amp; (option &lt; ownedCount)
+    scrollOffset = clamp((option) - floor(shownAtOnce * 0.5), 1, ownedCount - shownAtOnce);
+if (abs(scrollOffset - offsetTimer) &lt; 0.05 || offsetTimer &lt; 0)
+    offsetTimer = scrollOffset;
+offsetTimer += (scrollOffset - offsetTimer) / 8;
+
+//flipping coins
+var denom = 100;
+for (var c = 0; c &lt; coinsTotal; c++)
+{
+    //account for different denominations
+    if c = bpHundreds
+        denom = 10;
+    else if c = bpTens
+        denom = 1;
+    
+    //
+    switch(denom)
+    {
+        case 100:   //bpAnimDest[c]
+            if bpAnim[c] != bpAnimDest[c] * 4
+            {
+                bpAnim[c] += 0.25;
+                bpHeights[c] = min(12, bpHeights[c] + 2);
+            }
+            else
+                bpHeights[c] = max(0, bpHeights[c] - 4);
+            break;
+        case 10:
+            if bpAnim[c] != bpAnimDest[c] * 4
+            {
+                bpAnim[c] += 0.5;
+                bpHeights[c] = min(6, bpHeights[c] + 1);
+            }
+            else
+                bpHeights[c] = max(0, bpHeights[c] - 2);
+            break;
+        case 1:
+            if bpAnim[c] != bpAnimDest[c] * 4
+            {
+                bpAnim[c] += 0.5;
+                bpHeights[c] = min(4, bpHeights[c] + 0.5);
+            }
+            else
+                bpHeights[c] = max(0, bpHeights[c] - 1);
+            break;
+    }
+    if bpAnim[c] &gt;= 8
+        bpAnim[c] -= 8;
 }
 </string>
           </argument>
@@ -346,18 +448,14 @@ draw_sprite(sprite_index, 0, drawXPosition, drawYPosition);
 draw_set_halign(fa_left);
 draw_set_valign(fa_top);
 
+//--------------------------------------------
+
 //badge list
 //assign surface
 if !surface_exists(badgeListSurface)
     badgeListSurface = surface_create(badgesListW, badgesListH);
 surface_set_target(badgeListSurface);
 
-//scrolling behavior
-if (option != 0) &amp;&amp; (option &lt; ownedCount)
-    scrollOffset = clamp((option) - floor(shownAtOnce * 0.5), 1, ownedCount - shownAtOnce);
-if (abs(scrollOffset - offsetTimer) &lt; 0.05 || offsetTimer &lt; 0)
-    offsetTimer = scrollOffset;
-offsetTimer += (scrollOffset - offsetTimer) / 8;
 
 //draw list to surface
 if extremeSpeedTimer &gt; 0
@@ -389,9 +487,54 @@ for (i = max(1, floor(offsetTimer)); i &lt;= min(ceil(offsetTimer) + shownAtOnce
 surface_reset_target();
 draw_surface(badgeListSurface, badgesListX, badgesListY);
 
+//--------------------------------------------
 
 //BP used
+//text
 draw_text(bpTallyX, bpTallyY, "BP use#" + string(bpUsed) + "#/" + string(bpOwned));
+
+//flippy coins
+var coinImg = sprEquipCoin100;
+var dy = bpTallyY + 32;
+var dx = 0;
+for (var c = 0; c &lt; coinsTotal; c++)
+{
+    //handle decreases in denomination
+    var sh = sprite_get_height(coinImg);
+    if c == bpHundreds
+    {
+        coinImg = sprEquipCoin10;
+        if dx != 0
+        {
+            dy += sh;
+            dx = 0;
+        }
+        sh = sprite_get_height(coinImg);
+    }
+    if c == bpHundreds + bpTens
+    {
+        coinImg = sprEquipCoin;
+        if dx != 0
+        {
+            dy += sh;
+            dx = 0;
+        }
+        sh = sprite_get_height(coinImg);
+    }
+    
+    //draw a coin
+    draw_sprite(coinImg, bpAnim[c], dx + bpTallyX, dy - bpHeights[c]);
+    dx += sh;   //coins should be symmetrical in both directions, right?
+    //if next coin would go past border, move on to next line instead
+    if dx + sh &gt; 48
+    {
+        dx = 0;
+        dy += sh;
+    }
+}
+
+
+
 </string>
           </argument>
         </arguments>
