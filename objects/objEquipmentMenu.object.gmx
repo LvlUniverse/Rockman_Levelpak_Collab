@@ -26,17 +26,15 @@
           <argument>
             <kind>1</kind>
             <string>global.nextRoom = -1;
-visible = 0;
+visible = false;
 
 phase = 0;
-link = 0;
 
 option = 1;
-sortOption = 0;
+sortOption = 0; //todo: sort menu w/ shoulder button
+
 scrollOffset = 1;
 offsetTimer = -1;
-
-sortMode = 0;   //todo: sort menu w/ shoulder button
 
 animTimer = 0;
 quickScrollTimer = 25;
@@ -138,7 +136,7 @@ switch (phase)  //copied from pause menu
         {
             global.nextRoom = 0;
             objGlobalControl.showhealth = 0;
-            visible = 1;
+            visible = true;
             phase++;
         }
         break;
@@ -146,9 +144,7 @@ switch (phase)  //copied from pause menu
     // Fading in
     case 1:
         if (objGlobalControl.fadeAlpha == 0)
-        {
             phase++;
-        }
         break;
     
     // Doing menu selections
@@ -174,7 +170,7 @@ switch (phase)  //copied from pause menu
         //scrolling in the list of badges
         var doScroll = false;
         if option != 0 &amp;&amp; yDir != 0
-        {
+        {   //quickscrolling
             if (extremeSpeedTimer-- &lt;= 0)
             {
                 if extremeSpeedTimer mod 3 = 0
@@ -193,7 +189,7 @@ switch (phase)  //copied from pause menu
             extremeSpeedTimer = 400;
         }
         if (doScroll)
-        {
+        {   //change the selected option
             option += yDir;
             if option &lt;= 0
                 option = ownedCount - 1;
@@ -205,30 +201,24 @@ switch (phase)  //copied from pause menu
     
     // Fading out
     case 3:
+        //if this is the dedicated test room, just return to room select
         if (room == rmEquipmentTest)
-        {
-            var ID;
-            if (global.nextRoom != rmTitleScreen)
-            {
-                saveLoadOptions(true);
-            }
-            global.nextRoom = rmTitleScreen;
-        }
+            global.nextRoom = rmRoomSelect;
         else
         {
             global.nextRoom = -1;
-            phase++;
+            if objGlobalControl.fadeAlpha == 1
+            {
+                global.nextRoom = 0;
+                visible = false;
+                phase++;
+            }
         }
         break;
     
-    // End fading out
+    // Fading back in to gameplay
     case 4:
-        if (objGlobalControl.fadeAlpha == 1 &amp;&amp; global.nextRoom != 0)
-        {
-            global.nextRoom = 0;
-            visible = 0;
-        }
-        else if (objGlobalControl.fadeAlpha == 0 &amp;&amp; global.nextRoom == 0)
+        if objGlobalControl.fadeAlpha == 0
         {
             global.frozen = true;
             instance_destroy();
@@ -337,7 +327,7 @@ if phase == 2 &amp;&amp; (global.keyJumpPressed[0] || global.keyPausePressed[0])
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///gui effects
+            <string>///animations
 
 //smoothly scrolling badge list
 if (option != 0) &amp;&amp; (option &lt; ownedCount)

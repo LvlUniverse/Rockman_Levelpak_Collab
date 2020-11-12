@@ -26,12 +26,12 @@
           <argument>
             <kind>1</kind>
             <string>global.nextRoom = -1;
-visible = 0;
+visible = false;
 
 if (!instance_number(object_index) &gt; 1)
 {
     instance_destroy();
-    visible = 0;
+    visible = false;
     exit;
 }
 
@@ -90,15 +90,13 @@ switch (phase)  //copied from pause menu
     // Fading in
     case 1:
         if (objGlobalControl.fadeAlpha == 0)
-        {
             phase++;
-        }
         break;
     
     // Doing menu selections
     case 2:
         //exit menu with many buttons
-        if global.keyJumpPressed[0] || global.keyShootPressed[0] || global.keyPausePressed[0]
+        if global.keyJumpPressed[0] || global.keyShootPressed[0] || global.keyPausePressed[0] || global.keySlidePressed[0]
         {
             phase++;
             playSFX(sfxElementGrab);
@@ -148,30 +146,18 @@ switch (phase)  //copied from pause menu
     
     // Fading out
     case 3:
-        if (room == rmOptions)
+        global.nextRoom = -1;
+        if (objGlobalControl.fadeAlpha == 1)
         {
-            var ID;
-            if (global.nextRoom != rmTitleScreen)
-            {
-                saveLoadOptions(true);
-            }
-            global.nextRoom = rmTitleScreen;
-        }
-        else
-        {
-            global.nextRoom = -1;
+            global.nextRoom = 0;
+            visible = 0;
             phase++;
         }
         break;
     
-    // End fading out
+    // Fading back in to pause menu
     case 4:
-        if (objGlobalControl.fadeAlpha == 1 &amp;&amp; global.nextRoom != 0)
-        {
-            global.nextRoom = 0;
-            visible = 0;
-        }
-        else if (objGlobalControl.fadeAlpha == 0 &amp;&amp; global.nextRoom == 0)
+        if objGlobalControl.fadeAlpha == 0
         {
             global.frozen = true;
             instance_destroy();
