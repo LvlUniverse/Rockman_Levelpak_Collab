@@ -121,8 +121,8 @@ if (!global.frozen &amp;&amp; !isMySolid)
         hasLanded = false;
     
     //fire shots
-    shootTimer = ++shootTimer mod 48;
-    if (shootTimer &lt; 36) &amp;&amp; (shootTimer mod 6 == 0)
+    shootTimer = ++shootTimer mod 60;
+    if (shootTimer &lt; 48) &amp;&amp; (shootTimer mod 8 == 0)
     {
         var s = instance_create(x + (18 * image_xscale), 
             y + ((7 + -extended) * image_yscale) + -(image_yscale == -1), 
@@ -212,7 +212,7 @@ if (!global.frozen &amp;&amp; !isMySolid)
 
 var doShoot = (global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
 //if no block turret exists, make one when shoot is pressed
-if !instance_exists(objBlockTurret) &amp;&amp; (global.ammo[playerID, global.weaponID[? objBlockTurret]] &gt;= 6)
+if !instance_exists(objBlockTurret) &amp;&amp; (global.ammo[playerID, global.weaponID[? objBlockTurret]] &gt;= 8)
 {
     if doShoot
     {
@@ -280,11 +280,24 @@ else    //if block turret exists...
         }
     }
     
-    //fire buster shots elsewise
+    //if a turret is already out...
     if r &amp;&amp; doShoot
-    {
-        with (fireWeapon(16, 0, objNormalBusterShot, 3, 0, 1, 0))
-            xspeed = image_xscale * 5; // zoom
+    {   //try to pick up a turret nearby
+        with(objBlockTurret)
+        {
+            if !isMySolid &amp;&amp; (instance_place(x + 4, y, other) || instance_place(x - 4, y, other))
+            {
+                isHeld = true;
+                haslanded = false;
+                break;
+            }
+        }
+        
+        /*
+        if !p   //buster shots if no turret was picked up
+            with (fireWeapon(16, 0, objNormalBusterShot, 3, 0, 1, 0))
+                xspeed = image_xscale * 5; // zoom
+        */
     }
 }
 </string>
