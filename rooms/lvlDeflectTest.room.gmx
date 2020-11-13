@@ -137,6 +137,10 @@
     <instance objName="objThunderClawPole" x="1776" y="32" name="inst_D4EB4C2A" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objThunderClawPole" x="1760" y="32" name="inst_886E3A5B" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objThunderClawPole" x="1664" y="32" name="inst_2E8D1D58" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objNapalm" x="320" y="144" name="inst_1D4411F0" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objNapalm" x="336" y="144" name="inst_F0157768" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objNapalm" x="352" y="112" name="inst_11F1C628" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objNapalm" x="368" y="112" name="inst_0A6648F1" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles>
     <tile bgName="bgBasic" x="0" y="0" w="128" h="128" xo="0" yo="0" id="11354782" name="inst_A470C83D" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>

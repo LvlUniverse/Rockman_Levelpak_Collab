@@ -67,7 +67,7 @@ fireSource[24] = objSFFire;
 fireSource[25] = objFlameMixer;
 fireSource[26] = objPUOilFire;
 fireSource[27] = objFlameSweeperReturn;
-fireSource[28] = objFlameSweeperKEReturn;
+fireSource[28] = objFlameSweeperAlterReturn;
 
 // oil
 oil[0] = objOil;
