@@ -35,6 +35,7 @@ grav = 0.4; //heavy!
 isSolid = true;
 fnsolid = 1;
 blockCollision = 1;
+doesTransition = false;
 
 bulletLimitCost = 0;
 
