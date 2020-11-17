@@ -349,9 +349,6 @@ if (instance_exists(objSectionSwitcher) &amp;&amp; active)
 
 if (active)
 {
-    //override player's animations
-    parent.visible = false;
-    
     //follow parent's image_scale flippings
     if image_yscale != parent.image_yscale
     {
@@ -617,10 +614,10 @@ switch(floor(image_index))
             <string>///draw player in cockpit
 event_inherited();
 
-event_user(0);
 if active &amp;&amp; instance_exists(parent) 
     &amp;&amp; ((parent.iFrames mod 4) &lt; 2 || parent.iFrames &lt; 0)
 {
+    event_user(0);
     if (parent.isHit &amp;&amp; (parent.hitTimer mod 8) &lt;= 3)   //hitspark
         draw_sprite_ext(sprHitspark, 0, 
             round(spriteGetXCenterObject(parent)) - sign(parent.image_xscale),
