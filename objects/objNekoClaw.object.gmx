@@ -2,7 +2,7 @@
 <object>
   <spriteName>sprNekoClaw</spriteName>
   <solid>0</solid>
-  <visible>0</visible>
+  <visible>-1</visible>
   <depth>0</depth>
   <persistent>0</persistent>
   <parentName>prtPlayerProjectile</parentName>
@@ -39,6 +39,7 @@ pierces = 2;    //needs to survive every time it hits an enemy, even if it can't
 
 //object-specific
 moveAngle = 0;
+myIsShoot = 1;
 dist = 8;
 hitFreeze = undefined;
 
@@ -104,8 +105,6 @@ if grappleLock != undefined
             <kind>1</kind>
             <string>event_inherited();
 
-visible = true;
-
 if (!global.frozen)
 {
     //die if parent is gone
@@ -116,7 +115,7 @@ if (!global.frozen)
     }
     
     //if grappled, but grapple point is gone somehow, die
-    if grappled != noone &amp;&amp; (grappled.dead || !instance_exists(grappled))
+    if grappled != noone &amp;&amp; (!instance_exists(grappled) || grappled.dead)
     {
         instance_destroy();
         exit;
@@ -124,6 +123,7 @@ if (!global.frozen)
     
     //force player into shooting pose
     parent.shootTimer = 14;
+    parent.isShoot = myIsShoot;
     //lock player's movement if they land, to keep them from using the walking aiming sprites
     with(parent)
     {
@@ -174,13 +174,18 @@ if (!global.frozen)
                 with(objThunderClawPole)
                 {
                     if instance_place(x, y, other)
-                    {
+                    {   //succesful grapple
                         other.grappled = id;
-                        playSFX(sfx4MIWireAdaptorLatch);
-                        other.hitFreeze = 0;
-                        other.canDamage = false;
-                        other.image_index = (other.image_index mod 4) + 4;
-                        other.grappleLock = lockPoolLock(other.parent.localPlayerLock[PL_LOCK_MOVE]);
+                        with(other)
+                        {
+                            playSFX(sfx4MIWireAdaptorLatch);
+                            x = grappled.x + 8 + -(itemXOff / 2);
+                            y = grappled.y + 8 + -(itemYOff / 2);
+                            hitFreeze = 0;
+                            canDamage = false;
+                            image_index = (image_index mod 4) + 4;
+                            grappleLock = lockPoolLock(parent.localPlayerLock[PL_LOCK_MOVE]);
+                        }
                         break;
                     }
                 }
@@ -215,14 +220,10 @@ if (!global.frozen)
     }
     else    //i.e. if grappled != noone
     {
-        //stays on grapple pole
-        x = grappled.x + 8 + -(itemXOff / 2);
-        y = grappled.y + 8 + -(itemYOff / 2);
-        
         //retract until fully returned
         dist = max(dist - 8, 0);
         
-        //move the player, instead of moving with player
+        //move the player with us, instead of moving with player
         event_user(0);
         var ppx = (xoff * parent.image_xscale) + (cos(degtorad(moveAngle)) * dist);
         var ppy = (yoff * parent.image_yscale) + (-sin(degtorad(moveAngle)) * dist);
@@ -336,9 +337,13 @@ if (global.keyShoot[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
         if image_yscale &lt; 0
             i.moveAngle = (180 - abs(i.moveAngle)) * s;
         
-        i.moveAngle = i.moveAngle + 90
-        i.itemXOff *= i.image_xscale;
-        i.itemYOff *= i.image_yscale;
+        with(i)
+        {
+            moveAngle = moveAngle + 90
+            itemXOff *= image_xscale;
+            itemYOff *= image_yscale;
+            myIsShoot = parent.isShoot;
+        }
     }
 }
 </string>
