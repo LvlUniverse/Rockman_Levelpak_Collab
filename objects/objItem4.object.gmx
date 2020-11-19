@@ -166,7 +166,7 @@ if (!global.frozen)
     //handle everything that happens once we're in the armor
     else if (global.ammo[playerID, global.weaponID[? objItem4]] &gt; 0)
     {
-        //if player is in noclip, move with them and don't do normal functions
+        //if player is in noclip, move with them
         if global.freeMovement
         {
             x = parent.x;
@@ -188,6 +188,7 @@ if (!global.frozen)
             xspeed = sign(image_xscale) * 1.5;
         else
             xspeed = 0;
+        
         
         if ground
         {
@@ -248,7 +249,7 @@ if (!global.frozen)
                     jump = 2;
             }
             
-            //falling anim
+            //walked off edge anim if we're airborne but didn't jump
             if animID != 1 &amp;&amp; animID &lt; 4
             {
                 animID = 4;
@@ -295,7 +296,7 @@ if (!global.frozen)
         if animTimer &gt;= animFrames[animID]  //when the animation ends...
         {
             if animLoop[animID]
-                animTimer -= animFrames[animID];    //loop animatioon from start
+                animTimer -= animFrames[animID];    //loop animation from start
             else
                 animTimer = animFrames[animID]; //or, hang on last frame until animation changes
         }

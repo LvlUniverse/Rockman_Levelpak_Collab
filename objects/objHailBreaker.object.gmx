@@ -168,7 +168,6 @@ if (global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
 {
     //fire a hail breaker, if there's energy left and one isn't already active
     if !instance_exists(objHailBreakerShot) &amp;&amp; !instance_exists(objHailBreaker)
-        &amp;&amp; global.ammo[playerID, global.weaponID[? objHailBreaker]] &gt; 0
     {
         var w = fireWeapon(0, 0, objHailBreaker, 45, 5, 0, 0);
         if instance_exists(w)

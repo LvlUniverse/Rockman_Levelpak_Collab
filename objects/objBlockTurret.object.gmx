@@ -129,6 +129,7 @@ if (!global.frozen &amp;&amp; !isMySolid)
             y + ((7 + -extended) * image_yscale) + -(image_yscale == -1), 
             objBlockTurretShot);
         s.image_xscale = image_xscale;
+        s.xspeed = 5 * sign(image_xscale);  //zoom
         //s.depth = depth + 1;
     }
     

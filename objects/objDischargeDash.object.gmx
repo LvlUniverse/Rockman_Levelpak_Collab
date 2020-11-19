@@ -33,7 +33,6 @@ contactDamage = 1;
 
 penetrate = 1;
 pierces = 2;
-attackDelay = 16;
 
 despawnRange = -1; // don't be despawned by scrolling offscreen
 shiftVisible = true;
@@ -46,8 +45,6 @@ we = 0;
 antiRapidBuffer = 0;
 
 bufferRecharge = false;
-
-playSFX(sfxElectricShot);
 </string>
           </argument>
         </arguments>
@@ -254,14 +251,16 @@ if canDamage &amp;&amp; !other.dead &amp;&amp; (global.ammo[playerID, global.wea
 if global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT)
 {
     //if no barrier, summon barrier for 4 weapon energy
-    if (!playerIsLocked(PL_LOCK_SHOOT) &amp;&amp; !instance_exists(objDischargeDash) 
-        &amp;&amp; global.ammo[playerID, global.weaponID[? objDischargeDash]] &gt; 2) //if fired from 2 energy, it can't soak up any shots at all and would die instantly
+    if !instance_exists(objDischargeDash) 
     {
-        var p = fireWeapon(0, 0, objDischargeDash, 1, 2, 2, 0);
-        if instance_exists(p)
+        if global.ammo[playerID, global.weaponID[? objDischargeDash]] &gt; 2 //if fired from 2 energy, it can't soak up any shots at all and would die instantly
+        {
+            fireWeapon(0, 0, objDischargeDash, 1, 2, 2, 0);
             dischargeDashCharges = 0;
+            playSFX(sfxElectricShot);
+        }
     }
-    else if instance_exists(objDischargeDash)
+    else
     {   //if barrier exists, try to perform dash at the cost of a charge
         if (dischargeDashCharges &gt; 0)
         {

@@ -34,6 +34,8 @@ contactDamage = 2;
 blockCollision = 1;
 grav = 0.25;
 
+bubbleTimer = 0;
+
 //object-specific
 keyImg = 0;
 bumpAnim = 0;
