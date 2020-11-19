@@ -28,28 +28,24 @@
             <string>///stomp on enemies
 event_inherited();
 
-bulletLimitCost = 1;
-
-contactDamage = 0;
+contactDamage = 12;
 
 penetrate = 3;
 pierces = 2;
 attackDelay = 20;
 
-faction = 8;    //had to make a whole new faction for this! pls work.
+faction = 8;    //had to make a whole new faction for this
 
 blockCollision = true;
 grav = gravAccel;
 
-canDamage = false;
+canDamage = false;  //doesn't do damage until ridden
 
 //object-specific
 jump = 0;
 jumpPeakY = undefined;
 
 active = false;
-
-//bounce = 3;
 
 //vehicle vars
 physicsLock = undefined;
@@ -91,29 +87,19 @@ animLoop =   makeArray(1 , 1 , 0 , 1 , 1 , 0);
           <argument>
             <kind>1</kind>
             <string>///clear locks, reset rider's variables
-event_inherited();
-
 if (instance_exists(parent) &amp;&amp; physicsLock != undefined)
 {
     parent.vehicle = noone;
-    parent.dieToSpikes = true;
     lockPoolRelease(physicsLock);
-    parent.visible = true;
     
     //try to keep megaman from getting stuck in the ceiling
-    if active == true
+    with(parent)
     {
-        with(parent)
-        {
-            //if checkSolid(0, 0, false, true)
-            //{
-                y += 16 * image_yscale;
-                //compactors just don't count as collision, even if i tell it specifically to check for stuff mega's already colliding with?
-                //so we have a hack instead
-                if !instance_place(x, y - (20 * image_yscale), objCompactor)
-                    shiftObject(0, -16 * image_yscale, true);
-            //}
-        }
+        y += 16 * image_yscale;
+        //compactors just don't count as collision, even if i tell it specifically to check for stuff mega's already colliding with?
+        //so we have a hack instead
+        if !instance_place(x, y - (20 * image_yscale), objCompactor)
+            shiftObject(0, -16 * image_yscale, true);
     }
 }
 </string>
@@ -152,57 +138,47 @@ if (!global.frozen)
     //handle player getting on armor
     if (!active)
     {
-        with (parent)
+        if (position_meeting(x, y + (6 * image_yscale), parent) 
+            &amp;&amp; !parent.isSlide &amp;&amp; !parent.climbing)
         {
-            if (!isSlide &amp;&amp; !climbing)
-            {
-                with (other)
-                {
-                    if (position_meeting(x, y + (6 * image_yscale), other.id))
-                    {
-                        yspeed = 0;
-                        active = true;
-                        canDamage = true;
-                        dontDieToScreenTransitions = true;
-                        shiftVisible = 2;
-                        despawnRange = -1;
-                        
-                        parent.dieToSpikes = false;
-                        parent.xspeed = 0;
-                        parent.yspeed = 0;
-                        parent.vehicle = id;
-                        
-                        physicsLock = lockPoolLock(
-                            parent.localPlayerLock[PL_LOCK_MOVE],
-                            parent.localPlayerLock[PL_LOCK_SLIDE],
-                            parent.localPlayerLock[PL_LOCK_CHARGE],
-                            parent.localPlayerLock[PL_LOCK_CLIMB],
-                            parent.localPlayerLock[PL_LOCK_JUMP],
-                            parent.localPlayerLock[PL_LOCK_GROUND],
-                            parent.localPlayerLock[PL_LOCK_GRAVITY],
-                            parent.localPlayerLock[PL_LOCK_SPRITECHANGE]);
-                    }
-                }
-            }
+            yspeed = 0;
+            active = true;
+            canDamage = true;
+            dontDieToScreenTransitions = true;
+            shiftVisible = 2;
+            despawnRange = -1;
+            
+            parent.xspeed = 0;
+            parent.yspeed = 0;
+            parent.vehicle = id;
+            
+            physicsLock = lockPoolLock(
+                parent.localPlayerLock[PL_LOCK_MOVE],
+                parent.localPlayerLock[PL_LOCK_SLIDE],
+                parent.localPlayerLock[PL_LOCK_CHARGE],
+                parent.localPlayerLock[PL_LOCK_CLIMB],
+                parent.localPlayerLock[PL_LOCK_JUMP],
+                parent.localPlayerLock[PL_LOCK_GROUND],
+                parent.localPlayerLock[PL_LOCK_GRAVITY],
+                parent.localPlayerLock[PL_LOCK_SPRITECHANGE]);
         }
     }
     //handle everything that happens once we're in the armor
-    else if (global.ammo[playerID, global.weaponID[? objItem4]] &gt; 0
-            &amp;&amp; instance_exists(parent))
+    else if (global.ammo[playerID, global.weaponID[? objItem4]] &gt; 0)
     {
+        //if player is in noclip, move with them and don't do normal functions
+        if global.freeMovement
+        {
+            x = parent.x;
+            y = parent.y;
+            exit;
+        }
         //if player is frozen or timestopped or whatever, don't
         if isLocked(global.playerFrozen)
         {
             xspeed = 0;
             yspeed = 0;
             y -= grav;
-            exit;
-        }
-        //if player is in noclip, move with them and don't do normal functions
-        if global.freeMovement
-        {
-            x = parent.x;
-            y = parent.y;
             exit;
         }
         
@@ -225,8 +201,7 @@ if (!global.frozen)
                 playSFX(sfxTimeStopper);    //and landing sound
             }
             //walking &amp; standing anims
-            if jump == 0 &amp;&amp; (animID != 2 
-                || (animID == 2 &amp;&amp; animTimer == animFrames[2]))
+            else if animID != 2 || animTimer == animFrames[2]
             {
                 if xspeed != 0
                 {
@@ -301,12 +276,6 @@ if (!global.frozen)
             }
         }
         
-        //do damage only if we're falling
-        if !ground &amp;&amp; (sign(yspeed) * sign(grav) &gt; 0)
-            contactDamage = 12;
-        else
-            contactDamage = 0;
-        
         //hold player on the cockpit
         parent.x = x;
         parent.y = y - (1 * image_yscale);
@@ -340,15 +309,15 @@ if (!global.frozen)
     }
 }
 
-//follow section switcher when switching sections
-if (instance_exists(objSectionSwitcher) &amp;&amp; active)
-{
-    x = objSectionSwitcher.x;
-    y = objSectionSwitcher.y;
-}
-
 if (active)
 {
+    //follow section switcher when switching sections
+    if instance_exists(objSectionSwitcher)
+    {
+        x = objSectionSwitcher.x;
+        y = objSectionSwitcher.y;
+    }
+    
     //follow parent's image_scale flippings
     if image_yscale != parent.image_yscale
     {
@@ -394,16 +363,12 @@ if (global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
                 y += view_hview + 80;
         }
     }
-    else if instance_exists(vehicle)
-    {   //trigger joe mech shots
+    else if instance_exists(vehicle)//if in vehicle, trigger joe mech shots
         chargeTimer += (chargeTimer == 0);
-    }
     else
-    {   //buster shots outside of vehicle
+    {   //buster shots if vehicle is summoned, but we aren't riding it
         with (fireWeapon(16, 0, objNormalBusterShot, 4, 0, 1, 0))
-        {
             xspeed = other.image_xscale * 5;
-        }
     }
 }
 
@@ -422,6 +387,44 @@ if chargeTimer != 0
         }
     }
 }
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="23">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///qualify what counts as 'stomping' an enemy
+
+//don't hit enemies if we're not falling
+if (jumpPeakY == undefined) || (sign(yspeed) * sign(grav) &lt;= 0)
+    || (sign(image_yscale) &gt; 0 &amp;&amp; other.bbox_top &lt; bbox_bottom - 32)
+    || (sign(image_yscale) &lt;= 0 &amp;&amp; other.bbox_bottom &gt; bbox_top + 32)
+    || (sign(image_yscale) &gt; 0 &amp;&amp; jumpPeakY &gt;= other.bbox_top) 
+    || (sign(image_yscale) &lt;= 0 &amp;&amp; jumpPeakY &lt;= other.bbox_bottom)
+{
+    global.damage = -1;
+    exit;
+}
+
+//reduced damage against midbosses
+if object_is_ancestor(other.object_index, prtMiniBoss)
+    global.damage = 5;
 </string>
           </argument>
         </arguments>
@@ -500,28 +503,11 @@ instance_destroy();
           <argument>
             <kind>1</kind>
             <string>///make the mech feel the force a bit when it lands on a stronger enemy
-
-//don't hit enemies that aren't below you
-if (jumpPeakY == undefined) 
-    || (sign(image_yscale) &gt; 0 &amp;&amp; other.bbox_top &lt; bbox_bottom - 32)
-    || (sign(image_yscale) &lt;= 0 &amp;&amp; other.bbox_bottom &gt; bbox_top + 32)
-    || (sign(image_yscale) &gt; 0 &amp;&amp; jumpPeakY &gt;= other.bbox_top) 
-    || (sign(image_yscale) &lt;= 0 &amp;&amp; jumpPeakY &lt;= other.bbox_bottom)
-{
-    global.damage = 0;
-    exit;
-}
-
-//stall a bit if the enemy has more than 3 health
 if other.healthpointsStart &gt; 3
 {
     yspeed = 0;
     animID = 5;
 }
-
-//reduced damage against midbosses
-if object_is_ancestor(other.object_index, prtMiniBoss)
-    global.damage = 5;
 </string>
           </argument>
         </arguments>
