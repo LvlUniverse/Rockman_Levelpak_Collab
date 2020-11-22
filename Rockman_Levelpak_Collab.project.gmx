@@ -4226,6 +4226,7 @@
       <sprite>sprites\sprKeyGate</sprite>
       <sprite>sprites\sprKeyCoin</sprite>
       <sprite>sprites\sprKeyCoinHUD</sprite>
+      <sprite>sprites\sprSpecialCoin</sprite>
     </sprites>
     <sprites name="Menu">
       <sprites name="Pause">
@@ -6540,6 +6541,7 @@
       <object>objects\objKeyCoin</object>
       <object>objects\objKeyBarrier</object>
       <object>objects\objEddie</object>
+      <object>objects\objSpecialCoin</object>
     </objects>
     <objects name="Don't Use">
       <objects name="Player">
