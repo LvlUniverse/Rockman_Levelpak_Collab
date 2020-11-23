@@ -29,6 +29,8 @@
 
 xspeed = 0;
 yspeed = -2;
+
+grav = 0.25;
 </string>
           </argument>
         </arguments>
@@ -56,7 +58,7 @@ yspeed = -2;
 if !global.frozen
 {
     y += yspeed;
-    yspeed += 0.25;
+    yspeed += grav;
     x += xspeed;
 }
 </string>

@@ -190,7 +190,7 @@ if animTimer == -1   //increase in power after first bounce
 
 if global.damage &gt; 0    //recover health
 {
-    with(instance_create(x, y + (8 * image_yscale), objSiphonTopazPickup))
+    with(instance_create(x, y + (10 * image_yscale), objSiphonTopazPickup))
     {
         parent = other.parent;
         hlth = global.damage;
@@ -240,8 +240,14 @@ for (var p = 4; p &lt;= 6; p++)
     {
         image_index = p;
         xspeed = (p - 4.7) / 2; //slightly biased to the right
+        if other.image_yscale &lt; 0
+        {
+            yspeed = 2;
+            grav = -grav;
+            image_yscale = -1;
+        }
         if p == 5
-            yspeed = -1;
+            yspeed = -1 * image_yscale;
     }
 }
 

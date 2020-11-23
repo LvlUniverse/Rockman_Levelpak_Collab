@@ -42,12 +42,14 @@ yspeed = 0;
 grav = 0;
 
 image_speed = 1/4;
+image_xscale = 1.2; //slightly wide hitbox
 
 //object-specific
 expandDown = 16;
 expandUp = 16;
 disperse = 0;
 fastDisperse = false;
+gravDir = 1;
 
 trueY = ystart;
 pxspeed = 0;
@@ -98,7 +100,7 @@ if (!global.frozen)
     }
     
     //animate
-    animTimer++;
+    animTimer += gravDir;
     deflectSoundTimer++;
     
     //expand outwards
@@ -228,9 +230,9 @@ if (global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
         //sound
         playSFX(sfxTyphoonFunnelLoop);
         i.pxspeed = xspeed;
-        i.image_xscale = 1.2;   //slightly wide hitbox
         i.x = x;
         i.y = y;
+        i.gravDir = gravDir;
     }
 }
 </string>
@@ -400,9 +402,10 @@ for (p = p; p &lt;= endcon; p += sh;)
     //skip drawing if this part is being dispersed, or if flickering is on
     if (doDis &amp;&amp; abs(p) &lt; disperse) || (flicker-- mod 2 != 0)
         continue;
-    draw_sprite(sprite_index, image_index, 
+    draw_sprite_ext(sprite_index, image_index, 
         round(x + sin((animTimer + (p / 2)) / 6) * waveWidth), 
-        round(trueY) + p);
+        round(trueY) + p, 
+        1, gravDir, 0, image_blend, image_alpha);
 }
 </string>
           </argument>

@@ -77,7 +77,7 @@ if entityCanStep()
             {
                 var waterMod = (inWater * (2/3)) + 1;
                 //jump if it's low enough
-                if !positionCollision(x + 16 * image_xscale, y + -8 + (-24 * image_yscale * waterMod), false, true)
+                if !positionCollision(x + 16 * image_xscale, y + (-8 * image_yscale) + (-24 * image_yscale * waterMod), false, true)
                     &amp;&amp; !checkSolid(0, -24 * image_yscale * waterMod)
                     yspeed = -4 * sign(image_yscale);
                 //else, bomk
@@ -288,8 +288,8 @@ event_inherited();
 
 //debug: collision check points
 /*
-var waterMod = (inWater * 1.5) + 1;
-draw_sprite(mskPreciseDot, 0, x + 16 * image_xscale, y + -8 + (-24 * image_yscale * waterMod));
+var waterMod = (inWater * (2/3)) + 1;
+draw_sprite(mskPreciseDot, 0, x + 16 * image_xscale, y + (-8 * image_yscale) + (-24 * image_yscale * waterMod));
 draw_sprite(sprite_index, 0, x, y - (24 * image_yscale * waterMod));
 draw_sprite(mskPreciseDot, 0, x + (16 * image_xscale), y + (32 * image_yscale));
 */

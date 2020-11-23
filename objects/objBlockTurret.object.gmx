@@ -256,11 +256,10 @@ else    //if block turret exists...
                     originToBBoxTop = round(y) - bbox_top;
                     originToBBoxCenter = (bbox_left + bbox_right) / 2 - round(x);
                     var superArmDesiredX = x - originToBBoxCenter - (image_xscale == -1);
-                    var superArmDesiredY = y - originToBBoxBottom;
-                    if (image_yscale == -1)
-                    {
-                        superArmDesiredY = y + originToBBoxTop + 6;
-                    }
+                    if (image_yscale == 1)
+                        var superArmDesiredY = y - originToBBoxBottom;
+                    else
+                        var superArmDesiredY = y + originToBBoxTop - 1;
                 }
                 event_perform_object(objBlockTurret, ev_other, ev_user0);
                 x = superArmDesiredX - (xoff * other.image_xscale);
