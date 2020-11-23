@@ -4330,6 +4330,7 @@
         <sprite>sprites\sprFlameSweeperSmall</sprite>
         <sprite>sprites\sprFlameSweeperLarge</sprite>
         <sprite>sprites\sprSiphonTopaz</sprite>
+        <sprite>sprites\mskSiphonTopazCharged</sprite>
         <sprite>sprites\sprSiphonTopazPickupS</sprite>
         <sprite>sprites\sprSiphonTopazPickupM</sprite>
         <sprite>sprites\sprTyphoonFunnel</sprite>

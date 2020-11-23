@@ -186,6 +186,7 @@ if animTimer == -1   //increase in power after first bounce
 {
     contactDamage = 4;
     animTimer = 0;
+    mask_index = mskSiphonTopazCharged;
 }
 
 if global.damage &gt; 0    //recover health
