@@ -104,8 +104,10 @@ if (!global.frozen)
     deflectSoundTimer++;
     
     //expand outwards
-    expandDown = min(expandDown + 8, 300);
-    expandUp = min(expandUp + 8, 300);
+    if disperse &lt; expandDown
+        expandDown = min(expandDown + 8, 300);
+    if disperse &lt; expandUp
+        expandUp = min(expandUp + 8, 300);
     image_yscale = (expandUp + expandDown) / sprite_get_height(sprite_index);
     
     //power up if we make contact with water
