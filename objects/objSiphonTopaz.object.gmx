@@ -32,7 +32,7 @@ bulletLimitCost = 1;
 contactDamage = 2;
 
 pierces = 2;    //hits repeatedly
-attackDelay = 8;
+attackDelay = 20;
 
 yspeed = -5;
 grav = 0.25;
@@ -114,7 +114,7 @@ if (!global.frozen)
 //fire when shot
 if (global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
 {
-    with (fireWeapon(19, 0, objSiphonTopaz, 2, 3, 2, 1))
+    with (fireWeapon(19, 0, objSiphonTopaz, 2, 2, 2, 1))
     {
         xspeed = image_xscale;
         yspeed = -5 * image_yscale;
@@ -155,7 +155,7 @@ if (global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
 weaponSetup("SIPHON TOPAZ", 
     make_color_rgb(132, 112, 34), 
     make_color_rgb(232, 185, 82), 
-    sprWeaponIconsSiphonTopaz, 4);
+    sprWeaponIconsSiphonTopaz, 3);
 </string>
           </argument>
         </arguments>
@@ -202,8 +202,9 @@ if global.damage &gt; 0    //recover health
     }
     if instance_exists(parent)  //drain weapon energy for each hit
     {
-        global.ammo[playerID, global.weaponID[? objSiphonTopaz]] 
-            -= 1 / (global.energySaver + 1);
+        var wid = global.weaponID[? objSiphonTopaz]
+        global.ammo[playerID, wid] 
+            = max(global.ammo[playerID, wid] - (1 / (global.energySaver + 1)), 0);
     }
 }
 </string>
