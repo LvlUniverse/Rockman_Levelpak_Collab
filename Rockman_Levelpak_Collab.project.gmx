@@ -3373,6 +3373,8 @@
           <sprite>sprites\sprMechaDragonTeleport</sprite>
           <sprite>sprites\sprMechaDragon</sprite>
           <sprite>sprites\sprMechaDragonFire</sprite>
+          <sprite>sprites\sprMechaDragonHurt</sprite>
+          <sprite>sprites\sprMechaDragonFireHurt</sprite>
           <sprite>sprites\sprMechaDragonFireBall</sprite>
         </sprites>
         <sprites name="Boobeam ">
@@ -3388,6 +3390,7 @@
           <sprite>sprites\sprGutsDozer</sprite>
           <sprite>sprites\mskGutsDozer</sprite>
           <sprite>sprites\sprGutsDozerHand</sprite>
+          <sprite>sprites\sprGutsDozerHurt</sprite>
         </sprites>
       </sprites>
       <sprites name="MM3">
@@ -3460,6 +3463,7 @@
         </sprites>
         <sprites name="MetallDaddy">
           <sprite>sprites\sprMetallDaddy</sprite>
+          <sprite>sprites\sprMetallDaddyHurt</sprite>
           <sprite>sprites\mskMetallDaddy</sprite>
           <sprite>sprites\sprMetallDaddyJump</sprite>
         </sprites>
