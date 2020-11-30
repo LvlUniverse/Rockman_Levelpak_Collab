@@ -306,7 +306,7 @@ if (mode == 0)
                 playSFX(sfxExplosion2);
                 with prtEntity
                 {
-                    if canHit &amp;&amp; object_index != objMegaman
+                    if canHit &amp;&amp; !dead &amp;&amp; object_index != objMegaman
                     {
                         healthpoints = 0;
                         event_user(EV_DEATH);
