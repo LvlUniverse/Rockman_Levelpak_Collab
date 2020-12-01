@@ -177,8 +177,8 @@ if (global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
             <kind>1</kind>
             <string>///weapon setup
 weaponSetup("FLAME SWEEPER", 
-    make_color_rgb(0, 88, 248), 
-    make_color_rgb(164, 228, 252), 
+    make_color_rgb(0, 184, 0), 
+    make_color_rgb(220, 248, 120), 
     sprWeaponIconsFlameMixer, 4);
 </string>
           </argument>
