@@ -4264,6 +4264,8 @@
         <sprite>sprites\sprEquipCoin</sprite>
         <sprite>sprites\sprEquipCoin10</sprite>
         <sprite>sprites\sprEquipCoin100</sprite>
+        <sprite>sprites\sprEquipmentSortPrompt</sprite>
+        <sprite>sprites\sprEquipmentSortMenu</sprite>
         <sprite>sprites\sprEquipmentIcons</sprite>
       </sprites>
     </sprites>

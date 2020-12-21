@@ -49,7 +49,7 @@ equipmentActive = allocateArray(array_length_1d(equipmentCosts), false);
 
 //the order the equipment is in in the menu. equipment you haven't bought won't appear
 //needs to be a global variable later
-equipmentOwned = makeArray(0, 1, 2, 4, 5, 6, 7, 1, 1, 1, 1, 2, 2, 1, 1, 4, 3, 1, 1, 1);
+equipmentOwned = makeArray(3, 1, 2, 4, 5, 6, 7, 1, 1, 1, 1, 2, 2, 1, 1, 4, 3, 1, 1, 1);
 ownedCount = array_length_1d(equipmentOwned);
 shownAtOnce = min(9, ownedCount);
 
@@ -126,7 +126,6 @@ if surface_exists(badgeListSurface)
           <argument>
             <kind>1</kind>
             <string>///transitions &amp; option switching
-animTimer++;
 
 switch (phase)  //copied from pause menu
 {
@@ -167,33 +166,40 @@ switch (phase)  //copied from pause menu
             option = !option;   //0 becomes 1, &gt;=1 becomes 0
         }
         
-        //scrolling in the list of badges
+        //scroll &amp; quickscroll
         var doScroll = false;
         if option != 0 &amp;&amp; yDir != 0
         {   //quickscrolling
             if (extremeSpeedTimer-- &lt;= 0)
             {
-                if extremeSpeedTimer mod 3 = 0
+                if extremeSpeedTimer mod 2 = 0
                     doScroll = true;
             }
             else if (quickScrollTimer-- == 25) || (quickScrollTimer == 0)
             {
                 doScroll = true;
                 if (quickScrollTimer == 0)
-                    quickScrollTimer = 8;
+                {
+                    if extremeSpeedTimer &lt; 100
+                        quickScrollTimer = 4;
+                    else
+                        quickScrollTimer = 7;
+                }
             }
         }
         else
         {
             quickScrollTimer = 25;
-            extremeSpeedTimer = 400;
+            extremeSpeedTimer = 600;
         }
+        
+        //change the selected option
         if (doScroll)
-        {   //change the selected option
+        {   
             option += yDir;
             if option &lt;= 0
-                option = ownedCount - 1;
-            if option &gt;= ownedCount
+                option = ownedCount;
+            if option &gt;= ownedCount + 1
                 option = 1;
             playSFX(sfxWeaponSwitch);
         }
@@ -257,7 +263,7 @@ if phase == 2 &amp;&amp; (global.keyJumpPressed[0] || global.keyPausePressed[0])
     }
     else    //all options past that are acessories to toggle enabled
     {
-        var thisItem = equipmentOwned[option];
+        var thisItem = equipmentOwned[option - 1];
         var thisCost = equipmentCosts[thisItem];
         var cPrev = bpUsed;
         if !equipmentActive[thisItem]
@@ -329,9 +335,11 @@ if phase == 2 &amp;&amp; (global.keyJumpPressed[0] || global.keyPausePressed[0])
             <kind>1</kind>
             <string>///animations
 
+animTimer++;
+
 //smoothly scrolling badge list
-if (option != 0) &amp;&amp; (option &lt; ownedCount)
-    scrollOffset = clamp((option) - floor(shownAtOnce * 0.5), 1, ownedCount - shownAtOnce);
+if (option != 0) &amp;&amp; (option &lt;= ownedCount)
+    scrollOffset = clamp((option) - ceil(shownAtOnce * 0.5), 0, ownedCount - shownAtOnce);
 if (abs(scrollOffset - offsetTimer) &lt; 0.05 || offsetTimer &lt; 0)
     offsetTimer = scrollOffset;
 offsetTimer += (scrollOffset - offsetTimer) / 8;
@@ -457,12 +465,12 @@ else
     draw_set_alpha(1);
 }
 var yOff = -round((offsetTimer mod 1) * 18);
-for (i = max(1, floor(offsetTimer)); i &lt;= min(ceil(offsetTimer) + shownAtOnce + -1, ownedCount - 1); i++)
+for (i = max(0, floor(offsetTimer)); i &lt;= min(ceil(offsetTimer) + shownAtOnce + -1, ownedCount - 1); i++)
 {
     draw_sprite(sprEquipmentIcons, equipmentOwned[i], 0, yOff);
     
     //non-selected options are darkened
-    if (i != option)
+    if (i != option - 1)
         draw_set_color(global.nesPalette[0]);
     
     draw_text(18, yOff, equipmentNames[equipmentOwned[i]]);
@@ -476,6 +484,9 @@ for (i = max(1, floor(offsetTimer)); i &lt;= min(ceil(offsetTimer) + shownAtOnce
 //draw surface to game
 surface_reset_target();
 draw_surface(badgeListSurface, badgesListX, badgesListY);
+
+//list header
+draw_text(128, 5, "EQUIPMENT");
 
 //--------------------------------------------
 
@@ -523,7 +534,9 @@ for (var c = 0; c &lt; coinsTotal; c++)
     }
 }
 
-
+//sort prompt
+if animTimer mod (32 * 2) &lt;= 32
+    draw_sprite(sprEquipmentSortPrompt, 0, 88, 5);
 
 </string>
           </argument>
