@@ -31,7 +31,10 @@ visible = false;
 phase = 0;
 
 option = 1;
+
 sortOption = 0; //todo: sort menu w/ shoulder button
+sortOptionMemory = 0;
+sortMode = false;
 
 scrollOffset = 1;
 offsetTimer = -1;
@@ -74,8 +77,8 @@ bpTallyX = 24;
 bpTallyY = 56;
 showModeX = 24;
 showModeY = 8;
-sortMenuX = 0;  //not implemented yet
-sortMenuY = 0;
+sortMenuX = 88;  //not implemented yet
+sortMenuY = 5;
 
 badgeListSurface = surface_create(badgesListW, badgesListH);
 </string>
@@ -156,52 +159,82 @@ switch (phase)  //copied from pause menu
             break;
         }
         
+        //open or close sort menu
+        if global.keyWeaponSwitchLeftPressed[0]
+        {
+            if sortMode = false
+                playSFX(sfxPause);
+            else
+                sortOption = sortOptionMemory;
+            sortMode = !sortMode;
+        }
+        
         var xDir = (global.keyRightPressed[0] - global.keyLeftPressed[0]);
         var yDir = (global.keyDown[0] - global.keyUp[0]);
         
-        //horizontal is between exit confirmation and list of badges
-        if (xDir != 0)
-        {
-            playSFX(sfxWeaponSwitch);
-            option = !option;   //0 becomes 1, &gt;=1 becomes 0
-        }
-        
-        //scroll &amp; quickscroll
-        var doScroll = false;
-        if option != 0 &amp;&amp; yDir != 0
-        {   //quickscrolling
-            if (extremeSpeedTimer-- &lt;= 0)
+        if !sortMode
+        {   //out of sort menu
+            //horizontal is between exit confirmation and list of badges
+            if (xDir != 0)
             {
-                if extremeSpeedTimer mod 2 = 0
-                    doScroll = true;
+                playSFX(sfxWeaponSwitch);
+                option = !option;   //0 becomes 1, &gt;=1 becomes 0
             }
-            else if (quickScrollTimer-- == 25) || (quickScrollTimer == 0)
-            {
-                doScroll = true;
-                if (quickScrollTimer == 0)
+            
+            //scroll &amp; quickscroll
+            var doScroll = false;
+            if option != 0 &amp;&amp; yDir != 0
+            {   //quickscrolling
+                if extremeSpeedTimer-- &lt;= 0
                 {
-                    if extremeSpeedTimer &lt; 100
-                        quickScrollTimer = 4;
-                    else
-                        quickScrollTimer = 7;
+                    if extremeSpeedTimer mod 2 = 0
+                        doScroll = true;
+                }
+                else if (quickScrollTimer-- == 25) || (quickScrollTimer == 0)
+                {
+                    doScroll = true;
+                    if (quickScrollTimer == 0)
+                    {
+                        if extremeSpeedTimer &lt; 100
+                            quickScrollTimer = 4;
+                        else
+                            quickScrollTimer = 7;
+                    }
                 }
             }
+            else
+            {
+                quickScrollTimer = 25;
+                extremeSpeedTimer = 600;
+            }
+            
+            //change the selected option
+            if (doScroll)
+            {   
+                option += yDir;
+                if option &lt;= 0
+                    option = ownedCount;
+                if option &gt;= ownedCount + 1
+                    option = 1;
+                playSFX(sfxWeaponSwitch);
+            }
         }
-        else
+        else    //i.e. if sortMode
         {
-            quickScrollTimer = 25;
-            extremeSpeedTimer = 600;
-        }
-        
-        //change the selected option
-        if (doScroll)
-        {   
-            option += yDir;
-            if option &lt;= 0
-                option = ownedCount;
-            if option &gt;= ownedCount + 1
-                option = 1;
-            playSFX(sfxWeaponSwitch);
+            //change sort option
+            if quickScrollTimer = 0 &amp;&amp; yDir != 0
+            {
+                sortOption += yDir;
+                quickScrollTimer = 1;
+                playSFX(sfxWeaponSwitch);
+                
+                if sortOption &lt; 0
+                    sortOption = 4;
+                if sortOption &gt; 4
+                    sortOption = 0;
+            }
+            else if yDir == 0
+                quickScrollTimer = 0;
         }
         break;
     
@@ -534,9 +567,12 @@ for (var c = 0; c &lt; coinsTotal; c++)
     }
 }
 
-//sort prompt
-if animTimer mod (32 * 2) &lt;= 32
-    draw_sprite(sprEquipmentSortPrompt, 0, 88, 5);
+
+//sort menu
+if animTimer mod (32 * 2) &lt;= 32 || sortMode
+    draw_sprite(sprEquipmentSortPrompt, 0, sortMenuX, sortMenuY);
+if sortMode
+    draw_sprite(sprEquipmentSortMenu, sortOption, sortMenuX, sortMenuY + 8);
 
 </string>
           </argument>
