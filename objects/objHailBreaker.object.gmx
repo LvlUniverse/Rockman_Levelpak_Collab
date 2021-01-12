@@ -126,6 +126,14 @@ if !global.frozen
                 particleTimer = floor(p * (p + cust));   //i don't care much how this gets evaluated, just that it's unique
             }
         }
+        
+        // also heal Chill Blocks
+        // I had to put this here because really dumb shit was happening when I tried to put it all into Chill Blocks ok
+        with(objChillManBlock) if(!dead)
+        {
+            healthpoints = min(3,healthpoints+1);
+            if(breakTimer &gt; -1) breakTimer = -1;
+        }
     }
     
     //cold white flash

@@ -132,6 +132,7 @@ if (!global.frozen &amp;&amp; !dead)
         event_user(EV_HURT);
     }
     */
+    
     if (breakTimer == -1)
     {
         if (true) // else
@@ -163,7 +164,6 @@ if (!global.frozen &amp;&amp; !dead)
                                 event_user(EV_DEATH);
                             }
                             */
-                            break;
                         }
                     }
                 }
@@ -182,10 +182,9 @@ if (!global.frozen &amp;&amp; !dead)
             dead = true;
         }
     }
-    if (healthpoints &gt; 1)
-        image_index = 0;
-    else
-        image_index = 1;
+    if(healthpoints &gt; 2) image_index = 2;
+    else if(healthpoints &lt;= 1) image_index = 1;
+    else image_index = 0;
 }
 else if (dead)
     image_index = 0;
@@ -214,6 +213,7 @@ else if (dead)
             <string>event_inherited();
 breakTimer = -1;
 image_index = 0;
+healCooldown = 0;
 </string>
           </argument>
         </arguments>
@@ -290,12 +290,14 @@ if (healthpoints - global.damage &lt;= 0)
           <argument>
             <kind>1</kind>
             <string>/// Crack and break
-if (healthpoints == 1) // Get a crack
+if (healthpoints &gt;= 1) // Get a crack
 {
-    image_index = 1;
+    if(healthpoints &gt; 2) image_index = 2;
+    else if(healthpoints &lt;= 1) image_index = 1;
+    else image_index = 0;
     playSFX(sfxChillCrack);
 }
-else if (healthpoints &lt; 1) // Break
+else
 {
     drawItem = false;
     playSFX(sfxChillBreak);
