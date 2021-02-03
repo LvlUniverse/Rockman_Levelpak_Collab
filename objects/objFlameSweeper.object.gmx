@@ -28,7 +28,7 @@
             <string>event_inherited();
 
 bulletLimitCost = 1;
-contactDamage = -2;
+canDamage = false;
 
 despawnRange = 24;
 
@@ -63,10 +63,15 @@ moveAngle = 0;
 if (!global.frozen &amp;&amp; !dead)
 {
     //move
-    if (canDamage)
+    xspeed = cos(degtorad(moveAngle)) * 4;
+    yspeed = -sin(degtorad(moveAngle)) * 4;
+    
+    //die if it hits a deflect block
+    var p = instance_place(x, y, objDestroyableBlock)
+    if p != noone &amp;&amp; p.weakness != global.weaponID[? objFlameSweeper]
     {
-        xspeed = cos(degtorad(moveAngle)) * 4;
-        yspeed = -sin(degtorad(moveAngle)) * 4;
+        event_user(EV_REFLECTED);
+        exit;
     }
     
     //it comes back when press of buton
@@ -185,30 +190,6 @@ weaponSetup("FLAME SWEEPER",
         </arguments>
       </action>
     </event>
-    <event eventtype="7" enumb="18">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>///never does any damage
-global.damage = 0;
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
     <event eventtype="7" enumb="17">
       <action>
         <libid>1</libid>
@@ -227,12 +208,9 @@ global.damage = 0;
           <argument>
             <kind>1</kind>
             <string>///dies when deflected
-if(guardCancel == 4)
-{
-    playSFX(sfxReflect);
-    instance_create(x, y, objExplosion);
-    instance_destroy();
-}
+playSFX(sfxReflect);
+instance_create(x, y, objExplosion);
+instance_destroy();
 </string>
           </argument>
         </arguments>
