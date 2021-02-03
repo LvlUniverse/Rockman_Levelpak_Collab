@@ -31,6 +31,8 @@ bulletLimitCost = 1;
 
 contactDamage = 2;
 
+despawnRange = -1;
+
 blockCollision = 1;
 grav = 0.25;
 
@@ -126,6 +128,22 @@ if entityCanStep()
         if image_index &gt;= 4 //reatart from 0 if we were just in the air
             image_index = 0;
         image_index = (image_index + (1/10)) mod 4;
+    }
+    
+    //doesn't despawn off the top
+    if sign(grav) &gt; 0
+    {
+        if bbox_top &lt; view_yview &amp;&amp; !(bbox_left &gt; view_xview + view_wview || bbox_right &lt; view_xview)
+            despawnRange = -1;
+        else
+            despawnRange = 4;
+    }
+    else    //i.e. if sign(grav) &lt;= 0
+    {
+        if bbox_bottom &gt; view_yview + view_hview &amp;&amp; !(bbox_left &gt; view_xview + view_wview || bbox_right &lt; view_xview)
+            despawnRange = -1;
+        else
+            despawnRange = 4;
     }
 }
 </string>

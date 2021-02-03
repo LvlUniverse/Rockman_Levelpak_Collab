@@ -34,7 +34,7 @@ contactDamage = -2;
 penetrate = 3;
 pierces = 2;
 
-despawnRange = 80;
+despawnRange = -1;
 
 particleTimer = undefined;
 
@@ -112,6 +112,16 @@ if entityCanStep()
             lifeTimer = 360;
     }
     mask_index = mskDischargeDash1;
+    
+    //despawn if completely off screen edges
+    if xstart + dist + -80  &gt; view_xview + view_wview
+        &amp;&amp; xstart + -dist + 80 &lt; view_xview
+        &amp;&amp; ystart + dist + -80 &gt; view_yview + view_hview
+        &amp;&amp; ystart + -dist + 80 &lt; view_yview
+    {
+        instance_destroy();
+        exit;
+    }
 }
 </string>
           </argument>

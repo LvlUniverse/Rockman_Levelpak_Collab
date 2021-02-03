@@ -31,6 +31,8 @@ bulletLimitCost = 1;
 
 contactDamage = 2;
 
+despawnRange = -1;
+
 pierces = 2;    //hits repeatedly
 attackDelay = 20;
 

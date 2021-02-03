@@ -40,6 +40,8 @@ contactDamage = 0;
 hailBreakerLock = undefined;
 timer = -5;
 
+despawnRange = -1;
+
 opacity = 0;
 </string>
           </argument>
