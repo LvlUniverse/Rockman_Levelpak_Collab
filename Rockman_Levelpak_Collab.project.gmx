@@ -4324,6 +4324,7 @@
           <sprite>sprites\sprWeaponIconsItem4</sprite>
           <sprite>sprites\sprWeaponIconsTeleportPhaser</sprite>
         </sprites>
+        <sprite>sprites\spr4MICrit</sprite>
         <sprite>sprites\sprNekoClaw</sprite>
         <sprite>sprites\sprNekoClawChain</sprite>
         <sprite>sprites\sprDischargeDashOrbital</sprite>
