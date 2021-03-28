@@ -4239,6 +4239,8 @@
         <sprite>sprites\sprPauseMenuWeaponDisabled</sprite>
         <sprite>sprites\sprArrow</sprite>
         <sprite>sprites\sprShopCursor</sprite>
+        <sprite>sprites\sprPauseMenuNew</sprite>
+        <sprite>sprites\sprWeaponSort</sprite>
       </sprites>
       <sprites name="Options">
         <sprite>sprites\sprOptionsMenuBG</sprite>
