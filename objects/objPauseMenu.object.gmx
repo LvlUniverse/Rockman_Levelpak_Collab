@@ -30,35 +30,10 @@ visible = 0;
 
 phase = 0; // 0: increasing the black rectangle's alpha
 
-option = 10;
-oldOption = 0;
-//weaponOffset = 0;
-//offsetTimer = -1;
+option = 10 + min(global.weapon[0], 10);
+oldOption = option;
 
 // get currently visible weapons
-/*
-weaponVisibleN = 0;
-for (var i = 0; i &lt;= global.totalWeapons; i++)
-{
-    if (global.weaponLocked[global.weaponHotbar[i]] &lt; 2)
-    {
-        weaponVisible[weaponVisibleN++] = i;
-    }
-}
-visibleWeapons = min(10, weaponVisibleN); // up to 10 visible
-
-for (var i = 0; i &lt; weaponVisibleN; i++)
-{
-    if (global.weapon[0] == global.weaponHotbar[weaponVisible[i]])
-    {
-        option = i;
-        oldOption = i;
-    }
-}
-woption = i;
-
-visibleWeapons = 10;
-*/
 
 oldWeapon = global.weapon[0];
 resetWeapon = false; // Should we, after exiting the menu, reset our weapon to the weapon that was used before the pause menu was opened?
@@ -174,7 +149,7 @@ switch (phase)
     case 2:
         event_user(0); // Moving the selection
         
-        //when fire is pressed...
+        //when slide is pressed...
         if (global.keySlidePressed[playerID])
             //and the option is a valid help option...
             &amp;&amp; (option &gt;= 10)
@@ -189,12 +164,22 @@ switch (phase)
             exit;
         }
         
+        //if b is pressed, leave weapon menu without switching weapons
+        if global.keyShootPressed[playerID]
+        {
+            option = oldOption;
+            global.weapon[playerID] = oldOption - 10;
+            global.nextRoom = -1;
+            phase = 3;
+            exit;
+        }
+        
         // Select the weapon/tank
         if (global.keyJumpPressed[playerID] || global.keyPausePressed[playerID])
         {
-            if (option &lt;= weaponVisibleN)
+            if (option &gt;= 10)
             {
-                if (instance_exists(objMegaman.vehicle) &amp;&amp; option != 0)
+                if (instance_exists(objMegaman.vehicle) &amp;&amp; option != 10)
                 {
                     if (!objMegaman.vehicle.weaponsAllowed)
                     {
@@ -203,17 +188,23 @@ switch (phase)
                     }
                 }
                 
+                if global.weaponLocked[global.weaponHotbar[option - 10]]
+                {
+                    playSFX(sfxError);
+                    exit;
+                }
+                
                 global.nextRoom = -1;
                 phase = 3;
                 
-                global.weapon[playerID] = global.weaponHotbar[weaponVisible[option]];
+                global.weapon[playerID] = global.weaponHotbar[option - 10];
                 playSFX(sfxMenuSelect);
             }
             else if (option == 0) // E-Tank
             {
                 if (global.eTanks &amp;&amp; global.playerHealth[playerID] &lt; 28)
                 {
-                    option = 99; // Nothing selected
+                    option = -1; // Nothing selected
                     phase = 5;
                     wtank = 0;
                     mtank = 0;
@@ -229,11 +220,10 @@ switch (phase)
             else if (option == 1) // W-Tank
             {
                 // Check if weapon energy actually needs filling
-                var proceed;
-                proceed = false;
-                for (i = 0; i &lt; weaponVisibleN; i += 1)
+                var proceed = false;
+                for (i = 0; i &lt; 10; i += 1)
                 {
-                    if (ceil(global.ammo[playerID, global.weaponHotbar[weaponVisible[i]]]) &lt; 28)
+                    if (ceil(global.ammo[playerID, global.weaponHotbar[i]]) &lt; 28)
                     {
                         proceed = true;
                     }
@@ -241,11 +231,11 @@ switch (phase)
                 
                 if (global.wTanks &amp;&amp; proceed)
                 {
-                    option = 0; // Go back to weapon column
+                    option = oldOption; //Jump to weapon list
+                    //note: doesn't use tank immediately!
                     phase = 6;
                     mtank = 0;
                     wtank = 1;
-                    global.wTanks -= 1;
                     playSFX(sfxMenuSelect);
                 }
                 else
@@ -258,9 +248,9 @@ switch (phase)
                 if (global.mTanks &gt; 0) // Check if health or weapon energy actually needs filling
                 {
                     var proceed = false;
-                    for (i = 0; i &lt; weaponVisibleN; i += 1)
+                    for (i = 0; i &lt; 10; i += 1)
                     {
-                        if (ceil(global.ammo[playerID, global.weaponHotbar[weaponVisible[i]]]) &lt; 28)
+                        if (ceil(global.ammo[playerID, global.weaponHotbar[i]]) &lt; 28)
                         {
                             proceed = true;
                         }
@@ -273,7 +263,7 @@ switch (phase)
                     
                     if (proceed) // If proceed is still false after the past calculations, it seems there is nothing to fill
                     {
-                        option = 99; // Nothing selected
+                        option = -1; // Nothing selected
                         phase = 5;
                         mtank = 1;
                         wtank = 0;
@@ -411,10 +401,10 @@ switch (phase)
             // Fill selected weapon w/ W Tank
             if (wtank)
             {
-                if (global.ammo[playerID, global.weaponHotbar[weaponVisible[option]]] &lt; 28)
+                if (global.ammo[playerID, global.weaponHotbar[option - 10]] &lt; 28)
                 {
-                    global.ammo[playerID, global.weaponHotbar[weaponVisible[option]]] = min(28,
-                        global.ammo[playerID, global.weaponHotbar[weaponVisible[option]]] + 1);
+                    global.ammo[playerID, global.weaponHotbar[option - 10]] = min(28,
+                        global.ammo[playerID, global.weaponHotbar[option - 10]] + 1);
                     proceed = true;
                 }
             }
@@ -422,12 +412,12 @@ switch (phase)
             // Fill all weapons - M-Tank only
             if (mtank)
             {
-                for (i = 1; i &lt; weaponVisibleN; i += 1)
+                for (i = 1; i &lt; array_length_1d(global.weaponHotbar); i++;)
                 {
-                    if (global.ammo[playerID, global.weaponHotbar[weaponVisible[i]]] &lt; 28)
+                    if (global.ammo[playerID, global.weaponHotbar[i]] &lt; 28)
                     {
-                        global.ammo[playerID, global.weaponHotbar[weaponVisible[i]]] = min(28,
-                            global.ammo[playerID, global.weaponHotbar[weaponVisible[i]]] + 1);
+                        global.ammo[playerID, global.weaponHotbar[i]] = min(28,
+                            global.ammo[playerID, global.weaponHotbar[i]] + 1);
                         proceed = true;
                     }
                 }
@@ -454,6 +444,13 @@ switch (phase)
                         playerPalette();
                     }
                 }
+                else
+                {
+                    if global.wTanks &gt; 0
+                        phase = 6;
+                    else
+                        option = 1;
+                }
                 
                 audio_stop_sound(sfxEnergyRestore);
             }
@@ -465,15 +462,22 @@ switch (phase)
     case 6:
         event_user(0); // Moving the selection
         
-        if (option &gt; 0 &amp;&amp; option &lt; weaponVisibleN)
+        //quit from selection if player presses shoot
+        if global.keyShootPressed[playerID]
+        {
+            option = 1;
+            phase = 2;
+        }
+        else if (option &gt;= 10)
         {
             if (global.keyJumpPressed[playerID] || global.keyPausePressed[playerID])
             {
-                if (global.ammo[playerID, global.weaponHotbar[weaponVisible[option]]] &lt; 28)
+                if (global.ammo[playerID, global.weaponHotbar[option - 10]] &lt; 28)
                 {
                     phase = 5;
                     eTankTimer = 0;
                     loopSFX(sfxEnergyRestore);
+                    global.wTanks -= 1;
                 }
                 else
                 {
@@ -531,6 +535,14 @@ for(var p = 0; p &lt; array_height_2d(buttonPos); p++)
     //non-options aren't options
     if buttonPos[p, 0] == undefined
         continue;
+    
+    //if picking weapon for w-tank, don't allow selection of non-weapons
+    if phase == 6 &amp;&amp; p &lt; 10
+        continue;
+    
+    //don't allow selecting weapons that are locked
+    if p &gt;= 10 &amp;&amp; global.weaponLocked[global.weaponHotbar[p - 10]] &gt;= 1
+        continue;
 
     //draw a plane cutting away all options that aren't in the direction of movement
     if ((buttonPos[p, dir] - cursorPos[dir]) * varDir[dir])
@@ -540,12 +552,12 @@ for(var p = 0; p &lt; array_height_2d(buttonPos); p++)
     to the right than the current one, but very far away vertically,
     that may get selected if you push the edges of the menu
     */
-        - abs(cursorPos[!dir] - buttonPos[p, !dir]) / 1.4 &gt; 0
+        - abs(cursorPos[!dir] - buttonPos[p, !dir]) * 2 &gt; 0
     {
         //buttons get points. more points = bad
         closePoints = abs(cursorPos[dir] - buttonPos[p, dir]);
         //the perpindicular direction is accounted for, but deprioritized
-        closePoints += abs(cursorPos[!dir] - buttonPos[p, !dir]) * 7;
+        closePoints += abs(cursorPos[!dir] - buttonPos[p, !dir]) * 3;
         
         //if current button is closer than previous record-setter, replace it
         if (closePoints &lt; nearestClosePoints)
@@ -610,7 +622,7 @@ if (yDir != 0)
     }
 }
 
-if (xDir != 0 &amp;&amp; phase != 6)    //same as above
+if (xDir != 0)    //same as above
 {
     dir = 0;
     event_user(5);
@@ -623,6 +635,7 @@ if (xDir != 0 &amp;&amp; phase != 6)    //same as above
 }
 
 ////TODO: this should only work while in rearrange mode
+////also, TODO rearrange mode
 // L + R resets weapon order
 
 // it only checks for one pressed because if it checked both you'd have to press both
@@ -654,11 +667,10 @@ if ((global.keyWeaponSwitchLeft[playerID] &amp;&amp; global.keyWeaponSwitchRight
 }
 
 // Set weapon
-global.weapon[playerID] = 0;
 if (option &gt;= 10)
-{
     global.weapon[playerID] = global.weaponHotbar[option - 10];
-}
+else
+    global.weapon[playerID] = oldOption - 10;
 
 with (objMegaman)
 {
@@ -770,9 +782,9 @@ if (phase != 0)
             draw_text(xff + 18, yff - 8, wname);
             draw_set_color(c_white);
         }
-        else // draw the disabled stuff
+        else if global.weaponLocked[w] == true // draw the disabled stuff
         {
-            draw_sprite_ext(sprPauseMenuWeaponDisabled, 0, 18, yOff, 1, 1, 0, c_white, 1);
+            draw_sprite_ext(sprPauseMenuWeaponDisabled, 0, xff + 18, yff - 8, 1, 1, 0, c_white, 1);
         }
     }
     
