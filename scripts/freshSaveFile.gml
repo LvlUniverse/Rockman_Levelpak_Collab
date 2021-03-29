@@ -35,6 +35,6 @@ global.gameTimer = 0;
 
 for (var j = 0; j <= global.totalWeapons; j++)
 {
-    global.weaponLocked[j] = false;
+    global.weaponLocked[j] = (j >= 12) * 2;
     global.weaponHotbar[j] = j;
 }

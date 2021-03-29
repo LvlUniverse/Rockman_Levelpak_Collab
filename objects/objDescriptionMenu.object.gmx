@@ -122,14 +122,20 @@ switch (phase)  //copied from pause menu
         //what to do when scrolling
         if (doScroll)
         {
-            option += xDir;
-            playSFX(sfxWeaponSwitch);
+            //scroll until a non-hidden weapon is encountered (locked weps are fine)
+            var ifi = true;
+            while (ifi || global.weaponLocked[global.weaponHotbar[option]] == 2)
+            {
+                ifi = false;
+                option += xDir;
+                //wrapping
+                if option &lt; 0
+                    option += 12;
+                if (option &gt; 11)
+                    option -= 12;
+            }
             
-            //wrapping
-            if option &lt; 0
-                option += 11;
-            if (option &gt; 10)
-                option -= 11;
+            playSFX(sfxWeaponSwitch);
                 
             //moving around in here moves around in pause menu, too!
             link.option = option + 10;
@@ -197,7 +203,7 @@ draw_sprite(sprite_index, 0, drawXPosition, drawYPosition);
 draw_set_halign(fa_left);
 draw_set_valign(fa_top);
 
-draw_text(x, y, string(option))//debug: draw option
+//draw_text(x, y, string(option))//debug: draw option
 
 var drawTitle = "error";
 var drawDesc = "nothing";

@@ -30,19 +30,14 @@ visible = 0;
 
 phase = 0; // 0: increasing the black rectangle's alpha
 
-option = 10 + min(global.weapon[0], 10);
-oldOption = option;
-
-// get currently visible weapons
-
 oldWeapon = global.weapon[0];
-resetWeapon = false; // Should we, after exiting the menu, reset our weapon to the weapon that was used before the pause menu was opened?
+option = 10 + min(indexOf(global.weaponHotbar, oldWeapon), 11);
+oldOption = option;
 
 wtank = 0;
 mtank = 0;
 
 confirm = false;
-hotBarArrangeMode = false;
 
 playerID = 0;
 costumeID = 0;
@@ -79,13 +74,27 @@ buttonPos[8, 0] = undefined;
 buttonPos[9, 0] = undefined;
 
 //weapons at (38, 91), spaced 93x, 18y
-for(var p = 0; p &lt;= 10; p++)
+for(var p = 0; p &lt;= 11; p++)
 {
     buttonPos[p + 10, 0] = 38 + 28 + (floor(p / 6) * 92);
     buttonPos[p + 10, 1] = 99 + ((p mod 6) * 18);
 }
 
-arrowTimer = 20;
+rHeldWeapon = undefined;
+rCursorAnim = 0;
+rAnimTime = 0;
+rearrangeCursorX = 0;
+rearrangeCursorY = 0;
+for(var q = 0; q &lt;= 11; q++)
+{
+    print(global.weaponHotbar[q]);
+    if global.weaponHotbar[q] == 0
+        wepBarFills[q] = global.playerHealth[playerID];
+    else if !global.weaponLocked[global.weaponHotbar[q]]
+        wepBarFills[q] = global.ammo[playerID, global.weaponHotbar[q]];
+    else
+        wepBarFills[q] = 0;
+}
 </string>
           </argument>
         </arguments>
@@ -159,6 +168,7 @@ switch (phase)
                 global.weapon[playerID] = oldOption - 10;
                 global.nextRoom = -1;
                 phase = 3;
+                playSFX(sfxSkullAmulet);
                 exit;
             }
         }
@@ -178,15 +188,6 @@ switch (phase)
                 showhealth = 1;
                 with (other)
                 {
-                    if (resetWeapon)
-                    {
-                        global.weapon[playerID] = oldWeapon;
-                        with (objMegaman)
-                        {
-                            playerPalette();
-                        }
-                    }
-                    
                     if (global.weapon[playerID] != oldWeapon)
                     {
                         with (prtPlayerProjectile)
@@ -280,6 +281,10 @@ switch (phase)
             }
         }
         
+        for(var q = 0; q &lt;= 11; q++)
+        {
+            wepBarFills[q] = global.ammo[playerID, global.weaponHotbar[q]];
+        }
         break;
     
     // W-Tank weapon selection
@@ -309,6 +314,69 @@ switch (phase)
                 }
             }
         }
+        
+        break;
+    
+    case 7: //Rearrange weapons
+        event_user(0);  //allow selection of weapons
+        
+        //if b is pressed, return weapons to their original places
+        if global.keyShootPressed[playerID]
+        {
+            global.weaponHotbar = preRearrange;
+            phase = 2;
+            playSFX(sfxSkullAmulet);
+            exit;
+        }
+        
+        //selection
+        if (global.keyJumpPressed[playerID] || global.keyPausePressed[playerID])
+            &amp;&amp; rAnimTime &lt;= 0
+        {
+            if option == 6
+            {   //option 6: done rearranging!
+                playSFX(sfxMenuSelect);
+                phase = 2;
+                preRearrange = undefined;
+            }
+            else if option &gt;= 10
+            {   //swap weapons
+                if rHeldWeapon == undefined
+                {   //pick up weapon
+                    rHeldWeapon = option - 10;
+                    rCursorAnim = -1;
+                    rAnimTime = 10;
+                }
+                else
+                {   //exchange option with held weapon
+                    var k = global.weaponHotbar[rHeldWeapon];
+                    global.weaponHotbar[rHeldWeapon] = global.weaponHotbar[option - 10];
+                    global.weaponHotbar[option - 10] = k;
+                    
+                    if !(global.weaponLocked[global.weaponHotbar[option - 10]] == 2
+                        || option - 10 == rHeldWeapon)
+                    {   //swap anim
+                        rCursorAnim = 2;
+                        rAnimTime = 10;
+                        playSFX(sfxClamp);
+                    }
+                    else
+                    {   //put down anim (weps are still swapped internally)
+                        rCursorAnim = 1;
+                        rAnimTime = 10;
+                        rHeldWeapon = undefined;
+                        playSFX(sfxClamp);
+                    }
+                }
+            }
+            else
+            {
+                playSFX(sfxError);  //safeguard: other options do nothing
+            }
+        }
+        
+        //test anim
+        rAnimTime--;
         
         break;
 }
@@ -346,7 +414,7 @@ if (instance_exists(objMegaman))
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Move cursor
+            <string>///find nearest button
 
 //takes buttonPos, varDir, dir, cursorPos, option. outputs to option
 
@@ -363,12 +431,16 @@ for(var p = 0; p &lt; array_height_2d(buttonPos); p++)
     if buttonPos[p, 0] == undefined
         continue;
     
-    //if picking weapon for w-tank, don't allow selection of non-weapons
-    if phase == 6 &amp;&amp; p &lt; 10
+    //don't allow selection of non-weapons while in certain modes
+    //(picking weapon for w-tank and weapon rearranging mode)
+    if phase &gt;= 6 &amp;&amp; ((p &lt; 10) 
+        &amp;&amp; !(phase == 7 &amp;&amp; rHeldWeapon == undefined &amp;&amp; p == 6))
         continue;
     
     //don't allow selecting weapons that are locked
-    if p &gt;= 10 &amp;&amp; global.weaponLocked[global.weaponHotbar[p - 10]] &gt;= 1
+    //(unless in rearrange mode)
+    if phase != 7 
+        &amp;&amp; p &gt;= 10 &amp;&amp; global.weaponLocked[global.weaponHotbar[p - 10]] &gt;= 1
         continue;
 
     //draw a plane cutting away all options that aren't in the direction of movement
@@ -470,7 +542,7 @@ else
         case 1://w-tank
             // Check if weapon energy actually needs filling
             var proceed = false;
-            for (i = 0; i &lt; 10; i += 1)
+            for (i = 0; i &lt; 11; i += 1)
             {
                 if (ceil(global.ammo[playerID, global.weaponHotbar[i]]) &lt; 28)
                 {
@@ -497,18 +569,18 @@ else
             if (global.mTanks &gt; 0)
             {
                 var proceed = false;
-                for (i = 0; i &lt; 10; i += 1)
-                {
-                    if (ceil(global.ammo[playerID, global.weaponHotbar[i]]) &lt; 28)
-                    {
-                        proceed = true;
-                        break;
-                    }
-                }
-                
                 if (ceil(global.playerHealth[playerID]) &lt; 28)
-                {
                     proceed = true;
+                else
+                {
+                    for (i = 0; i &lt; 11; i += 1)
+                    {
+                        if (ceil(global.ammo[playerID, global.weaponHotbar[i]]) &lt; 28)
+                        {
+                            proceed = true;
+                            break;
+                        }
+                    }
                 }
                 
                 if (proceed) // If proceed is still false after the past calculations, it seems there is nothing to fill
@@ -556,7 +628,9 @@ else
             break;
         
         case 6: //rearrange weapons
-            //todo
+            playSFX(sfxMenuSelect);
+            phase = 7;
+            preRearrange = global.weaponHotbar;
             break;
         
         case 7: //info
@@ -568,6 +642,7 @@ else
             }
             playSFX(sfxElementGrab);
         }
+            break;
     }
 }
 </string>
@@ -661,16 +736,21 @@ if ((global.keyWeaponSwitchLeft[playerID] &amp;&amp; global.keyWeaponSwitchRight
 }
 */
 
-// Set weapon
-if (option &gt;= 10 &amp;&amp; option != -1)
-    global.weapon[playerID] = global.weaponHotbar[option - 10];
-else
-    global.weapon[playerID] = oldOption - 10;
+//handle player's pallete changing to match weapon
+if  rHeldWeapon == undefined
+{
+    if (option &gt;= 10) &amp;&amp; (global.weaponLocked[option - 10] != 2)
+        global.weapon[playerID] = global.weaponHotbar[option - 10];
+    else
+        global.weapon[playerID] = oldOption - 10;
+}
+else    //i.e. if rHeldWeapon != undefined
+{
+    global.weapon[playerID] = global.weaponHotbar[rHeldWeapon];
+}
 
 with (objMegaman)
-{
     playerPalette();
-}
 </string>
           </argument>
         </arguments>
@@ -729,57 +809,67 @@ if (phase != 0)
     
     //weapons
     var xff, yff, w, ammo, wname, cl;
-    for(var p = 10; p &lt;= 20; p++)
+    for(var p = 10; p &lt;= 21; p++)
     {
         xff = x + buttonPos[p, 0] + -28;
         yff = y + buttonPos[p, 1];
         w = global.weaponHotbar[p - 10];
         cl = (option == p);
+        ammo = wepBarFills[p - 10];
         
-        //icon
-        if cl
-        {
-            draw_sprite_ext(global.weaponIcon[w], 0, xff, yff - 8, 1, 1, 0, col[!cl, 2], 1);
-            draw_sprite_ext(global.weaponIcon[w], 1, xff, yff - 8, 1, 1, 0, col[0, cl], 1);
-            draw_sprite_ext(global.weaponIcon[w], 2, xff, yff - 8, 1, 1, 0, col[1, cl], 1);
-            draw_sprite_ext(global.weaponIcon[w], 3, xff, yff - 8, 1, 1, 0, col[1, 2], cl);
-        }
-        else
-            draw_sprite_ext(global.weaponIcon[w], 0, xff, yff - 8, 1, 1, 0, c_white, 1);
-        
-        if (!global.weaponLocked[w])
-        {
-            // Drawing ammo bars
-            ammo = ceil(global.playerHealth[playerID] * (p == 10) + global.ammo[playerID, w] * (p != 10));
-            
-            draw_sprite_ext(sprPauseMenuBarPrimary, ammo, xff + 18, yff, 1, 1, 0, col[0, cl * (1 + (p == 10))], 1);
-            draw_sprite_ext(sprPauseMenuBarSecondary, ammo, xff + 18, yff, 1, 1, 0, col[1, cl * (1 + (p == 10))], 1);
-            
-            // Draw infinite energy mark over relevant bars
-            if (global.infiniteEnergy[w])
+        if global.weaponLocked[w] != 2 &amp;&amp; rHeldWeapon != p - 10
+        {   //filled weapon slot
+            //icon
+            if cl
             {
-                draw_sprite_ext(sprInfinityMark, 0, xff + 18 + 28, yff, 1, 1, 0, c_white, 1);
-                draw_sprite_ext(sprInfinityMark, 1, xff + 18 + 28, yff, 1, 1, 0, col[0, cl], 1);
-                draw_sprite_ext(sprInfinityMark, 2, xff + 18 + 28, yff, 1, 1, 0, col[1, cl], 1);
+                draw_sprite_ext(global.weaponIcon[w], 0, xff, yff - 8, 1, 1, 0, col[!cl, 2], 1);
+                draw_sprite_ext(global.weaponIcon[w], 1, xff, yff - 8, 1, 1, 0, col[0, cl], 1);
+                draw_sprite_ext(global.weaponIcon[w], 2, xff, yff - 8, 1, 1, 0, col[1, cl], 1);
+                draw_sprite_ext(global.weaponIcon[w], 3, xff, yff - 8, 1, 1, 0, col[1, 2], cl);
             }
+            else
+                draw_sprite_ext(global.weaponIcon[w], 0, xff, yff - 8, 1, 1, 0, c_white, 1);
             
-            // Name
-            draw_set_color(col[!cl, (cl * 2) - (cl * !(hotBarArrangeMode mod 8 &lt; 4))]);
-            
-            wname = global.weaponName[w];
-            if string_length(wname) &gt; 8
+            if global.weaponLocked[w] == 0
             {
-                dot = string_pos(" ", wname);
-                if (dot)
-                    wname = string_insert(".", string_delete(wname, 2, dot - 1), 2);
+                //name
+                draw_set_color(col[!cl, cl * 2]);
+                
+                wname = global.weaponName[w];
+                if string_length(wname) &gt; 8
+                {
+                    dot = string_pos(" ", wname);
+                    if (dot)
+                        wname = string_insert(".", string_delete(wname, 2, dot - 1), 2);
+                }
+                
+                draw_text(xff + 18, yff - 8, wname);
+                draw_set_color(c_white);
+                
+                //ammo bar
+                draw_sprite_ext(sprPauseMenuBarPrimary, ammo, xff + 18, yff, 1, 1, 0, col[0, cl * (1 + (p == 10))], 1);
+                draw_sprite_ext(sprPauseMenuBarSecondary, ammo, xff + 18, yff, 1, 1, 0, col[1, cl * (1 + (p == 10))], 1);
+                
+                // Draw infinite energy mark over relevant bars
+                if (global.infiniteEnergy[w])
+                {
+                    draw_sprite_ext(sprInfinityMark, 0, xff + 18 + 28, yff, 1, 1, 0, c_white, 1);
+                    draw_sprite_ext(sprInfinityMark, 1, xff + 18 + 28, yff, 1, 1, 0, col[0, cl], 1);
+                    draw_sprite_ext(sprInfinityMark, 2, xff + 18 + 28, yff, 1, 1, 0, col[1, cl], 1);
+                }
             }
-            
-            draw_text(xff + 18, yff - 8, wname);
-            draw_set_color(c_white);
+            else    //i.e. if global.weaponLocked[w] == 1
+            {   //locked icon
+                draw_sprite_ext(sprPauseMenuWeaponDisabled, 0, xff + 18, yff - 8, 1, 1, 0, c_white, 1);
+            }
         }
-        else if global.weaponLocked[w] == true // draw the disabled stuff
-        {
-            draw_sprite_ext(sprPauseMenuWeaponDisabled, 0, xff + 18, yff - 8, 1, 1, 0, c_white, 1);
+        else if phase == 7
+        {   //empty weapon slot
+            //"icon"
+            draw_sprite_ext(sprWeaponIconsBlank, 0, xff, yff - 8, 1, 1, 0, col[cl, 0], 1);
+            //grey energy bar
+            draw_sprite_ext(sprPauseMenuBarPrimary, ammo, xff + 18, yff, 1, 1, 0, col[0, 0], 1);
+            draw_sprite_ext(sprPauseMenuBarSecondary, ammo, xff + 18, yff, 1, 1, 0, col[1, 0], 1);
         }
     }
     
