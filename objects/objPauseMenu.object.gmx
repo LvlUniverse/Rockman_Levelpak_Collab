@@ -41,8 +41,7 @@ resetWeapon = false; // Should we, after exiting the menu, reset our weapon to t
 wtank = 0;
 mtank = 0;
 
-retryConfirm = 0;
-exitConfirm = 0;
+confirm = false;
 hotBarArrangeMode = false;
 
 playerID = 0;
@@ -57,23 +56,23 @@ with (objMegaman)
 // set these here. makes everyone's lives easier.
 
 etankPositionX = 57;   buttonPos[0, 0] = etankPositionX; 
-etankPositionY = 51;    buttonPos[0, 1] = etankPositionY; 
+etankPositionY = 51;    buttonPos[0, 1] = etankPositionY - 100; 
 wtankPositionX = 85;   buttonPos[1, 0] = wtankPositionX;
-wtankPositionY = 51;    buttonPos[1, 1] = wtankPositionY;
+wtankPositionY = 51;    buttonPos[1, 1] = wtankPositionY - 100;
 mtankPositionX = 30;   buttonPos[2, 0] = mtankPositionX;
-mtankPositionY = 51;    buttonPos[2, 1] = mtankPositionY;  
+mtankPositionY = 51;    buttonPos[2, 1] = mtankPositionY - 100;  
 
 optionsPositionX = 136; buttonPos[3, 0] = optionsPositionX + 11;
-optionsPositionY = 208; buttonPos[3, 1] = optionsPositionY + 8;
+optionsPositionY = 208; buttonPos[3, 1] = optionsPositionY + 100;
 checkPositionX = 158;   buttonPos[4, 0] = checkPositionX + 23;
-checkPositionY = 208;   buttonPos[4, 1] = checkPositionY + 8;
+checkPositionY = 208;   buttonPos[4, 1] = checkPositionY + 100;
 exitPositionX = 204;    buttonPos[5, 0] = exitPositionX + 18;
-exitPositionY = 208;    buttonPos[5, 1] = exitPositionY + 8;
+exitPositionY = 208;    buttonPos[5, 1] = exitPositionY + 100;
 
-infoPositionX = 18;    buttonPos[6, 0] = infoPositionX + 34;
-infoPositionY = 205;    buttonPos[6, 1] = infoPositionY + 8;
-rearrangePositionX = 88;    buttonPos[7, 0] = rearrangePositionX + 11;
-rearrangePositionY = 205;    buttonPos[7, 1] = rearrangePositionY + 8;
+rearrangePositionX = 18;    buttonPos[6, 0] = rearrangePositionX + 34;
+rearrangePositionY = 205;    buttonPos[6, 1] = rearrangePositionY + 100;
+infoPositionX = 88;    buttonPos[7, 0] = infoPositionX + 11;
+infoPositionY = 205;    buttonPos[7, 1] = infoPositionY + 100;
 
 //these buttons aren't anything. but, they could be!
 buttonPos[8, 0] = undefined;
@@ -149,199 +148,24 @@ switch (phase)
     case 2:
         event_user(0); // Moving the selection
         
-        //when slide is pressed...
-        if (global.keySlidePressed[playerID])
-            //and the option is a valid help option...
-            &amp;&amp; (option &gt;= 10)
-        {
-            //open help menu
-            with(instance_create(x, y, objDescriptionMenu))
-            {
-                option = other.option - 10;
-                link = other;
-            }
-            playSFX(sfxElementGrab);
-            exit;
-        }
-        
-        //if b is pressed, leave weapon menu without switching weapons
+        //if b is pressed...
         if global.keyShootPressed[playerID]
         {
-            option = oldOption;
-            global.weapon[playerID] = oldOption - 10;
-            global.nextRoom = -1;
-            phase = 3;
-            exit;
+            if(confirm) //cancel confirm if confirming
+                confirm = false;
+            else
+            {   //elsewise, leave weapon menu without switching weapons
+                option = oldOption;
+                global.weapon[playerID] = oldOption - 10;
+                global.nextRoom = -1;
+                phase = 3;
+                exit;
+            }
         }
         
         // Select the weapon/tank
         if (global.keyJumpPressed[playerID] || global.keyPausePressed[playerID])
-        {
-            if (option &gt;= 10)
-            {
-                if (instance_exists(objMegaman.vehicle) &amp;&amp; option != 10)
-                {
-                    if (!objMegaman.vehicle.weaponsAllowed)
-                    {
-                        playSFX(sfxError);
-                        exit;
-                    }
-                }
-                
-                if global.weaponLocked[global.weaponHotbar[option - 10]]
-                {
-                    playSFX(sfxError);
-                    exit;
-                }
-                
-                global.nextRoom = -1;
-                phase = 3;
-                
-                global.weapon[playerID] = global.weaponHotbar[option - 10];
-                playSFX(sfxMenuSelect);
-            }
-            else if (option == 0) // E-Tank
-            {
-                if (global.eTanks &amp;&amp; global.playerHealth[playerID] &lt; 28)
-                {
-                    option = -1; // Nothing selected
-                    phase = 5;
-                    wtank = 0;
-                    mtank = 0;
-                    global.eTanks -= 1;
-                    eTankTimer = 0;
-                    loopSFX(sfxEnergyRestore);
-                }
-                else
-                {
-                    playSFX(sfxError);
-                }
-            }
-            else if (option == 1) // W-Tank
-            {
-                // Check if weapon energy actually needs filling
-                var proceed = false;
-                for (i = 0; i &lt; 10; i += 1)
-                {
-                    if (ceil(global.ammo[playerID, global.weaponHotbar[i]]) &lt; 28)
-                    {
-                        proceed = true;
-                    }
-                }
-                
-                if (global.wTanks &amp;&amp; proceed)
-                {
-                    option = oldOption; //Jump to weapon list
-                    //note: doesn't use tank immediately!
-                    phase = 6;
-                    mtank = 0;
-                    wtank = 1;
-                    playSFX(sfxMenuSelect);
-                }
-                else
-                {
-                    playSFX(sfxError);
-                }
-            }
-            else if (option == 2) // M-Tank
-            {
-                if (global.mTanks &gt; 0) // Check if health or weapon energy actually needs filling
-                {
-                    var proceed = false;
-                    for (i = 0; i &lt; 10; i += 1)
-                    {
-                        if (ceil(global.ammo[playerID, global.weaponHotbar[i]]) &lt; 28)
-                        {
-                            proceed = true;
-                        }
-                    }
-                    
-                    if (ceil(global.playerHealth[playerID]) &lt; 28)
-                    {
-                        proceed = true;
-                    }
-                    
-                    if (proceed) // If proceed is still false after the past calculations, it seems there is nothing to fill
-                    {
-                        option = -1; // Nothing selected
-                        phase = 5;
-                        mtank = 1;
-                        wtank = 0;
-                        global.mTanks -= 1;
-                        eTankTimer = 0;
-                        loopSFX(sfxEnergyRestore);
-                    }
-                    else
-                    {
-                        playSFX(sfxError);
-                    }
-                }
-                else
-                {
-                    playSFX(sfxError);
-                }
-            }
-            else if (option == 3) // Options
-            {
-                instance_create(x, y, objOptionsMenu);
-                playSFX(sfxMenuSelect);
-                exit;
-            }
-            else if (option == 4) // Retry
-            {
-                if (!retryConfirm)
-                {
-                    retryConfirm = true;
-                    playSFX(sfxMenuSelect);
-                    exit;
-                }
-            }
-            else if (option == 5) // Exit
-            {
-                if (!exitConfirm)
-                {
-                    exitConfirm = true;
-                    playSFX(sfxMenuSelect);
-                    exit;
-                }
-            }
-        }
-        
-        // Confirming exit
-        if (exitConfirm &amp;&amp; !global.nextRoom)
-        {
-            if (option == 5)
-            {
-                if (global.keyJumpPressed[playerID]
-                    || global.keyPausePressed[playerID])
-                {
-                    returnFromLevel();
-                    playSFX(sfxMenuSelect);
-                }
-            }
-            else
-            {
-                exitConfirm = false;
-            }
-        }
-        
-        // Confirming retry
-        if (retryConfirm &amp;&amp; !global.nextRoom)
-        {
-            if (option == 4)
-            {
-                if (global.keyJumpPressed[playerID]
-                    || global.keyPausePressed[playerID])
-                {
-                    global.nextRoom = room;
-                    playSFX(sfxMenuSelect);
-                }
-            }
-            else
-            {
-                retryConfirm = false;
-            }
-        }
+            event_user(1);
         
         break;
     
@@ -526,6 +350,9 @@ if (instance_exists(objMegaman))
 
 //takes buttonPos, varDir, dir, cursorPos, option. outputs to option
 
+//moving away from an option deconfirms it
+confirm = false;
+
 nearestOption = -1;
 var closePoints;
 var nearestClosePoints = 999999;
@@ -552,7 +379,7 @@ for(var p = 0; p &lt; array_height_2d(buttonPos); p++)
     to the right than the current one, but very far away vertically,
     that may get selected if you push the edges of the menu
     */
-        - abs(cursorPos[!dir] - buttonPos[p, !dir]) * 2 &gt; 0
+        - abs(cursorPos[!dir] - buttonPos[p, !dir]) &gt; 0
     {
         //buttons get points. more points = bad
         closePoints = abs(cursorPos[dir] - buttonPos[p, dir]);
@@ -579,6 +406,175 @@ if !(nearestOption == -1 || nearestOption == option)
         </arguments>
       </action>
     </event>
+    <event eventtype="7" enumb="11">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///general using an option
+
+if (option &gt;= 10)
+{   //select weapon
+    if (instance_exists(objMegaman.vehicle) &amp;&amp; option != 10)
+    {
+        if (!objMegaman.vehicle.weaponsAllowed)
+        {
+            playSFX(sfxError);
+            exit;
+        }
+    }
+    
+    if global.weaponLocked[global.weaponHotbar[option - 10]]
+    {
+        playSFX(sfxError);
+        exit;
+    }
+    
+    global.nextRoom = -1;
+    phase = 3;
+    
+    global.weapon[playerID] = global.weaponHotbar[option - 10];
+    playSFX(sfxMenuSelect);
+}
+else
+{
+    switch(option)
+    {
+        case 0: //e-tank
+            if (global.eTanks &amp;&amp; global.playerHealth[playerID] &lt; 28)
+            {
+                option = -1; // Nothing selected
+                phase = 5;
+                wtank = 0;
+                mtank = 0;
+                global.eTanks -= 1;
+                eTankTimer = 0;
+                loopSFX(sfxEnergyRestore);
+            }
+            else
+                playSFX(sfxError);
+            break;
+        
+        case 1://w-tank
+            // Check if weapon energy actually needs filling
+            var proceed = false;
+            for (i = 0; i &lt; 10; i += 1)
+            {
+                if (ceil(global.ammo[playerID, global.weaponHotbar[i]]) &lt; 28)
+                {
+                    proceed = true;
+                    break;
+                }
+            }
+            
+            if (global.wTanks &amp;&amp; proceed)
+            {
+                option = oldOption; //Jump to weapon list
+                //note: doesn't use tank immediately!
+                phase = 6;
+                mtank = 0;
+                wtank = 1;
+                playSFX(sfxMenuSelect);
+            }
+            else
+                playSFX(sfxError);
+            break;
+        
+        case 2: //m-tank
+            // Check if health or weapon energy actually needs filling
+            if (global.mTanks &gt; 0)
+            {
+                var proceed = false;
+                for (i = 0; i &lt; 10; i += 1)
+                {
+                    if (ceil(global.ammo[playerID, global.weaponHotbar[i]]) &lt; 28)
+                    {
+                        proceed = true;
+                        break;
+                    }
+                }
+                
+                if (ceil(global.playerHealth[playerID]) &lt; 28)
+                {
+                    proceed = true;
+                }
+                
+                if (proceed) // If proceed is still false after the past calculations, it seems there is nothing to fill
+                {
+                    option = -1; // Nothing selected
+                    phase = 5;
+                    mtank = 1;
+                    wtank = 0;
+                    global.mTanks -= 1;
+                    eTankTimer = 0;
+                    loopSFX(sfxEnergyRestore);
+                }
+                else
+                    playSFX(sfxError);
+            }
+            else
+                playSFX(sfxError);
+            break;
+        
+        case 3: //options
+            instance_create(x, y, objOptionsMenu);
+            playSFX(sfxMenuSelect);
+            break;
+        
+        case 4: //retry
+        case 5: //exit
+            if (!confirm)
+            {
+                confirm = true;
+                playSFX(sfxMenuSelect);
+                exit;
+            }
+            else if !global.nextRoom
+            {
+                if (global.keyJumpPressed[playerID]
+                    || global.keyPausePressed[playerID])
+                {
+                    if option == 4
+                        global.nextRoom = room;
+                    else
+                        returnFromLevel();
+                    playSFX(sfxMenuSelect);
+                }
+            }
+            break;
+        
+        case 6: //rearrange weapons
+            //todo
+            break;
+        
+        case 7: //info
+        {
+            with(instance_create(x, y, objDescriptionMenu))
+            {
+                link = other;
+                option = other.oldOption - 10;
+            }
+            playSFX(sfxElementGrab);
+        }
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="7" enumb="10">
       <action>
         <libid>1</libid>
@@ -597,10 +593,7 @@ if !(nearestOption == -1 || nearestOption == option)
           <argument>
             <kind>1</kind>
             <string>///moving between options
-hotBarArrangeMode = (global.keyShoot[playerID]) * (hotBarArrangeMode + 1);
-
 var xDir = (global.keyRightPressed[playerID] - global.keyLeftPressed[playerID]);
-
 var yDir = (global.keyDownPressed[playerID] - global.keyUpPressed[playerID]);
 
 cursorPos[0] = buttonPos[option, 0];
@@ -617,7 +610,7 @@ if (yDir != 0)
     //if scrolled off the menu, try again from the other side
     if nearestOption = -1
     {
-        cursorPos[1] -= view_hview * yDir;
+        cursorPos[1] -= view_hview * yDir * 3;
         event_user(5);
     }
 }
@@ -629,13 +622,14 @@ if (xDir != 0)    //same as above
     
     if nearestOption = -1
     {
-        cursorPos[0] -= view_wview * xDir;
+        cursorPos[0] -= view_wview * xDir * 3;
         event_user(5);
     }
 }
 
 ////TODO: this should only work while in rearrange mode
 ////also, TODO rearrange mode
+/*
 // L + R resets weapon order
 
 // it only checks for one pressed because if it checked both you'd have to press both
@@ -665,9 +659,10 @@ if ((global.keyWeaponSwitchLeft[playerID] &amp;&amp; global.keyWeaponSwitchRight
     visibleWeapons = min(10, weaponVisibleN); // up to 10 visible
     oldOption = 0;
 }
+*/
 
 // Set weapon
-if (option &gt;= 10)
+if (option &gt;= 10 &amp;&amp; option != -1)
     global.weapon[playerID] = global.weaponHotbar[option - 10];
 else
     global.weapon[playerID] = oldOption - 10;
@@ -724,10 +719,10 @@ if (phase != 0)
     draw_sprite_ext(sprGotoOptions, (option == 3), x + optionsPositionX, y + optionsPositionY, 1, 1, 0, c_white, 1);
     
     // Checkpoint
-    draw_sprite_ext(sprGotoCheckpoint, (option == 4) + retryConfirm * 2, x + checkPositionX, y + checkPositionY, 1, 1, 0, c_white, 1);
+    draw_sprite_ext(sprGotoCheckpoint, (option == 4) * (confirm + 1), x + checkPositionX, y + checkPositionY, 1, 1, 0, c_white, 1);
     
     // Exit
-    draw_sprite_ext(sprExit, (option == 5) + exitConfirm * 2, x + exitPositionX, y + exitPositionY, 1, 1, 0, c_white, 1);
+    draw_sprite_ext(sprExit, (option == 5) * (confirm + 1), x + exitPositionX, y + exitPositionY, 1, 1, 0, c_white, 1);
     
     // NOW draw itself
     draw_sprite(sprite_index, 0, x, y);
@@ -837,7 +832,7 @@ if (phase != 0)
     draw_text(x + 155, y + 33, zeroPad(0, 3));
     
     //sort &amp; info buttons
-    draw_sprite_ext(sprWeaponSort, (option == 6) + ((option == 7) * 2), x + infoPositionX, y + infoPositionY, 1, 1, 0, c_white, 1);
+    draw_sprite_ext(sprWeaponSort, (option == 6) + ((option == 7) * 2), x + rearrangePositionX, y + rearrangePositionY, 1, 1, 0, c_white, 1);
     
     // colored text overlays
     if (global.showColoredTextOverlays)

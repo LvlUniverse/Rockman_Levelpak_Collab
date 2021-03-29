@@ -125,19 +125,18 @@ switch (phase)  //copied from pause menu
             option += xDir;
             playSFX(sfxWeaponSwitch);
             
-            //correctly wrap the list of options that have descriptions
+            //wrapping
             if option &lt; 0
-                option = link.weaponVisibleN - 1;
-            if (option &gt;= link.weaponVisibleN)
-                option = 0;
+                option += 11;
+            if (option &gt; 10)
+                option -= 11;
                 
             //moving around in here moves around in pause menu, too!
-            link.option = option;
+            link.option = option + 10;
             //handle weapon colors
             with(link)
             {
-                if (option &lt; weaponVisibleN)
-                    global.weapon[playerID] = global.weaponHotbar[weaponVisible[option]];
+                global.weapon[playerID] = global.weaponHotbar[other.option];
                 with(objMegaman)
                     playerPalette();
             }
@@ -198,31 +197,23 @@ draw_sprite(sprite_index, 0, drawXPosition, drawYPosition);
 draw_set_halign(fa_left);
 draw_set_valign(fa_top);
 
-//draw_text(x, y, string(option))//debug: draw option
+draw_text(x, y, string(option))//debug: draw option
 
 var drawTitle = "error";
 var drawDesc = "nothing";
 var drawStats = "-#-#-#-";
 
-if (option &lt; link.weaponVisibleN)
-{   //if a weapon is selected, get weapon info from global weapon list
-    var wep = global.weapon[0];
-    drawTitle = global.weaponName[wep];
-    drawDesc = global.weaponDescription[wep, 0];
-    drawStats = global.weaponDescription[wep, 1];
-    
-    //draw weapon icon
-    draw_sprite_ext(global.weaponIcon[wep], 0, x + 24, y + 8, 1, 1, 0, make_color_rgb(255, 228, 164), 1);
-    draw_sprite_ext(global.weaponIcon[wep], 1, x + 24, y + 8, 1, 1, 0, global.primaryCol[0], 1);
-    draw_sprite_ext(global.weaponIcon[wep], 2, x + 24, y + 8, 1, 1, 0, global.secondaryCol[0], 1);
-    draw_sprite_ext(global.weaponIcon[wep], 3, x + 24, y + 8, 1, 1, 0, c_white, 1);
-}
-/*  accessory code has been gutted, since RLC's system is so different
-else if (option &gt; link.weaponVisibleN + 6)
-{
-    
-}
-*/
+//get weapon info from global weapon list
+var wep = global.weapon[0];
+drawTitle = global.weaponName[wep];
+drawDesc = global.weaponDescription[wep, 0];
+drawStats = global.weaponDescription[wep, 1];
+
+//draw weapon icon
+draw_sprite_ext(global.weaponIcon[wep], 0, x + 24, y + 8, 1, 1, 0, make_color_rgb(255, 228, 164), 1);
+draw_sprite_ext(global.weaponIcon[wep], 1, x + 24, y + 8, 1, 1, 0, global.primaryCol[0], 1);
+draw_sprite_ext(global.weaponIcon[wep], 2, x + 24, y + 8, 1, 1, 0, global.secondaryCol[0], 1);
+draw_sprite_ext(global.weaponIcon[wep], 3, x + 24, y + 8, 1, 1, 0, c_white, 1);
 //todo: add quick scroll, maybe add support for descriptions longer than one screen
 
 draw_text(x + 48, y + 12, drawTitle);
@@ -236,6 +227,13 @@ draw_set_halign(fa_left);
 draw_sprite_ext(sprArrow, 0, x + 27 - ceil((animTimer mod 29 + 1) / 10), y + 105, 1, 1, 0, c_white, 1);
 draw_sprite_ext(sprArrow, 0, x + 229 + ceil((animTimer mod 29 + 1) / 10), y + 105, 1, 1, 180, c_white, 1);
 
+// colored text overlays
+if (global.showColoredTextOverlays)
+{
+    draw_sprite_ext(sprDot, 0, view_xview[0] + 16, view_yview[0], view_wview[0] - 32, view_hview[0], 0,
+        make_color_rgb(global.coloredTextOverlaysRed, global.coloredTextOverlaysGreen, global.coloredTextOverlaysBlue),
+        global.coloredTextOverlaysOpacity / 255);
+}
 </string>
           </argument>
         </arguments>
