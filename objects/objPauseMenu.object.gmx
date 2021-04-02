@@ -290,9 +290,15 @@ switch (phase)
             }
         }
         
+        //direct write to fills
         for(var q = 0; q &lt;= 11; q++)
         {
-            wepBarFills[q] = global.ammo[playerID, global.weaponHotbar[q]];
+            if global.weaponHotbar[q] == 0
+                wepBarFills[q] = global.playerHealth[playerID];
+            else if !global.weaponLocked[global.weaponHotbar[q]]
+                wepBarFills[q] = global.ammo[playerID, global.weaponHotbar[q]];
+            else
+                wepBarFills[q] = 0;
         }
         break;
     
@@ -307,7 +313,7 @@ switch (phase)
             phase = 2;
         }
         else if (option &gt;= 10)
-        {
+        {   //use tank if fire is pressed
             if (global.keyJumpPressed[playerID] || global.keyPausePressed[playerID])
             {
                 if (global.ammo[playerID, global.weaponHotbar[option - 10]] &lt; 28)
@@ -362,6 +368,7 @@ switch (phase)
             &amp;&amp; rAnimTime &lt;= 0
         {
             var err = false;
+            
             if option == 6
             {   //option 6: done rearranging!
                 playSFX(sfxMenuSelect);
@@ -375,7 +382,7 @@ switch (phase)
                     err = true;
                 }
                 else if rHeldWeapon == undefined
-                {   //pick up weapon
+                {   //pick up weapon, if you're not holding one
                     if global.weaponLocked[global.weaponHotbar[option - 10]] != 2
                     {
                         rHeldWeapon = option - 10;
@@ -383,8 +390,8 @@ switch (phase)
                         rCursorY = buttonPos[option, 1] - 8;
                     }
                     else
-                    {   //trying to pick up nonweapon throws error
-                        playSFX(sfxError);
+                    {   //trying to pick up nonweapon does nothing
+                        //playSFX(sfxError);
                         err = true;
                     }
                 }
@@ -423,6 +430,10 @@ switch (phase)
                         playerPalette();
                     rCursorPriCol = global.primaryCol[playerID];
                     rCursorSecCol = global.secondaryCol[playerID];
+                    //reset colors after
+                    global.weapon[playerID] = global.weaponHotbar[option - 10];
+                    with (objMegaman)
+                        playerPalette();
                 }
                 
                 //sound when buster gives up
@@ -446,23 +457,8 @@ switch (phase)
             rCursorY += ((buttonPos[option, 1] - 16) - rCursorY) / 3;
         }
         
-        //weapon dynamic refill function
-        var we;
-        for(var q = 0; q &lt;= 11; q++)
-        {
-            if rHeldWeapon == q
-                we = 0;
-            else if global.weaponHotbar[q] == 0
-                we = global.playerHealth[playerID];
-            else if !global.weaponLocked[global.weaponHotbar[q]]
-                we = global.ammo[playerID, global.weaponHotbar[q]];
-            else
-                we = 0;
-            
-            wepBarFills[q] = decreaseMagnitude(wepBarFills[q] - we, 2) + we;
-        }
-        
-        //test anim
+        //animations
+        //most of the relevant code is in the draw event
         if rAnimTime &lt;= 0
             rCursorAnim = 0;
         else
@@ -801,34 +797,19 @@ with (objMegaman)
     playerPalette();
     
 //weapon dynamic refill
-if phase != 5
+var we;
+for(var q = 0; q &lt;= 11; q++)
 {
-    var we;
-    for(var q = 0; q &lt;= 11; q++)
-    {
-        if rHeldWeapon == q
-            we = 0;
-        else if global.weaponHotbar[q] == 0
-            we = global.playerHealth[playerID];
-        else if !global.weaponLocked[global.weaponHotbar[q]]
-            we = global.ammo[playerID, global.weaponHotbar[q]];
-        else
-            we = 0;
-        
-        wepBarFills[q] = decreaseMagnitude(wepBarFills[q] - we, 2) + we;
-    }
-}
-else    //i.e. if phase == 5 (bar fillling from tank use)
-{
-    for(var q = 0; q &lt;= 11; q++)
-    {
-        if global.weaponHotbar[q] == 0
-            wepBarFills[q] = global.playerHealth[playerID];
-        else if !global.weaponLocked[global.weaponHotbar[q]]
-            wepBarFills[q] = global.ammo[playerID, global.weaponHotbar[q]];
-        else
-            wepBarFills[q] = 0;
-    }
+    if rHeldWeapon == q
+        we = 0;
+    else if global.weaponHotbar[q] == 0
+        we = global.playerHealth[playerID];
+    else if !global.weaponLocked[global.weaponHotbar[q]]
+        we = global.ammo[playerID, global.weaponHotbar[q]];
+    else
+        we = 0;
+    
+    wepBarFills[q] = decreaseMagnitude(wepBarFills[q] - we, 0.5 + (abs(wepBarFills[q] - we) / 3)) + we;
 }
 </string>
           </argument>
@@ -1043,7 +1024,7 @@ if (phase != 0)
             
             draw_sprite_ext(sprWeaponIconsBlank, 0, asrcX, asrcY, 1, 1, 0, col[cl, 0], 1);
             
-            if rAnimTime &lt; 15
+            if rAnimTime &lt; 5
             {
                 draw_sprite_ext(ic, 0, x + rCursorX + -swapAdjX, y + rCursorY + -swapAdjY, 1, 1, 0, col[option != rAnimatingOption, 2], 1);
                 draw_sprite_ext(ic, 1, x + rCursorX + -swapAdjX, y + rCursorY + -swapAdjY, 1, 1, 0, col[0, option == rAnimatingOption], 1);
@@ -1056,7 +1037,7 @@ if (phase != 0)
             draw_sprite_ext(ic2, 2, asrcX + swapAdjX, asrcY + swapAdjY, 1, 1, 0, rCursorSecCol, 1);
             draw_sprite_ext(ic2, 3, asrcX + swapAdjX, asrcY + swapAdjY, 1, 1, 0, col[1, 2], 1);
             
-            if rAnimTime &gt;= 15
+            if rAnimTime &gt;= 5
             {
                 draw_sprite_ext(ic, 0, x + rCursorX + -swapAdjX, y + rCursorY + -swapAdjY, 1, 1, 0, col[option != rAnimatingOption, 2], 1);
                 draw_sprite_ext(ic, 1, x + rCursorX + -swapAdjX, y + rCursorY + -swapAdjY, 1, 1, 0, col[0, option == rAnimatingOption], 1);
