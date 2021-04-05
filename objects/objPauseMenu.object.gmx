@@ -48,6 +48,10 @@ with (objMegaman)
     playerPalette();
 }
 
+//scrolling to a submenu is handled entirely by the submenu itself (for now?)
+scrollX = 0;
+scrollY = 0;
+
 // set these here. makes everyone's lives easier.
 
 etankPositionX = 57;   buttonPos[0, 0] = etankPositionX; 
@@ -687,7 +691,8 @@ else
             break;
         
         case 3: //options
-            instance_create(x, y, objOptionsMenu);
+            with instance_create(x, y, objOptionsMenu)
+                link = other;
             playSFX(sfxMenuSelect);
             break;
         
@@ -834,8 +839,8 @@ for(var q = 0; q &lt;= 11; q++)
           <argument>
             <kind>1</kind>
             <string>// center in screen on nonstandard resolutions
-x = view_xview + (view_wview[0] - 256) / 2;
-y = view_yview + (view_hview[0] - 224) / 2;
+x = view_xview + ((view_wview[0] - 256) / 2) + scrollX;
+y = view_yview + ((view_hview[0] - 224) / 2) + scrollY;
 
 // Menu
 if (phase != 0)

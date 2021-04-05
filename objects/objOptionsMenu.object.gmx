@@ -25,7 +25,8 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>global.nextRoom = -1;
+            <string>if !instance_exists(objPauseMenu)
+    global.nextRoom = -1;
 visible = 0;
 
 if (!instance_number(object_index) &gt; 1)
@@ -51,6 +52,8 @@ optionOffset = 0;
 
 verticalQuickScrollTimer = 25;
 horizontalQuickScrollTimer = 25;
+
+link = noone;
 
 // Control settings
 newControls = 0;
@@ -128,11 +131,22 @@ optionText[20] = 'TELEPORT SOUND';
           <argument>
             <kind>1</kind>
             <string>/// Open and close behavior
+
 switch (phase)
 {
     // Fading out
     case 0:
-        if (objGlobalControl.fadeAlpha == 1)
+        if link != noone
+        {
+            visible = true;
+            link.scrollX += 12
+            if link.scrollX &gt;= 256
+            {
+                link.scrollX = 256;
+                phase = 2;
+            }
+        }
+        else if (objGlobalControl.fadeAlpha == 1)
         {
             global.nextRoom = 0;
             objGlobalControl.showhealth = 0;
@@ -155,7 +169,7 @@ switch (phase)
     
     // Fading out
     case 3:
-        if (room == rmOptions)
+        if (room == rmOptions || link == noone)
         {
             var ID;
             if (global.nextRoom != rmTitleScreen)
@@ -166,8 +180,14 @@ switch (phase)
         }
         else
         {
-            global.nextRoom = -1;
-            phase++;
+            global.nextRoom = 0;
+            link.scrollX -= 12;
+            if link.scrollX &lt;= 0
+            {
+                link.scrollX = 0;
+                instance_destroy();
+                exit;
+            }
         }
         break;
     
@@ -849,9 +869,16 @@ if(key != -1 &amp;&amp; !press)
             <kind>1</kind>
             <string>draw_set_color(c_white);
 
-// center display on non-standard resolutions
-drawXPosition = view_xview[0] + view_wview[0] / 2 - 128;
-drawYPosition = view_yview[0] + view_hview[0] / 2 - 112;
+if instance_exists(link)
+{
+    drawXPosition = link.x - 256;
+    drawYPosition = link.y;
+}
+else
+{   //center display on non-standard resolutions
+    drawXPosition = view_xview[0] + view_wview[0] / 2 - 128;
+    drawYPosition = view_yview[0] + view_hview[0] / 2 - 112;
+}
 
 // draw menu bg
 draw_sprite(sprite_index, 0, drawXPosition, drawYPosition);
