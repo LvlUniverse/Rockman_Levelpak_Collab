@@ -99,6 +99,8 @@ rCursorAnim = 0;
 rAnimTime = 0;
 rAnimatingOption = undefined;
 
+rResetTimer = 0;
+
 for(var q = 0; q &lt;= 11; q++)
 {
     if global.weaponHotbar[q] == 0
@@ -347,24 +349,26 @@ switch (phase)
             exit;
         }
         
-        // L + R resets weapon order
-        
-        // it only checks for one pressed because if it checked both you'd have to press both
-        // buttons on the same frame, but if you could just hold the two buttons you would get
-        // a very loud screeching noise every time you reset + it'd be easier to accidentally
-        // sort
-        if ((global.keyWeaponSwitchLeft[playerID] &amp;&amp; global.keyWeaponSwitchRightPressed[playerID])
-            || (global.keyWeaponSwitchLeftPressed[playerID] &amp;&amp; global.keyWeaponSwitchRight[playerID]))
-            &amp;&amp; rHeldWeapon == undefined
+        //hold L and R together for 1 second to reset weapon order to default
+        if global.keyWeaponSwitchLeft[playerID] &amp;&amp; global.keyWeaponSwitchRight[playerID]
         {
-            for (var i = 0; i &lt;= global.totalWeapons; i++)
-            {
-                if global.weaponHotbar[i] != i
-                {
+            if rResetTimer == 0
+                playSFX(sfxHoldPrompt);
+            if rResetTimer != -1    //stop advancing if you're still holding after a reset
+                rResetTimer += 1/60;
+            if rResetTimer &gt;= 1
+            { //reset
+                playSFX(sfxMenuSelect);
+                for (var i = 0; i &lt;= global.totalWeapons; i++)
                     global.weaponHotbar[i] = i;
-                    playSFX(sfxMenuSelect);
-                }
+                rResetTimer = -1;
             }
+        }
+        else
+        {
+            if rResetTimer &gt; 0
+                stopSFX(sfxHoldPrompt);
+            rResetTimer = 0;
         }
         
         //selection

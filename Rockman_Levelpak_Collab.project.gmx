@@ -1995,6 +1995,7 @@
       <sound>sound\sfxPause</sound>
       <sound>sound\sfxTextBox</sound>
       <sound>sound\sfxDebugMenu</sound>
+      <sound>sound\sfxHoldPrompt</sound>
     </sounds>
     <sounds name="Misc">
       <sound>sound\sfxDoor</sound>
