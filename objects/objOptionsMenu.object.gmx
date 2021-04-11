@@ -25,16 +25,16 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if !instance_exists(objPauseMenu)
-    global.nextRoom = -1;
-visible = 0;
+            <string>visible = false;
 
 if (!instance_number(object_index) &gt; 1)
 {
     instance_destroy();
-    visible = 0;
     exit;
 }
+
+if !instance_exists(objPauseMenu)
+    global.nextRoom = -1;
 
 cursorImgIndex = 0;
 cursorImgSpd = 0.2;
@@ -42,7 +42,7 @@ cursorImgSpd = 0.2;
 arrowBlinkTimer = 20;
 showArrow = true;
 
-phase = 0;
+phase = instance_exists(objPauseMenu) * 5;
 option = 0;
 selected = 0;
 buffer = 0;
@@ -136,17 +136,7 @@ switch (phase)
 {
     // Fading out
     case 0:
-        if link != noone
-        {
-            visible = true;
-            link.scrollX += 12
-            if link.scrollX &gt;= 256
-            {
-                link.scrollX = 256;
-                phase = 2;
-            }
-        }
-        else if (objGlobalControl.fadeAlpha == 1)
+        if (objGlobalControl.fadeAlpha == 1)
         {
             global.nextRoom = 0;
             objGlobalControl.showhealth = 0;
@@ -169,26 +159,12 @@ switch (phase)
     
     // Fading out
     case 3:
-        if (room == rmOptions || link == noone)
+        var ID;
+        if (global.nextRoom != rmTitleScreen)
         {
-            var ID;
-            if (global.nextRoom != rmTitleScreen)
-            {
-                saveLoadOptions(true);
-            }
-            global.nextRoom = rmTitleScreen;
+            saveLoadOptions(true);
         }
-        else
-        {
-            global.nextRoom = 0;
-            link.scrollX -= 12;
-            if link.scrollX &lt;= 0
-            {
-                link.scrollX = 0;
-                instance_destroy();
-                exit;
-            }
-        }
+        global.nextRoom = rmTitleScreen;
         break;
     
     // End fading out
@@ -202,6 +178,27 @@ switch (phase)
         {
             global.frozen = true;
             instance_destroy();
+        }
+        break;
+    
+    case 5: //pan in
+        visible = true;
+        link.scrollX += 12
+        if link.scrollX &gt;= 256
+        {
+            link.scrollX = 256;
+            phase = 2;
+        }
+        break;
+    
+    case 6: //pan out
+        global.nextRoom = 0;
+        link.scrollX -= 12;
+        if link.scrollX &lt;= 0
+        {
+            link.scrollX = 0;
+            instance_destroy();
+            exit;
         }
         break;
 }
@@ -235,6 +232,18 @@ if (instance_exists(objColoredTextOverlaysMenu))
 if (phase == 2 &amp;&amp; !selected)
 {
     // var maxplayers = min(4+gamepad_get_device_count(),4);
+    
+    // exit with b button
+    if global.keyShootPressed[0]
+    {
+        selected = true;
+        if link == noone
+            phase++;
+        else
+            phase = 6;
+        playSFX(sfxMenuSelect);
+        exit;
+    }
     
     // left / right controlled selections
     dir = (global.keyRightPressed[0] || (global.keyRight[0] &amp;&amp; horizontalQuickScrollTimer &lt;= 0)) - (global.keyLeftPressed[0] || (global.keyLeft[0] &amp;&amp; horizontalQuickScrollTimer &lt;= 0));
@@ -454,7 +463,10 @@ if (phase == 2 &amp;&amp; !selected)
             // exit
             case 0:
                 selected = true;
-                phase++;
+                if link == noone
+                    phase++;
+                else
+                    phase = 6;
                 playSFX(sfxMenuSelect);
                 break;
             
