@@ -4238,11 +4238,16 @@
         <sprite>sprites\sprGotoCheckpoint</sprite>
         <sprite>sprites\sprExit</sprite>
         <sprite>sprites\sprPauseMenuWeaponDisabled</sprite>
-        <sprite>sprites\sprArrow</sprite>
-        <sprite>sprites\sprShopCursor</sprite>
-        <sprite>sprites\sprPauseMenuNew</sprite>
         <sprite>sprites\sprWeaponSort</sprite>
         <sprite>sprites\sprWeaponIconsBlank</sprite>
+        <sprite>sprites\sprArrow</sprite>
+        <sprite>sprites\sprMapMenuHeader</sprite>
+        <sprite>sprites\sprMapLamps</sprite>
+        <sprite>sprites\sprMapMenuThumbFrame</sprite>
+        <sprites name="Map Thumbnails">
+          <sprite>sprites\sprMapThumbBack</sprite>
+          <sprite>sprites\sprMapThumbTest</sprite>
+        </sprites>
       </sprites>
       <sprites name="Options">
         <sprite>sprites\sprOptionsMenuBG</sprite>
@@ -4262,6 +4267,7 @@
         <sprite>sprites\sprStageSelectArrow</sprite>
         <sprite>sprites\sprStageSelectCursor</sprite>
         <sprite>sprites\sprMM8BossIntroBorder</sprite>
+        <sprite>sprites\sprShopCursor</sprite>
       </sprites>
       <sprites name="Equipment">
         <sprite>sprites\sprEquipMenuBG</sprite>
@@ -5009,6 +5015,7 @@
         <script>scripts\testSuiteBossDoors.gml</script>
       </scripts>
       <script>scripts\scrNoEffect.gml</script>
+      <script>scripts\mapInfoFetch.gml</script>
       <script>scripts\scrInUni_ParallaxAddLayer.gml</script>
       <script>scripts\eventExecute.gml</script>
       <script>scripts\combineObjects.gml</script>
@@ -6594,6 +6601,7 @@
         <object>objects\objPauseMenu</object>
         <object>objects\objOptionsMenu</object>
         <object>objects\objDescriptionMenu</object>
+        <object>objects\objMapMenu</object>
         <object>objects\objEquipmentMenu</object>
         <object>objects\objColoredTextOverlaysMenu</object>
         <object>objects\objNewFile</object>
@@ -6639,8 +6647,7 @@
           <object>objects\objBlockTurret</object>
           <object>objects\objTeleportPhaser</object>
           <object>objects\objItem4</object>
-          <object>objects\objFlameSweeperKE</object>
-          <object>objects\objNekoClawKE</object>
+          <object>objects\objSkeletuppinPakkajoe</object>
           <objects name="Misc.">
             <object>objects\objDischargeDashDash</object>
             <object>objects\objDischargeDashMomentum</object>
@@ -6657,24 +6664,10 @@
             <object>objects\objItem4Shot</object>
           </objects>
         </objects>
+        <object>objects\objFlameSweeperKE</object>
+        <object>objects\objNekoClawKE</object>
         <object>objects\objRushCoil</object>
         <object>objects\objRushJet</object>
-        <objects name="MaGMML3">
-          <object>objects\objSparkChaser</object>
-          <object>objects\objLaserTrident</object>
-          <object>objects\objWaterShield</object>
-          <object>objects\objTornadoBlow</object>
-          <object>objects\objThunderBeam</object>
-          <object>objects\objMagneticShockwave</object>
-          <object>objects\objIceWall</object>
-          <object>objects\objBreakDash</object>
-          <object>objects\objRushCycle</object>
-          <object>objects\objMagnetBeam</object>
-          <objects name="Misc.">
-            <object>objects\objBubblePopEffect</object>
-            <object>objects\objTornadoEffect</object>
-          </objects>
-        </objects>
         <objects name="MaGMML1">
           <object>objects\objMetalBlade</object>
           <object>objects\objGeminiLaser</object>
@@ -6702,6 +6695,22 @@
           <objects name="Misc.">
             <object>objects\objGrabBusterPickup</object>
             <object>objects\objSlashEffect</object>
+          </objects>
+        </objects>
+        <objects name="MaGMML3">
+          <object>objects\objSparkChaser</object>
+          <object>objects\objLaserTrident</object>
+          <object>objects\objWaterShield</object>
+          <object>objects\objTornadoBlow</object>
+          <object>objects\objThunderBeam</object>
+          <object>objects\objMagneticShockwave</object>
+          <object>objects\objIceWall</object>
+          <object>objects\objBreakDash</object>
+          <object>objects\objRushCycle</object>
+          <object>objects\objMagnetBeam</object>
+          <objects name="Misc.">
+            <object>objects\objBubblePopEffect</object>
+            <object>objects\objTornadoEffect</object>
           </objects>
         </objects>
         <objects name="MaG24HMML">
@@ -6735,7 +6744,6 @@
           <object>objects\objPlantBarrier</object>
           <object>objects\objBrickWeapon</object>
           <object>objects\objIceSlasher</object>
-          <object>objects\objSkeletuppinPakkajoe</object>
           <objects name="Misc.">
             <object>objects\objBrickWeaponDebris</object>
           </objects>
