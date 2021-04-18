@@ -134,7 +134,7 @@ if phase == 2
             phase++;
         else
             phase = 1;
-        playSFX(sfxMenuSelect);
+        playSFX(sfxSkullAmulet);
         exit;
     }
    
@@ -221,9 +221,7 @@ if (global.keyJumpPressed[0] || global.keyPausePressed[0])
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_set_color(c_white);
-
-if instance_exists(link)
+            <string>if instance_exists(link)
 {
     drawXPosition = link.x;
     drawYPosition = link.y + 224;
@@ -238,6 +236,14 @@ var cntr = view_wview / 2;
 //text alignment
 draw_set_halign(fa_center);
 draw_set_valign(fa_top);
+
+//black backers for cp name &amp; thumbnail
+draw_set_color(c_black);
+draw_rectangle(drawXPosition - 20, drawYPosition + 65, 
+    drawXPosition + view_wview + 20, drawYPosition + 149, false);
+draw_rectangle(drawXPosition - 20, drawYPosition + 178, 
+    drawXPosition + view_wview + 20, drawYPosition + 189, false);
+draw_set_color(c_white);
 
 //header
 var hw = string_length(mapName);

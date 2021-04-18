@@ -51,6 +51,7 @@ with (objMegaman)
 //scrolling to a submenu is handled entirely by the submenu itself (for now?)
 scrollX = 0;
 scrollY = 0;
+bgTimer = choose(0, 360, 720, 1080);
 
 // set these here. makes everyone's lives easier.
 
@@ -597,7 +598,7 @@ if !(nearestOption == -1 || nearestOption == option)
 
 if (option &gt;= 10)
 {   //select weapon
-    if (instance_exists(objMegaman.vehicle) &amp;&amp; option != 10)
+    if (instance_exists(objMegaman.vehicle) &amp;&amp; global.weaponHotbar[option - 10] == 0)
     {
         if (!objMegaman.vehicle.weaponsAllowed)
         {
@@ -874,6 +875,18 @@ if (phase != 0)
     col[1, 1] = global.secondaryCol[0];
     col[0, 2] = make_color_rgb(255, 228, 164);
     col[1, 2] = c_white;
+    
+    //cool backing
+    bgTimer += 0.25;
+    var sx = (scrollX / 2) + abs((bgTimer mod 1440) - 720);
+    var sy = (scrollY / 2) + abs(((bgTimer + 360) mod 1440) - 720);
+    for(var i = (sy mod 120) - 120; i &lt;= view_hview; i += 120)
+    {
+        for(var j = (sx mod 120) - 120; j &lt;= view_wview; j += 120)
+        {
+            draw_background(bgArcadeCarpet, view_xview + j, view_yview + i);
+        }
+    }
     
     // these actually go 'under' the pause menu, so they go before drawSelf.
     

@@ -42,18 +42,6 @@ option = 0;
 
 animTimer = 0;
 quickScrollTimer = 25;
-
-//arrays that get filled in by mapInfoFetch
-cpNames = undefined;
-warpPointXs = undefined;
-warpPointYs = undefined;
-warpPointRoom = undefined;
-thumbImg = undefined;
-
-mapInfoFetch();
-
-
-
 </string>
           </argument>
         </arguments>
