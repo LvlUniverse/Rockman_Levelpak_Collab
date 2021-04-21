@@ -459,15 +459,6 @@ if (phase &gt;= 6 &amp;&amp; !selected)
         switch(option + ((phase - 6) * 100))    //if a submenu has more than 100 options then that's user error
         {
             //exit and back buttons are controlled seperately since they share function with the b button
-        
-            case 005:
-            case 006:
-            case 007: //enter submenus
-                playSFX(sfxPause);
-                returnOption = option;
-                phase = option + 2;
-                option = 0;
-                break;
             
             // set keyboard controls
             case 001:
@@ -479,7 +470,7 @@ if (phase &gt;= 6 &amp;&amp; !selected)
                 selected = 1;
                 current = 'LEFT';
                 keyID=0;
-                pID = pausePressed - 1;
+                pID = 0;
                 for(var i=0;i&lt;40;i++)
                     currentKeys[i]=-1;
                 break;
@@ -503,9 +494,18 @@ if (phase &gt;= 6 &amp;&amp; !selected)
                 keyID=0;
                 selected = 1;
                 current = 'JUMP';
-                pID = pausePressed - 1;
+                pID = 0;
                 for(var i=0;i&lt;40;i++)
                     currentKeys[i]=-1;
+                break;
+            
+            case 005:
+            case 006:
+            case 007: //enter submenus
+                playSFX(sfxPause);
+                returnOption = option;
+                phase = option + 2;
+                option = 0;
                 break;
             
             // colored text overlays

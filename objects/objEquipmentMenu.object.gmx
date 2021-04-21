@@ -43,20 +43,20 @@ animTimer = 0;
 quickScrollTimer = 25;
 extremeSpeedTimer = 400;
 
+quickExit = false;
+
 //cost of equipment piece, by image
 equipmentCosts = makeArray(3, 8, 3, 0, 6, 5, 12, 12);
 equipmentNames = makeArray("Energy Balancer", "Energy Charger", "Energy Converter", "Normal Item", "Skull Amulet", "Met Helmet", "Energy Saver", "Super E.Balancer");
-//whether the given equipment piece is active or not, by image. 
-//needs to be a global variable later
-equipmentActive = allocateArray(array_length_1d(equipmentCosts), false);
 
-//the order the equipment is in in the menu. equipment you haven't bought won't appear
-//needs to be a global variable later
-equipmentOwned = makeArray(3, 1, 2, 4, 5, 6, 7, 1, 1, 1, 1, 2, 2, 1, 1, 4, 3, 1, 1, 1);
-ownedCount = array_length_1d(equipmentOwned);
+ownedCount = array_length_1d(global.equipmentOwned);
 shownAtOnce = min(9, ownedCount);
 
-bpUsed = 0; //only really relevant in this menu, so it may not need to be stored globally
+//BP used is only really relevant in this menu, so it's calculated on the spot instead of stored
+bpUsed = 0;
+for(var q = 0; q &lt; sprite_get_number(sprEquipmentIcons); q++)
+    bpUsed += equipmentCosts[q] * (global.equipmentActive[q] != 0);
+
 bpOwned = 31; //since this is a collectible, it's gonna have to be made a global var no matter what
 
 bpHundreds = 0; //todo: auto-calculate these
@@ -81,6 +81,26 @@ sortMenuX = 88;
 sortMenuY = 5;
 
 badgeListSurface = surface_create(badgesListW, badgesListH);
+
+//correct the flippy coin display
+var pts = bpUsed;
+var denom = 100;
+for (var c = 0; c &lt; coinsTotal; c++)
+{
+    if c = bpHundreds
+        denom = 10;
+    else if c = bpTens
+        denom = 1;
+    
+    if pts &gt;= denom
+    {
+        pts -= denom;
+        bpAnimDest[c] = true;
+        bpAnim[c] = bpAnimDest[c] * 4;
+    }
+    else
+        bpAnimDest[c] = false;
+}
 </string>
           </argument>
         </arguments>
@@ -152,10 +172,9 @@ switch (phase)  //copied from pause menu
     // Doing menu selections
     case 2:
         //exit menu with shoot button
-        if global.keyPausePressed[0]
+        if global.keyShootPressed[0]
         {
-            phase++;
-            playSFX(sfxMenuSelect);
+            quickExit = true;
             break;
         }
         
@@ -299,27 +318,36 @@ switch (phase)  //copied from pause menu
             <kind>1</kind>
             <string>///actual option functions
 
-if phase == 2 &amp;&amp; (global.keyJumpPressed[0])
+if phase == 2 &amp;&amp; (global.keyJumpPressed[0] || global.keyPausePressed[0] || quickExit)
 {
     //option 0 means 'done' i guess?
-    if option == 0
+    //also using the b button procs this
+    if option == 0 || quickExit
     {
         phase++;
         playSFX(sfxMenuSelect);
+        //assign the "accessory hotbar"
+        global.equipmentHotbar = makeArray();
+        var index = 0;
+        for(var b = 0; b &lt; ownedCount; b++)
+        {
+            if global.equipmentActive[global.equipmentOwned[b]]
+                global.equipmentHotbar[index++] = global.equipmentOwned[b];
+        }
     }
     else    //all options past that are acessories to toggle enabled
     {
-        var thisItem = equipmentOwned[option - 1];
+        var thisItem = global.equipmentOwned[option - 1];
         var thisCost = equipmentCosts[thisItem];
         var cPrev = bpUsed;
-        if !equipmentActive[thisItem]
+        if !global.equipmentActive[thisItem]
         {
             //try to equip it if it's unequipped
             if bpUsed + thisCost &gt; bpOwned  //don't equip it if you don't have the points
                 playSFX(sfxError);
             else
             {
-                equipmentActive[thisItem] = true;
+                global.equipmentActive[thisItem] = true;
                 bpUsed += thisCost;
                 playSFX(sfxClamp);
             }
@@ -327,12 +355,13 @@ if phase == 2 &amp;&amp; (global.keyJumpPressed[0])
         else
         {
             //unequip it if it's equipped
-            equipmentActive[thisItem] = false;
+            global.equipmentActive[thisItem] = false;
             bpUsed -= thisCost;
             if bpUsed &lt; 0
             {
                 printErr("BP for current equipment was less than zero somehow!!!!");
                 bpUsed = 0;
+                playSFX(sfxDebugMenu);//this should catch your attention
             }
             playSFX(sfxClamp);
         }
@@ -463,24 +492,24 @@ switch(sortOption)
 {
     case 0: //BP cost (first, ID second)
         for (var p = 0; p &lt; ownedCount; p++)
-            sortArr[p] = ((equipmentCosts[equipmentOwned[p]] + 5) * 1000) + equipmentOwned[p];
+            sortArr[p] = ((equipmentCosts[global.equipmentOwned[p]] + 5) * 1000) + global.equipmentOwned[p];
         // this is to keep the ordering 100% consistent,
         // even though some items will have identical BP costs
         break;
     
     case 1: //name
         for (var p = 0; p &lt; ownedCount; p++)
-            sortArr[p] = equipmentNames[equipmentOwned[p]];
+            sortArr[p] = equipmentNames[global.equipmentOwned[p]];
         break;
     
     case 2: //ID
         for (var p = 0; p &lt; ownedCount; p++)
-            sortArr[p] = equipmentOwned[p];
+            sortArr[p] = global.equipmentOwned[p];
         break;
     
     case 3: //active (first, existing sort second)
         for (var p = 0; p &lt; ownedCount; p++)
-            sortArr[p] = ((!equipmentActive[equipmentOwned[p]] + 5) * 1000) + p;
+            sortArr[p] = ((!global.equipmentActive[global.equipmentOwned[p]] + 5) * 1000) + p;
         break;
     
     case 4: //random
@@ -489,7 +518,7 @@ switch(sortOption)
         break;
 }
 //print(sortArr);
-quickSortBy(equipmentOwned, sortArr);
+quickSortBy(global.equipmentOwned, sortArr);
 </string>
           </argument>
         </arguments>
@@ -557,7 +586,7 @@ if !surface_exists(badgeListSurface)
 surface_set_target(badgeListSurface);
 
 
-//draw list to surface
+//clear surface (or do speed effect for speedmode)
 if extremeSpeedTimer &gt; 0
     draw_clear_alpha(c_black, 0);
 else
@@ -566,19 +595,20 @@ else
     draw_rectangle_colour(0, 0, badgesListW, badgesListH, c_black, c_black, c_black, c_black, false);
     draw_set_alpha(1);
 }
+//draw list to surface
 var yOff = -round((offsetTimer mod 1) * 18);
 for (i = max(0, floor(offsetTimer)); i &lt;= min(ceil(offsetTimer) + shownAtOnce + -1, ownedCount - 1); i++)
 {
-    draw_sprite(sprEquipmentIcons, equipmentOwned[i], 0, yOff);
+    draw_sprite(sprEquipmentIcons, global.equipmentOwned[i], 0, yOff);
     
     //non-selected options are darkened
     if (i != option - 1)
         draw_set_color(global.nesPalette[0]);
     
-    draw_text(18, yOff, equipmentNames[equipmentOwned[i]]);
-    draw_text(18, yOff + 8, string(equipmentCosts[equipmentOwned[i]]) + " BP");
+    draw_text(18, yOff, equipmentNames[global.equipmentOwned[i]]);
+    draw_text(18, yOff + 8, string(equipmentCosts[global.equipmentOwned[i]]) + " BP");
     draw_set_color(c_white);
-    if equipmentActive[equipmentOwned[i]]
+    if global.equipmentActive[global.equipmentOwned[i]]
         draw_text(badgesListW - 12, yOff + 8, "*");
     yOff += 18;
 }

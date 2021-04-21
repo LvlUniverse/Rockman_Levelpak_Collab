@@ -5,6 +5,8 @@
 // When starting a new game, be sure to set the
 // global.saveFile variable in order to save the game.
 
+print("Fresh savefile created!");
+
 global.saveFile = "";
 global.difficulty = DIFF_NORMAL;
 
@@ -23,6 +25,14 @@ global.mTanks = 0;
 
 global.energyElements = 0;
 global.elementsCollected = makeArray("");
+
+global.equipmentOwned = makeArray(3, 1, 2, 4, 5, 6, 7, 1, 1, 1, 1, 2, 2, 1, 1, 4, 3, 1, 1, 1);
+global.equipmentDisabled = allocateArray(sprite_get_number(sprEquipmentIcons));
+global.equipmentHotbar = makeArray();   //nothing is enabled by default
+global.equipmentActive = allocateArray(sprite_get_number(sprEquipmentIcons));
+
+//todo: replace these with equipment menu hooks
+//---
 global.chargeUpgrade = 0;
 global.shotUpgrade = 0;
 global.dropUpgrade = 0;
@@ -30,6 +40,7 @@ global.skullAmulet = 0;
 global.sturdyHelmet = 0;
 global.converter = 0;
 global.energySaver = 0;
+//---
 
 global.gameTimer = 0;
 
