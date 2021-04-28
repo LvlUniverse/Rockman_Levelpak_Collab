@@ -940,17 +940,27 @@ if (phase != 0)
             draw_sprite_ext(global.weaponIcon[w], 0, xff, yff, 1, 1, 0, c_white, 1);
         
             if global.weaponLocked[w] == 0
-            {//name if unlocked
-                draw_set_color(col[!cl, cl * 2]);
-                
+            {   //name, if unlocked
+                //determine breakpoint in name to indent it
                 wname = global.weaponName[w];
+                var brk = 0;
                 if string_length(wname) &gt; 8
                 {
                     brk = string_pos(" ", wname);
                     if (brk)
                         wname = string_insert("#", wname, brk);
                 }
-                
+                //black rectangles to prevent text overlapping tiles
+                draw_set_color(c_black);
+                if brk != 0
+                {
+                    draw_rectangle(xff + 17, yff, xff + 8 + (brk * 8), yff + 8, false);
+                    draw_rectangle(xff + 25, yff + 8, xff + 16 + ((string_length(wname) - brk) * 8), yff + 16, false);
+                }
+                else
+                    draw_rectangle(xff + 17, yff + 0, xff + 16 + (string_length(wname) * 8), yff + 8, false);
+                //draw the actual name
+                draw_set_color(col[!cl, cl * 2]);
                 draw_text(xff + 17, yff, wname);
                 draw_set_color(c_white);
             }
@@ -1031,13 +1041,25 @@ if (phase != 0)
         
         draw_text(x + 165, y + 24, zeroPad(0, 3));
     }
-    else if isgreen
+    else
     {
-        //text for rearrange mode
-    }
-    else if isred
-    {
-        //text for w-tank usage mode
+        //draw explanatory text
+        draw_set_halign(fa_center); 
+        if(isred)
+            draw_text(x + 128, y + 8, "W-TANK MODE#Choose a weapon to use#a W-Tank on.#Press B to cancel.")
+        else
+        {
+            draw_text(x + 128, y + 8, "REARRANGE MODE#Swap weapons with A.#Hold L and R to reset.")
+            if rResetTimer &gt; 0
+            {
+                if bgTimer mod 3 &gt;= 1
+                    draw_set_color(global.nesPalette[36]);
+                draw_rectangle(x + 64, y + 33, x + 64 + floor((128 * rResetTimer) + 0.05),
+                    y + 39, false);
+                draw_set_color(c_white);
+            }
+        }
+        draw_set_halign(fa_left);
     }
     
     // colored text overlays
