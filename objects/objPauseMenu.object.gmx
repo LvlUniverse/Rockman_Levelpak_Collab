@@ -138,7 +138,7 @@ mapInfoFetch();
             <kind>1</kind>
             <string>// Can't control while a submenu is open
 if (instance_exists(objOptionsMenu) || instance_exists(objDescriptionMenu)
-    || instance_exists(objMapMenu))
+    || instance_exists(objMapMenu) || instance_exists(objQuickAccessoryMenu))
 {
     exit;
 }
@@ -191,6 +191,14 @@ switch (phase)
                 playSFX(sfxSkullAmulet);
                 exit;
             }
+        }
+        
+        //swap to item menu with R button
+        if global.keyWeaponSwitchRightPressed[0]
+        {
+            with(instance_create(x, y, objQuickAccessoryMenu))
+                link = other;
+            exit;
         }
         
         // Select the weapon/tank
@@ -1057,8 +1065,9 @@ if (phase != 0)
             swapAdjX = swapAdjX + (sin(ra * pi) * 10);
             var swapAdjY = ((y + rCursorY) - asrcY) * ((cos(ra * pi) + 1) / 2);
             
-            draw_sprite_ext(sprWeaponIconsBlank, 0, asrcX, asrcY, 1, 1, 0, col[cl, 0], 1);
+            draw_sprite_ext(sprWeaponIconsBlank, 0, asrcX, asrcY, 1, 1, 0, col[0, 0], 1);
             
+            //icon 1 if behind
             if rAnimTime &lt; 5
             {
                 draw_sprite_ext(ic, 0, x + rCursorX + -swapAdjX, y + rCursorY + -swapAdjY, 1, 1, 0, col[option != rAnimatingOption, 2], 1);
@@ -1067,11 +1076,13 @@ if (phase != 0)
                 draw_sprite_ext(ic, 3, x + rCursorX + -swapAdjX, y + rCursorY + -swapAdjY, 1, 1, 0, col[1, 2], option == rAnimatingOption);
             }
             
+            //icon 2
             draw_sprite_ext(ic2, 0, asrcX + swapAdjX, asrcY + swapAdjY, 1, 1, 0, col[0, 2], 1);
             draw_sprite_ext(ic2, 1, asrcX + swapAdjX, asrcY + swapAdjY, 1, 1, 0, rCursorPriCol, 1);
             draw_sprite_ext(ic2, 2, asrcX + swapAdjX, asrcY + swapAdjY, 1, 1, 0, rCursorSecCol, 1);
             draw_sprite_ext(ic2, 3, asrcX + swapAdjX, asrcY + swapAdjY, 1, 1, 0, col[1, 2], 1);
             
+            //icon 1 if in front
             if rAnimTime &gt;= 5
             {
                 draw_sprite_ext(ic, 0, x + rCursorX + -swapAdjX, y + rCursorY + -swapAdjY, 1, 1, 0, col[option != rAnimatingOption, 2], 1);
