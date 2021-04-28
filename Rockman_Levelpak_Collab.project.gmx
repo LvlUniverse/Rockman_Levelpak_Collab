@@ -4252,6 +4252,7 @@
       <sprites name="Options">
         <sprite>sprites\sprOptionsMenuBG</sprite>
         <sprite>sprites\sprOptionsCursor</sprite>
+        <sprite>sprites\sprOptionSlider</sprite>
         <sprite>sprites\sprControlconfigureScreen</sprite>
       </sprites>
       <sprites name="Map">

@@ -209,7 +209,7 @@ if (phase == 2 &amp;&amp; !selected)
                 global.showColoredTextOverlays = min(max(0, global.showColoredTextOverlays + dir), 1);
                 if (global.showColoredTextOverlays != pre)
                 {
-                    playSFX(sfxMenuMove);
+                    playSFX(sfxTextBox);
                 }
                 break;
             

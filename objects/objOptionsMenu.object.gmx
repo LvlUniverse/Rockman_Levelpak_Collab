@@ -44,17 +44,23 @@ showArrow = true;
 
 phase = instance_exists(objPauseMenu) * 4;
 option = 0;
-returnOption = 0;
+returnOption = undefined;
+returnScroll = undefined;
 selected = 0;
 buffer = 0;
-
-optionOffset = 0;
-maxVisibleOptions = 9;
 
 verticalQuickScrollTimer = 25;
 horizontalQuickScrollTimer = 25;
 
 link = noone;
+
+listW = 128;
+listH = 192;
+listSurface = surface_create(listW, listH);
+listScrollDest = -(listH / 2);
+listScroll = listScrollDest;
+
+maxVisibleOptions = 9;
 
 // Control settings
 newControls = 0;
@@ -66,8 +72,8 @@ key = -1;
 
 // Option text
 optionText[0, 0] = 'CLOSE';
-optionText[0, 1] = 'CONFIGURE CONTROLS';
-optionText[0, 2] = 'CONFIGURE GAMEPAD';
+optionText[0, 1] = 'CONFIGURE# CONTROLS';
+optionText[0, 2] = 'CONFIGURE# GAMEPAD';
 optionText[0, 3] = 'MUSIC VOLUME';
 optionText[0, 4] = 'SOUND VOLUME';
 
@@ -84,12 +90,17 @@ optionText[0, 5] = 'DISPLAY...';
     optionText[1, 9] = 'test2';
     optionText[1, 10] = 'test3';
     optionText[1, 11] = 'test4';
-    optionText[1, 12] = 'testetc';
+    optionText[1, 12] = 'test5';
+    optionText[1, 13] = 'test6';
+    optionText[1, 14] = 'test7';
+    optionText[1, 15] = 'test8';
+    optionText[1, 16] = 'test9';
+    optionText[1, 17] = 'testwhatever';
 
 optionText[0, 6] = 'ACCESSIBILITY...';
     optionText[2, 0] = 'BACK';
     optionText[2, 1] = 'MOVING TEXT';
-    optionText[2, 2] = 'COLORED TEXT OVERLAYS';
+    optionText[2, 2] = 'COLORED TEXT# OVERLAYS...';
 
 optionText[0, 7] = 'GAME STYLE...';
     optionText[3, 0] = 'BACK';
@@ -255,7 +266,7 @@ if (phase &gt;= 6 &amp;&amp; !selected)
     if global.keyShootPressed[0] || ((global.keyPausePressed[0] || global.keyJumpPressed[0]) &amp;&amp; option == 0)
     {
         if phase == 6
-        {
+        {   //quit if in main menu
             selected = true;
             if link == noone
                 phase = 2;
@@ -265,9 +276,11 @@ if (phase &gt;= 6 &amp;&amp; !selected)
             exit;
         }
         else
-        {
+        {   //return to main menu if in submenu
             option = returnOption;
             phase = 6;
+            listScrollDest = returnScroll;
+            listScroll = listScrollDest;
             playSFX(sfxMenuSelect);
             exit;
         }
@@ -282,7 +295,7 @@ if (phase &gt;= 6 &amp;&amp; !selected)
             // Music volume
             case 003:
                 pre = global.musicvolume;
-                global.musicvolume = max(0, min(100, global.musicvolume + 10 * xdir));
+                global.musicvolume = max(0, min(100, global.musicvolume + 5 * xdir));
                 
                 // adjust current music volume to reflect change
                 switch (global.levelSongType)
@@ -300,17 +313,23 @@ if (phase &gt;= 6 &amp;&amp; !selected)
                 }
                 if (global.musicvolume != pre)
                 {
-                    playSFX(sfxTextBox);
+                    if (xdir &gt; 0)
+                        playSFX(sfxMenuScrollUp);
+                    else
+                        playSFX(sfxMenuScrollDown);
                 }
                 break;
             
             // Sound volume
             case 004:
                 pre = global.soundvolume;
-                global.soundvolume = max(0, min(100, global.soundvolume + 10 * xdir));
+                global.soundvolume = max(0, min(100, global.soundvolume + 5 * xdir));
                 if (global.soundvolume != pre)
                 {
-                    playSFX(sfxTextBox);
+                    if (xdir &gt; 0)
+                        playSFX(sfxMenuScrollUp);
+                    else
+                        playSFX(sfxMenuScrollDown);
                 }
                 break;
             
@@ -504,6 +523,9 @@ if (phase &gt;= 6 &amp;&amp; !selected)
             case 007: //enter submenus
                 playSFX(sfxPause);
                 returnOption = option;
+                returnScroll = listScrollDest;
+                listScrollDest = -(listH / 2);
+                listScroll = listScrollDest;
                 phase = option + 2;
                 option = 0;
                 break;
@@ -526,10 +548,12 @@ if (phase &gt;= 6 &amp;&amp; !selected)
         if (option &lt; 0) || (option &gt;= array_length_2d(optionText, phase - 6))
             option -= array_length_2d(optionText, phase - 6) * ydir;
         playSFX(sfxTextBox);
-        //todo: smooth scrolling instead of snap scrolling
-        //scrolling
-        optionOffset = max(min(option - floor(maxVisibleOptions / 2), array_length_2d(optionText, phase - 6) - maxVisibleOptions), 0);
+        //change scrolling target
+        //listScrollDest = max(min(option - floor(maxVisibleOptions / 2), array_length_2d(optionText, phase - 6) - maxVisibleOptions), 0);
     }
+    
+    //smooth scrolling
+    listScroll += (listScrollDest - listScroll) / 8;
     
     // vertical quick scroll timer handling
     if (horizontalQuickScrollTimer == 25 // don't quick scroll vertically if doing it horizontally
@@ -544,11 +568,15 @@ if (phase &gt;= 6 &amp;&amp; !selected)
         verticalQuickScrollTimer = 25; // &lt;-- time until quick scroll here
     
     // horizontal quick scroll timer handling
+    //scrollbars quickscroll faster
+    var sliderCheck = option + ((phase - 6) * 100);
+    sliderCheck = (sliderCheck == 003 || sliderCheck == 004);
+    
     if (verticalQuickScrollTimer == 25 // don't quick scroll horizontally if doing it vertically
     &amp;&amp; (global.keyLeft[0] ^^ global.keyRight[0]))
     {
         if (horizontalQuickScrollTimer &lt;= 0)// slight pause between scrolls
-            horizontalQuickScrollTimer = 7;
+            horizontalQuickScrollTimer = 7 + (sliderCheck * -4);
         horizontalQuickScrollTimer--;
     }
     else
@@ -687,12 +715,14 @@ if (newControls == 1)
                     buffer = 1;
                     alarm[0] = 10;
                     newControls = 0;
+                    playSFX(sfxUnlocked);
                 }
                 
                 break;
         }
         
-        playSFX(sfxMenuMove);
+        if selected
+            playSFX(sfxMenuMove);
     }
 }
 
@@ -781,11 +811,14 @@ if (newControls == 2)
                     buffer = 1;
                     alarm[0] = 10;
                     newControls = 0;
+                    playSFX(sfxUnlocked);
                 }
+                
                 break;
         }
         
-        playSFX(sfxMenuMove);
+        if selected
+            playSFX(sfxMenuMove);
     }
 }
 </string>
@@ -859,20 +892,213 @@ else
 }
 
 var mySub = max(0, phase - 6);
-var visibleOptions = min(array_length_2d(optionText, mySub), maxVisibleOptions);
 
 // draw menu bg
 draw_sprite(sprite_index, 0, drawXPosition, drawYPosition);
 
-// animate cursor
-cursorImgIndex += cursorImgSpd;
-if (cursorImgIndex &gt;= 5)
-{
-    cursorImgIndex -= 5;
-}
+//option list
+//assign &amp; clear surface
+if !surface_exists(listSurface)
+    listSurface = surface_create(listW, listH);
+surface_set_target(listSurface);
+draw_clear_alpha(c_black, 0);
 
-// draw cursor
-draw_sprite(sprOptionsCursor, cursorImgIndex, drawXPosition + 34, drawYPosition + 52 + (option) * 14 - (optionOffset) * 14);
+//text alignment
+draw_set_halign(fa_left);
+draw_set_valign(fa_middle);
+
+// draw options to surface
+for (var yoff = 0, j = 0, opt; j &lt; array_length_2d(optionText, mySub); j++;)
+{
+    //darken all draws if option is not the selected one
+    if (option == j)
+    {
+        draw_set_color(c_white);
+        listScrollDest = yoff - (listH / 2);
+    }
+    else
+        draw_set_color(global.nesPalette[0]);
+
+    switch ((mySub * 100) + j)
+    {
+        // Options with no associated values
+        default:
+            opt = '';
+            break;
+        
+        // Options with no associated values that take two lines
+        case 001:
+        case 002:
+            opt = ' ';
+            break;
+            
+        // Music volume
+        case 003:
+            opt += '         ' + string(global.musicvolume) + '%';
+            //manually draw a scrollbar
+            draw_sprite_ext(sprOptionSlider, 0, 8, yoff + -floor(listScroll + 0.5) + 8, 
+                1, 1, 0, draw_get_colour(), 1);
+            draw_sprite_ext(sprOptionSlider, 1, 8 + floor(global.musicvolume * (57 * 0.01)), 
+                yoff + -floor(listScroll + 0.5) + 8, 1, 1, 0, draw_get_colour(), 1);
+            break;
+        
+        // Sound volume
+        case 004:
+            opt = '         ' + string(global.soundvolume) + '%';
+            draw_sprite_ext(sprOptionSlider, 0, 8, yoff + -floor(listScroll + 0.5) + 8, 
+                1, 1, 0, draw_get_colour(), 1);
+            draw_sprite_ext(sprOptionSlider, 1, 8 + floor(global.soundvolume * (57 * 0.01)), 
+                yoff + -floor(listScroll + 0.5) + 8, 1, 1, 0, draw_get_colour(), 1);
+            break;
+        
+        // Resolution
+        case 101:
+            if (!window_get_fullscreen())
+                opt = string(global.screensize) + 'X';
+            else
+                opt = 'FULL';
+            break;
+        
+        // V-Sync
+        case 102:
+            if (global.vsync)
+                opt = 'ON';
+            else
+                opt = 'OFF';
+            break;
+        
+        // FPS display
+        case 103:
+            if (global.showFPS == 1)
+                opt = 'ON';
+            else
+                opt = 'OFF';
+            break;
+        
+        // controller overlay
+        case 104:
+            switch (global.showControllerOverlay)
+            {
+                case 0:
+                    opt = 'OFF';
+                    break;
+                case 1:
+                    opt = 'WIDE';
+                    break;
+                case 2:
+                    opt = 'THIN';
+                    break;
+            }
+            break;
+        
+        // damage popup
+        case 105:
+            if (global.damagePopup == 1)
+                opt = 'ON';
+            else
+                opt = 'OFF';
+            break;
+        
+        // charge bar
+        case 106:
+            if (global.chargeBar == 1)
+                opt = 'ON';
+            else
+                opt = 'OFF';
+            break;
+        
+        // esc key function
+        case 107:
+            switch (global.escapeBehavior)
+            {
+                case 0:
+                    opt = 'QUIT';
+                    break;
+                case 1:
+                    opt = 'PAUSE';
+                    break;
+                case 2:
+                    opt = 'NOTHING';
+                    break;
+            }
+            break;
+        
+        // moving text effects
+        case 201:
+            if (global.showMovingText)
+                opt = 'ON';
+            else
+                opt = 'OFF';
+            break;
+        
+        // mega man colors
+        case 301:
+            if (global.mmColor)
+                opt = 'MM9/MM10';
+            else
+                opt = 'MM1-MM6';
+            break;
+        
+        // health effect
+        case 302:
+            switch (global.healthEffect)
+            {
+                case 0:
+                    opt = 'FILL';
+                    break;
+                case 1:
+                    opt = 'INSTANT';
+                    break;
+            }
+            break;
+        
+        // Pickup graphics
+        case 303:
+            if (global.pickupGraphics)
+                opt = 'MM1';
+            else
+                opt = 'MM2+';
+            break;
+        
+        // Death effect
+        case 304:
+            if (global.deathEffect)
+                opt = 'MM1/MM2';
+            else
+                opt = 'MM3+';
+            break;
+        
+        // Jump sound       //well, aCtUaLlY it's a landing sound
+        case 305:
+            if (global.jumpSound)
+                opt = 'MM1/MM2';
+            else
+                opt = 'MM3-6';
+            break;
+        
+        // Teleport sound
+        case 306:
+            if (global.teleportSound)
+                opt = 'MM1/MM2';
+            else
+                opt = 'MM3-MM6';
+            break;
+    }
+    //draw the option name and value
+    draw_text(0, yoff + -floor(listScroll + 0.5), optionText[mySub, j]);
+    draw_text(8, yoff + -floor(listScroll + 0.5) + 8, opt);
+    
+    //indents by 16 if opt is blank, by 24 elsewise
+    yoff += 8 * ((opt != '') + 2);
+}
+draw_set_color(c_white);
+
+yoff -= 8 * ((opt != '') + 2);
+listBottom = yoff;
+
+//draw surface
+surface_reset_target();
+draw_surface(listSurface, drawXPosition + 64, drawYPosition + 16);
 
 // animate arrows
 arrowBlinkTimer -= 1;
@@ -884,191 +1110,25 @@ if (arrowBlinkTimer == 0)
 
 // draw arrows
 draw_set_halign(fa_middle);
-draw_set_valign(fa_middle);
-
-if (optionOffset == 0)
-{
-    draw_text(drawXPosition + 128, drawYPosition + 42, "- OPTIONS -"); 
-}
-else if (showArrow)
-{
-    draw_sprite(sprArrow, 2, drawXPosition + 128, drawYPosition + 42);
-}
-
-if (optionOffset == max(array_length_2d(optionText, max(phase - 6, 0)) - maxVisibleOptions, 0))
-{
-    draw_text(drawXPosition + 128, drawYPosition + 182, "- OPTIONS -");
-}
-else if (showArrow)
-{
-    draw_sprite(sprArrow, 3, drawXPosition + 128, drawYPosition + 182);
-}
-
-// draw options
-draw_set_halign(fa_left);
 draw_set_valign(fa_top);
-for (var j = 0; j &lt; visibleOptions; j++)
+
+if (listScroll &lt; 0)
 {
-    draw_text_ext(drawXPosition + 48, drawYPosition + 52 + j * 14, optionText[mySub, optionOffset + j], 14, 256);
+    draw_text(drawXPosition + 128, drawYPosition + 4, "- OPTIONS -"); 
+}
+else if (showArrow)
+{
+    draw_sprite(sprArrow, 2, drawXPosition + 128, drawYPosition + 4);
 }
 
-// draw current option status'
-opt = '';
-for (var j = 0; j &lt; visibleOptions; j++)
+if (listScroll &gt;= listBottom - listH)
 {
-    switch ((mySub * 100) + optionOffset + j)
-    {
-        // Music volume
-        case 003:
-            opt += string(global.musicvolume) + '%';
-            break;
-        
-        // Sound volume
-        case 004:
-            opt += string(global.soundvolume) + '%';
-            break;
-        
-        // Resolution
-        case 101:
-            if (!window_get_fullscreen())
-                opt += string(global.screensize) + 'X';
-            else
-                opt += 'FULL';
-            break;
-        
-        // V-Sync
-        case 102:
-            if (global.vsync)
-                opt += 'ON';
-            else
-                opt += 'OFF';
-            break;
-        
-        // FPS display
-        case 103:
-            if (global.showFPS == 1)
-                opt += 'ON';
-            else
-                opt += 'OFF';
-            break;
-        
-        // controller overlay
-        case 104:
-            switch (global.showControllerOverlay)
-            {
-                case 0:
-                    opt += 'OFF';
-                    break;
-                case 1:
-                    opt += 'WIDE';
-                    break;
-                case 2:
-                    opt += 'THIN';
-                    break;
-            }
-            break;
-        
-        // damage popup
-        case 105:
-            if (global.damagePopup == 1)
-                opt += 'ON';
-            else
-                opt += 'OFF';
-            break;
-        
-        // charge bar
-        case 106:
-            if (global.chargeBar == 1)
-                opt += 'ON';
-            else
-                opt += 'OFF';
-            break;
-        
-        // esc key function
-        case 107:
-            switch (global.escapeBehavior)
-            {
-                case 0:
-                    opt += 'QUIT';
-                    break;
-                case 1:
-                    opt += 'PAUSE';
-                    break;
-                case 2:
-                    opt += 'N/A';
-                    break;
-            }
-            break;
-        
-        // moving text effects
-        case 201:
-            if (global.showMovingText)
-                opt += 'ON';
-            else
-                opt += 'OFF';
-            break;
-        
-        // mega man colors
-        case 301:
-            if (global.mmColor)
-                opt += 'MM9/MM10';
-            else
-                opt += 'MM1-MM6';
-            break;
-        
-        // health effect
-        case 302:
-            switch (global.healthEffect)
-            {
-                case 0:
-                    opt += 'FILL';
-                    break;
-                case 1:
-                    opt += 'INSTANT';
-                    break;
-            }
-            break;
-        
-        // Pickup graphics
-        case 303:
-            if (global.pickupGraphics)
-                opt += 'MM1';
-            else
-                opt += 'MM2+';
-            break;
-        
-        // Death effect
-        case 304:
-            if (global.deathEffect)
-                opt += 'MM1/MM2';
-            else
-                opt += 'MM3+';
-            break;
-        
-        // Jump sound       //well, aCtUaLlY it's a landing sound
-        case 305:
-            if (global.jumpSound)
-                opt += 'MM1/MM2';
-            else
-                opt += 'MM3-6';
-            break;
-        
-        // Teleport sound
-        case 306:
-            if (global.teleportSound)
-                opt += 'MM1/MM2';
-            else
-                opt += 'MM3-MM6';
-            break;
-    }
-    
-    // next line
-    opt += '#';
+    draw_text(drawXPosition + 128, drawYPosition + 212, "- OPTIONS -");
 }
-
-draw_set_halign(fa_right);
-draw_text_ext(drawXPosition + 224, drawYPosition + 52, opt, 14, 256);
-
+else if (showArrow)
+{
+    draw_sprite(sprArrow, 3, drawXPosition + 128, drawYPosition + 212);
+}
 
 // draw configure controls popup
 if (newControls)
