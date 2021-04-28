@@ -55,24 +55,24 @@ bgTimer = choose(0, 360, 720, 1080);
 
 // set these here. makes everyone's lives easier.
 
-etankPositionX = 57;   buttonPos[0, 0] = etankPositionX; 
-etankPositionY = 51;    buttonPos[0, 1] = etankPositionY - 100; 
-wtankPositionX = 85;   buttonPos[1, 0] = wtankPositionX;
-wtankPositionY = 51;    buttonPos[1, 1] = wtankPositionY - 100;
-mtankPositionX = 30;   buttonPos[2, 0] = mtankPositionX;
-mtankPositionY = 51;    buttonPos[2, 1] = mtankPositionY - 100;  
+etankPositionX = 56;   buttonPos[0, 0] = etankPositionX; 
+etankPositionY = 16;    buttonPos[0, 1] = etankPositionY - 100; 
+wtankPositionX = 76;   buttonPos[1, 0] = wtankPositionX;
+wtankPositionY = 16;    buttonPos[1, 1] = wtankPositionY - 100;
+mtankPositionX = 96;   buttonPos[2, 0] = mtankPositionX;
+mtankPositionY = 16;    buttonPos[2, 1] = mtankPositionY - 100;  
 
-optionsPositionX = 136; buttonPos[3, 0] = optionsPositionX + 11;
+optionsPositionX = 136; buttonPos[3, 0] = optionsPositionX + 8;
 optionsPositionY = 208; buttonPos[3, 1] = optionsPositionY + 100;
-checkPositionX = 158;   buttonPos[4, 0] = checkPositionX + 23;
+checkPositionX = 152;   buttonPos[4, 0] = checkPositionX + 24;
 checkPositionY = 208;   buttonPos[4, 1] = checkPositionY + 100;
-exitPositionX = 204;    buttonPos[5, 0] = exitPositionX + 18;
+exitPositionX = 200;    buttonPos[5, 0] = exitPositionX + 20;
 exitPositionY = 208;    buttonPos[5, 1] = exitPositionY + 100;
 
-rearrangePositionX = 18;    buttonPos[6, 0] = rearrangePositionX + 34;
-rearrangePositionY = 205;    buttonPos[6, 1] = rearrangePositionY + 100;
-infoPositionX = 88;    buttonPos[7, 0] = infoPositionX + 11;
-infoPositionY = 205;    buttonPos[7, 1] = infoPositionY + 100;
+rearrangePositionX = 16;    buttonPos[6, 0] = rearrangePositionX + 32;
+rearrangePositionY = 208;    buttonPos[6, 1] = rearrangePositionY + 100;
+infoPositionX = 80;    buttonPos[7, 0] = infoPositionX + 12;
+infoPositionY = 208;    buttonPos[7, 1] = infoPositionY + 100;
 
 //these buttons aren't anything. but, they could be!
 buttonPos[8, 0] = undefined;
@@ -81,8 +81,8 @@ buttonPos[9, 0] = undefined;
 //weapons at (38, 91), spaced 93x, 18y
 for(var p = 0; p &lt;= 11; p++)
 {
-    buttonPos[p + 10, 0] = 38 + 28 + (floor(p / 6) * 92);
-    buttonPos[p + 10, 1] = 99 + ((p mod 6) * 18);
+    buttonPos[p + 10, 0] = 32 + 28 + (floor(p / 6) * 104);
+    buttonPos[p + 10, 1] = 56 + ((p mod 6) * 24);
 }
 
 rHeldWeapon = undefined;
@@ -408,7 +408,7 @@ switch (phase)
                     {
                         rHeldWeapon = option - 10;
                         rCursorX = buttonPos[option, 0] - 28;
-                        rCursorY = buttonPos[option, 1] - 8;
+                        rCursorY = buttonPos[option, 1];
                     }
                     else
                     {   //trying to pick up nonweapon does nothing
@@ -475,7 +475,7 @@ switch (phase)
         if rHeldWeapon != undefined
         {
             rCursorX += ((buttonPos[option, 0] - 28) - rCursorX) / 3;
-            rCursorY += ((buttonPos[option, 1] - 16) - rCursorY) / 3;
+            rCursorY += ((buttonPos[option, 1] - 8) - rCursorY) / 3;
         }
         
         //animations
@@ -906,9 +906,14 @@ if (phase != 0)
     
     // Exit
     draw_sprite_ext(sprExit, ((option == 5) * (confirm + 1)) + (!useExit * 4), x + exitPositionX, y + exitPositionY, 1, 1, 0, c_white, 1);
+
+    // Sort &amp; Info
+    var isgreen = (phase == 7);
+    draw_sprite_ext(sprWeaponSort, (option == 6) + ((option == 7) * 2) + (isgreen * 3), x + rearrangePositionX, y + rearrangePositionY, 1, 1, 0, c_white, 1);
     
     // NOW draw itself
-    draw_sprite(sprite_index, 0, x, y);
+    var isred = ((phase == 6) || (phase == 5 &amp;&amp; wtank)) * 2;
+    draw_sprite(sprite_index, isred + isgreen, x, y);
     
     //weapons
     var xff, yff, w, ammo, wname, cl;
@@ -920,112 +925,120 @@ if (phase != 0)
         cl = (option == p);
         ammo = wepBarFills[p - 10];
         
+        //slot appears filled if weapon is not hidden or held
         if global.weaponLocked[w] != 2 &amp;&amp; rHeldWeapon != p - 10
-        {   //filled weapon slot
+        {
             //icon
             if cl
             {
-                draw_sprite_ext(global.weaponIcon[w], 0, xff, yff - 8, 1, 1, 0, col[!cl, 2], 1);
-                draw_sprite_ext(global.weaponIcon[w], 1, xff, yff - 8, 1, 1, 0, col[0, cl], 1);
-                draw_sprite_ext(global.weaponIcon[w], 2, xff, yff - 8, 1, 1, 0, col[1, cl], 1);
-                draw_sprite_ext(global.weaponIcon[w], 3, xff, yff - 8, 1, 1, 0, col[1, 2], cl);
+                draw_sprite_ext(global.weaponIcon[w], 0, xff, yff, 1, 1, 0, col[!cl, 2], 1);
+                draw_sprite_ext(global.weaponIcon[w], 1, xff, yff, 1, 1, 0, col[0, cl], 1);
+                draw_sprite_ext(global.weaponIcon[w], 2, xff, yff, 1, 1, 0, col[1, cl], 1);
+                draw_sprite_ext(global.weaponIcon[w], 3, xff, yff, 1, 1, 0, col[1, 2], cl);
             }
             else
-                draw_sprite_ext(global.weaponIcon[w], 0, xff, yff - 8, 1, 1, 0, c_white, 1);
-            
+            draw_sprite_ext(global.weaponIcon[w], 0, xff, yff, 1, 1, 0, c_white, 1);
+        
             if global.weaponLocked[w] == 0
-            {
-                //name
+            {//name if unlocked
                 draw_set_color(col[!cl, cl * 2]);
                 
                 wname = global.weaponName[w];
                 if string_length(wname) &gt; 8
                 {
-                    dot = string_pos(" ", wname);
-                    if (dot)
-                        wname = string_insert(".", string_delete(wname, 2, dot - 1), 2);
+                    brk = string_pos(" ", wname);
+                    if (brk)
+                        wname = string_insert("#", wname, brk);
                 }
                 
-                draw_text(xff + 18, yff - 8, wname);
+                draw_text(xff + 17, yff, wname);
                 draw_set_color(c_white);
-                
-                //ammo bar
-                draw_sprite_ext(sprPauseMenuBarPrimary, ammo, xff + 18, yff, 1, 1, 0, col[0, cl * (1 + (w == 0))], 1);
-                draw_sprite_ext(sprPauseMenuBarSecondary, ammo, xff + 18, yff, 1, 1, 0, col[1, cl * (1 + (w == 0))], 1);
-                
-                // Draw infinite energy mark over relevant bars
-                if (global.infiniteEnergy[w])
-                {
-                    draw_sprite_ext(sprInfinityMark, 0, xff + 18 + 28, yff, 1, 1, 0, c_white, 1);
-                    draw_sprite_ext(sprInfinityMark, 1, xff + 18 + 28, yff, 1, 1, 0, col[0, cl], 1);
-                    draw_sprite_ext(sprInfinityMark, 2, xff + 18 + 28, yff, 1, 1, 0, col[1, cl], 1);
-                }
             }
             else    //i.e. if global.weaponLocked[w] == 1
-            {   //locked icon
-                draw_sprite_ext(sprPauseMenuWeaponDisabled, 0, xff + 18, yff - 8, 1, 1, 0, c_white, 1);
+            {   //locked icon if locked
+                draw_sprite_ext(sprPauseMenuWeaponDisabled, 0, xff + 17, yff, 1, 1, 0, c_white, 1);
+            }
+                
+            //ammo bar
+            draw_sprite_ext(sprPauseMenuBarPrimary, ammo, xff + 8, yff + 16, 1, 1, 0, col[0, cl * (1 + (w == 0))], 1);
+            draw_sprite_ext(sprPauseMenuBarSecondary, ammo, xff + 8, yff + 16, 1, 1, 0, col[1, cl * (1 + (w == 0))], 1);
+            
+            // Draw infinite energy mark over relevant bars
+            if (global.infiniteEnergy[w])
+            {
+                draw_sprite_ext(sprInfinityMark, 0, xff + 24 + 12, yff + 16, 1, 1, 0, c_white, 1);
+                draw_sprite_ext(sprInfinityMark, 1, xff + 24 + 12, yff + 16, 1, 1, 0, col[0, cl], 1);
+                draw_sprite_ext(sprInfinityMark, 2, xff + 24 + 12, yff + 16, 1, 1, 0, col[1, cl], 1);
             }
         }
         else if phase == 7
         {   //empty weapon slot
             //"icon"
-            draw_sprite_ext(sprWeaponIconsBlank, 0, xff, yff - 8, 1, 1, 0, col[cl, 0], 1);
+            draw_sprite_ext(sprWeaponIconsBlank, 0, xff, yff, 1, 1, 0, col[cl, 0], 1);
             //grey energy bar
-            draw_sprite_ext(sprPauseMenuBarPrimary, ammo, xff + 18, yff, 1, 1, 0, col[0, 0], 1);
-            draw_sprite_ext(sprPauseMenuBarSecondary, ammo, xff + 18, yff, 1, 1, 0, col[1, 0], 1);
+            draw_sprite_ext(sprPauseMenuBarPrimary, ammo, xff + 8, yff + 16, 1, 1, 0, col[0, 0], 1);
+            draw_sprite_ext(sprPauseMenuBarSecondary, ammo, xff + 8, yff + 16, 1, 1, 0, col[1, 0], 1);
         }
     }
     
-    // mega man
-    with (objMegaman)
+    if !isgreen &amp;&amp; !isred
     {
-        if (playerID == other.playerID)
+        // mega man
+        with (objMegaman)
         {
-            drawPlayer(playerID, costumeID, 0, 0, other.x + 62, other.y + 18, 1, 1);
+            if (playerID == other.playerID)
+            {
+                drawPlayer(playerID, costumeID, 0, 0, other.x + 41, other.y + 16, 1, 1);
+            }
         }
+        
+        // health
+        draw_sprite_ext(sprPauseMenuBarPrimary, global.playerHealth[playerID], x + 55, y + 8, 1, 1, 0, col[0, 2], 1);
+        draw_sprite_ext(sprPauseMenuBarSecondary, global.playerHealth[playerID], x + 55, y + 8, 1, 1, 0, col[1, 2], 1);
+        
+        // E-Tank
+        draw_sprite_ext(sprETank, 2, x + etankPositionX, y + etankPositionY + -1, 1, 1, 0, col[0, option == 0], 1);
+        draw_sprite_ext(sprETank, 4, x + etankPositionX, y + etankPositionY + -1, 1, 1, 0, col[1, option == 0], 1);
+        
+        draw_text(x + etankPositionX, y + etankPositionY + 16, zeroPad(global.eTanks, 2));
+        
+        // W-Tank
+        draw_sprite_ext(sprWTank, 2, x + wtankPositionX, y + wtankPositionY + -1, 1, 1, 0, col[0, option == 1], 1);
+        draw_sprite_ext(sprWTank, 4, x + wtankPositionX, y + wtankPositionY + -1, 1, 1, 0, col[1, option == 1], 1);
+        
+        draw_text(x + wtankPositionX, y + wtankPositionY + 16, zeroPad(global.wTanks, 2));
+        
+        // M-Tank
+        draw_sprite_ext(sprMTank, 2, x + mtankPositionX, y + mtankPositionY + -1, 1, 1, 0, col[0, option == 2], 1);
+        draw_sprite_ext(sprMTank, 4, x + mtankPositionX, y + mtankPositionY + -1, 1, 1, 0, col[1, option == 2], 1);
+        
+        draw_text(x + mtankPositionX, y + mtankPositionY + 16, zeroPad(global.mTanks, 2));
+        
+        // Bolts
+        draw_sprite_ext(sprBoltBig, 0, x + 200, y + 5, 1, 1, 0, c_white, 1);
+        draw_sprite_ext(sprBoltBig, 1, x + 200, y + 5, 1, 1, 0, col[0, 1], 1);
+        draw_sprite_ext(sprBoltBig, 2, x + 200, y + 5, 1, 1, 0, col[1, 1], 1);
+        
+        draw_text(x + 192, y + 24, zeroPad(global.bolts, 4));
+        
+        // Energy Elements
+        draw_sprite_ext(sprEnergyElement, 0, x + 136, y + 7, 1, 1, 0, c_white, 1);
+        
+        draw_text(x + 133, y + 24, zeroPad(global.energyElements, 3));
+        
+        // Side Collectible
+        draw_sprite_ext(sprKey, 0, x + 168, y + 8, 1, 1, 0, c_white, 1);
+        
+        draw_text(x + 165, y + 24, zeroPad(0, 3));
     }
-    
-    // health
-    draw_sprite_ext(sprPauseMenuBarPrimary, global.playerHealth[playerID], x + 35, y + 38, 1, 1, 0, col[0, 2], 1);
-    draw_sprite_ext(sprPauseMenuBarSecondary, global.playerHealth[playerID], x + 35, y + 38, 1, 1, 0, col[1, 2], 1);
-    
-    // E-Tank
-    draw_sprite_ext(sprETank, 2, x + etankPositionX, y + etankPositionY, 1, 1, 0, col[0, option == 0], 1);
-    draw_sprite_ext(sprETank, 4, x + etankPositionX, y + etankPositionY, 1, 1, 0, col[1, option == 0], 1);
-    
-    draw_text(x + etankPositionX, y + etankPositionY + 18, zeroPad(global.eTanks, 2));
-    
-    // W-Tank
-    draw_sprite_ext(sprWTank, 2, x + wtankPositionX, y + wtankPositionY, 1, 1, 0, col[0, option == 1], 1);
-    draw_sprite_ext(sprWTank, 4, x + wtankPositionX, y + wtankPositionY, 1, 1, 0, col[1, option == 1], 1);
-    
-    draw_text(x + wtankPositionX, y + wtankPositionY + 18, zeroPad(global.wTanks, 2));
-    
-    // M-Tank
-    draw_sprite_ext(sprMTank, 2, x + mtankPositionX, y + mtankPositionY, 1, 1, 0, col[0, option == 2], 1);
-    draw_sprite_ext(sprMTank, 4, x + mtankPositionX, y + mtankPositionY, 1, 1, 0, col[1, option == 2], 1);
-    
-    draw_text(x + mtankPositionX, y + mtankPositionY + 18, zeroPad(global.mTanks, 2));
-    
-    // Bolts
-    draw_sprite_ext(sprBoltBig, 0, x + 192, y + 16, 1, 1, 0, c_white, 1);
-    draw_sprite_ext(sprBoltBig, 1, x + 192, y + 16, 1, 1, 0, col[0, 1], 1);
-    draw_sprite_ext(sprBoltBig, 2, x + 192, y + 16, 1, 1, 0, col[1, 1], 1);
-    
-    draw_text(x + 184, y + 33, zeroPad(global.bolts, 4));
-    
-    // Energy Elements
-    draw_sprite_ext(sprEnergyElement, 0, x + 130, y + 15, 1, 1, 0, c_white, 1);
-    
-    draw_text(x + 125, y + 33, zeroPad(global.energyElements, 3));
-    
-    // Side Collectible
-    draw_sprite_ext(sprKey, 0, x + 159, y + 16, 1, 1, 0, c_white, 1);
-    
-    draw_text(x + 155, y + 33, zeroPad(0, 3));
-    
-    //sort &amp; info buttons
-    draw_sprite_ext(sprWeaponSort, (option == 6) + ((option == 7) * 2), x + rearrangePositionX, y + rearrangePositionY, 1, 1, 0, c_white, 1);
+    else if isgreen
+    {
+        //text for rearrange mode
+    }
+    else if isred
+    {
+        //text for w-tank usage mode
+    }
     
     // colored text overlays
     if (global.showColoredTextOverlays)
@@ -1060,7 +1073,7 @@ if (phase != 0)
         else if rHeldWeapon != undefined &amp;&amp; rCursorAnim == 2
         {   //swap anim
             var asrcX = x + buttonPos[rAnimatingOption, 0] + -28;
-            var asrcY = y + buttonPos[rAnimatingOption, 1] + -8;
+            var asrcY = y + buttonPos[rAnimatingOption, 1];
             var swapAdjX = ((x + rCursorX) - asrcX) * sin(((1 - ra) * pi * 0.5));
             swapAdjX = swapAdjX + (sin(ra * pi) * 10);
             var swapAdjY = ((y + rCursorY) - asrcY) * ((cos(ra * pi) + 1) / 2);
@@ -1094,7 +1107,7 @@ if (phase != 0)
         else if rCursorAnim == 1
         {   //put down anim
             var asrcX = x + buttonPos[rAnimatingOption, 0] + -28;
-            var asrcY = y + buttonPos[rAnimatingOption, 1] + -8;
+            var asrcY = y + buttonPos[rAnimatingOption, 1];
             var adjX = ((x + rCursorX) - asrcX) * sin(ra * pi * 0.25);
             var adjY = ((y + rCursorY) - asrcY) * sin(ra * pi * 0.25);
             
