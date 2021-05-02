@@ -400,7 +400,7 @@ for (p = p; p &lt;= endcon; p += sh;)
 {   // + (sh / 2)
     
     //skip drawing if this part is being dispersed, or if flickering is on
-    if (doDis &amp;&amp; abs(p) &lt; disperse) || (flicker-- mod 2 != 0)
+    if (doDis &amp;&amp; abs(p) &lt; disperse) || (global.doFlashing &amp;&amp; flicker-- mod 2 != 0)
         continue;
     draw_sprite(sprite_index, image_index, 
         round(x + sin((animTimer + (p / 2)) / 6) * waveWidth), 

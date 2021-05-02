@@ -53,14 +53,19 @@ verticalQuickScrollTimer = 25;
 horizontalQuickScrollTimer = 25;
 
 link = noone;
+linkFade = !instance_exists(objPauseMenu) * 2;
 
 listW = 128;
 listH = 192;
 listSurface = surface_create(listW, listH);
-listScrollDest = -(listH / 2);
+listScrollDest = -(listH / 2) + 12;
 listScroll = listScrollDest;
 
 maxVisibleOptions = 9;
+
+gearAnimTimer = 0;
+gearSurface = surface_create(256, 224);
+lightAnimTimer = 0;
 
 // Control settings
 newControls = 0;
@@ -86,6 +91,7 @@ optionText[0, 5] = 'DISPLAY...';
     optionText[1, 5] = 'DAMAGE POPUP';
     optionText[1, 6] = 'CHARGE BAR';
     optionText[1, 7] = 'ESC KEY BEHAVIOR';
+    /*
     optionText[1, 8] = 'test1';
     optionText[1, 9] = 'test2';
     optionText[1, 10] = 'test3';
@@ -96,11 +102,13 @@ optionText[0, 5] = 'DISPLAY...';
     optionText[1, 15] = 'test8';
     optionText[1, 16] = 'test9';
     optionText[1, 17] = 'testwhatever';
+    */
 
 optionText[0, 6] = 'ACCESSIBILITY...';
     optionText[2, 0] = 'BACK';
     optionText[2, 1] = 'MOVING TEXT';
-    optionText[2, 2] = 'COLORED TEXT# OVERLAYS...';
+    optionText[2, 2] = 'FLASHING';
+    optionText[2, 3] = 'COLORED TEXT# OVERLAYS...';
 
 optionText[0, 7] = 'GAME STYLE...';
     optionText[3, 0] = 'BACK';
@@ -212,6 +220,8 @@ switch (phase)
             link.scrollX = 256;
             phase = 6;
         }
+        linkFade = link.scrollX / 128;
+        link.linkFade = linkFade;
         break;
     
     case 5: //pan out
@@ -223,6 +233,8 @@ switch (phase)
             instance_destroy();
             exit;
         }
+        linkFade = link.scrollX / 128;
+        link.linkFade = linkFade;
         break;
     
     /*menu cases:
@@ -255,12 +267,7 @@ switch (phase)
             <kind>1</kind>
             <string>/// Most menu selections
 
-if (instance_exists(objColoredTextOverlaysMenu))
-{
-    exit;
-}
-
-if (phase &gt;= 6 &amp;&amp; !selected)
+if (phase &gt;= 6 &amp;&amp; !selected &amp;&amp; !instance_exists(objColoredTextOverlaysMenu))
 {
     // exit with b button, or by pressing exit option
     if global.keyShootPressed[0] || ((global.keyPausePressed[0] || global.keyJumpPressed[0]) &amp;&amp; option == 0)
@@ -278,9 +285,9 @@ if (phase &gt;= 6 &amp;&amp; !selected)
         else
         {   //return to main menu if in submenu
             option = returnOption;
+            //listScrollDest = returnScroll;
+            listScroll = returnScroll + (listScroll - listScrollDest) + -32;
             phase = 6;
-            listScrollDest = returnScroll;
-            listScroll = listScrollDest;
             playSFX(sfxMenuSelect);
             exit;
         }
@@ -409,6 +416,16 @@ if (phase &gt;= 6 &amp;&amp; !selected)
                 }
                 break;
             
+            // flickering (photosensitivity)
+            case 202:
+                pre = global.doFlashing;
+                global.doFlashing = min(max(0, global.doFlashing + xdir), 1);
+                if (global.doFlashing != pre)
+                {
+                    playSFX(sfxTextBox);
+                }
+                break;
+            
             // MM Color
             case 301:
                 pre = global.mmColor;
@@ -470,7 +487,6 @@ if (phase &gt;= 6 &amp;&amp; !selected)
                 break;
         }
     }
-    //todo
     
     //start / a controlled options
     if global.keyPausePressed[0] || global.keyJumpPressed[0]
@@ -524,14 +540,16 @@ if (phase &gt;= 6 &amp;&amp; !selected)
                 playSFX(sfxPause);
                 returnOption = option;
                 returnScroll = listScrollDest;
-                listScrollDest = -(listH / 2);
-                listScroll = listScrollDest;
+                
+                listScroll = -(listH / 2) + (listScroll - listScrollDest) + 12 + 32;
+                listScrollDest = listScroll;
+                
                 phase = option + 2;
                 option = 0;
                 break;
             
             // colored text overlays
-            case 202:
+            case 203:
                 playSFX(sfxPause);
                 instance_create(x, y, objColoredTextOverlaysMenu);
                 break;
@@ -548,12 +566,7 @@ if (phase &gt;= 6 &amp;&amp; !selected)
         if (option &lt; 0) || (option &gt;= array_length_2d(optionText, phase - 6))
             option -= array_length_2d(optionText, phase - 6) * ydir;
         playSFX(sfxTextBox);
-        //change scrolling target
-        //listScrollDest = max(min(option - floor(maxVisibleOptions / 2), array_length_2d(optionText, phase - 6) - maxVisibleOptions), 0);
     }
-    
-    //smooth scrolling
-    listScroll += (listScrollDest - listScroll) / 8;
     
     // vertical quick scroll timer handling
     if (horizontalQuickScrollTimer == 25 // don't quick scroll vertically if doing it horizontally
@@ -582,6 +595,11 @@ if (phase &gt;= 6 &amp;&amp; !selected)
     else
         horizontalQuickScrollTimer = 25; // &lt;-- time until quick scroll here
 }
+
+//gear animation
+gearAnimTimer += (listScrollDest - listScroll);
+//smooth scrolling
+listScroll += (listScrollDest - listScroll) / 8;
 </string>
           </argument>
         </arguments>
@@ -893,8 +911,41 @@ else
 
 var mySub = max(0, phase - 6);
 
-// draw menu bg
-draw_sprite(sprite_index, 0, drawXPosition, drawYPosition);
+//animated gears
+//uses a surface for pixellation at higher resolutions
+//assign &amp; clear surface
+if !surface_exists(gearSurface)
+    gearSurface = surface_create(256, 224);
+surface_set_target(gearSurface);
+draw_clear_alpha(c_black, 0);
+
+var fade = (floor(max(linkFade - 1, 0) * 3) / 3) * 255;
+var gearColor = make_color_rgb(fade, fade, fade);
+//gears
+//bottom-left group
+draw_sprite_ext(sprOptionsGear6, 0, 16, 117, 
+    0.6, 0.6, (gearAnimTimer / 6) + 13, gearColor, 1);
+draw_sprite_ext(sprOptionsGear8, 0, 45, 154, 
+    0.6, 0.6, (-gearAnimTimer / 8) - 3, gearColor, 1);
+draw_sprite_ext(sprOptionsGear16, 0, 0, 220, 
+    0.6, 0.6, (gearAnimTimer / 16) + 40, gearColor, 1);
+
+//top-right group
+draw_sprite_ext(sprOptionsGear12, 0, 220, 40, 
+    0.6, 0.6, -gearAnimTimer / 12, gearColor, 1);
+draw_sprite_ext(sprOptionsGear6, 0, 248, 92, 
+    0.6, 0.6, (gearAnimTimer / 6) + 25, gearColor, 1);
+
+//stragglers
+draw_sprite_ext(sprOptionsGear8, 0, 24, 8, 
+    0.6, 0.6, -gearAnimTimer / 8, gearColor, 1);
+
+draw_sprite_ext(sprOptionsGear6, 0, 220, 200, 
+    0.6, 0.6, -gearAnimTimer / 8, gearColor, 1);
+
+//draw surface
+surface_reset_target();
+draw_surface(gearSurface, drawXPosition, drawYPosition);
 
 //option list
 //assign &amp; clear surface
@@ -905,17 +956,14 @@ draw_clear_alpha(c_black, 0);
 
 //text alignment
 draw_set_halign(fa_left);
-draw_set_valign(fa_middle);
+draw_set_valign(fa_top);
 
 // draw options to surface
-for (var yoff = 0, j = 0, opt; j &lt; array_length_2d(optionText, mySub); j++;)
+for (var yoff = 0, j = 0, opt, linecnt; j &lt; array_length_2d(optionText, mySub); j++;)
 {
     //darken all draws if option is not the selected one
     if (option == j)
-    {
         draw_set_color(c_white);
-        listScrollDest = yoff - (listH / 2);
-    }
     else
         draw_set_color(global.nesPalette[0]);
 
@@ -1031,6 +1079,14 @@ for (var yoff = 0, j = 0, opt; j &lt; array_length_2d(optionText, mySub); j++;)
                 opt = 'OFF';
             break;
         
+        // flashing
+        case 202:
+            if (global.doFlashing)
+                opt = 'ON';
+            else
+                opt = 'OFF';
+            break;
+        
         // mega man colors
         case 301:
             if (global.mmColor)
@@ -1089,14 +1145,19 @@ for (var yoff = 0, j = 0, opt; j &lt; array_length_2d(optionText, mySub); j++;)
     draw_text(8, yoff + -floor(listScroll + 0.5) + 8, opt);
     
     //indents by 16 if opt is blank, by 24 elsewise
-    yoff += 8 * ((opt != '') + 2);
+    linecnt = (opt != '') + 1;
+    yoff += 8 * (linecnt + 1);
+    
+    //if this is selected option, set cursor target to center
+    if option == j
+        listScrollDest = yoff + (-listH / 2) + (-4 * linecnt);
 }
 draw_set_color(c_white);
 
-yoff -= 8 * ((opt != '') + 2);
-listBottom = yoff;
+//get bottom of list, for arrow detection
+listBottom = yoff - (8 * ((opt != '') + 1));
 
-//draw surface
+//draw list surface
 surface_reset_target();
 draw_surface(listSurface, drawXPosition + 64, drawYPosition + 16);
 
@@ -1109,25 +1170,42 @@ if (arrowBlinkTimer == 0)
 }
 
 // draw arrows
-draw_set_halign(fa_middle);
-draw_set_valign(fa_top);
+draw_set_halign(fa_center);
+draw_set_valign(fa_middle);
+
+var headerText = "- OPTIONS -";
+switch(phase)
+{
+    case 7:
+        headerText = "- DISPLAY -"; 
+        break;
+    case 8:
+        headerText = "ACCESSIBILITY"; 
+        break;
+    case 9:
+        headerText = "-GAME STYLE-"; 
+        break;
+    case 10:
+        headerText = "- CHEATS -"; 
+        break;
+}
 
 if (listScroll &lt; 0)
 {
-    draw_text(drawXPosition + 128, drawYPosition + 4, "- OPTIONS -"); 
+    draw_text(drawXPosition + 128, drawYPosition + 8, headerText); 
 }
 else if (showArrow)
 {
-    draw_sprite(sprArrow, 2, drawXPosition + 128, drawYPosition + 4);
+    draw_sprite(sprArrow, 2, drawXPosition + 128, drawYPosition + 8);
 }
 
 if (listScroll &gt;= listBottom - listH)
 {
-    draw_text(drawXPosition + 128, drawYPosition + 212, "- OPTIONS -");
+    draw_text(drawXPosition + 128, drawYPosition + 216, headerText);
 }
 else if (showArrow)
 {
-    draw_sprite(sprArrow, 3, drawXPosition + 128, drawYPosition + 212);
+    draw_sprite(sprArrow, 3, drawXPosition + 128, drawYPosition + 216);
 }
 
 // draw configure controls popup

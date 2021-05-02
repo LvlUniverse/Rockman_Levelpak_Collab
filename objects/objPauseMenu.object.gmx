@@ -112,8 +112,12 @@ for(var q = 0; q &lt;= 11; q++)
         wepBarFills[q] = 0;
 }
 
+//map menu hooks
 useExit = false;
 mapInfoFetch();
+
+//options menu hooks
+linkFade = 0;
 </string>
           </argument>
         </arguments>
@@ -895,6 +899,11 @@ if (phase != 0)
             draw_background(bgArcadeCarpet, view_xview + j, view_yview + i);
         }
     }
+    //fadebox for going to options menu
+    draw_set_alpha(floor(min(linkFade, 1) * 3) / 3);
+    draw_rectangle_color(view_xview, view_yview, view_xview + view_wview, view_yview + view_hview,
+        false, c_black, c_black, c_black, c_black);
+    draw_set_alpha(1);
     
     // these actually go 'under' the pause menu, so they go before drawSelf.
     

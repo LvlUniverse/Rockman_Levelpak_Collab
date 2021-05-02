@@ -124,42 +124,40 @@ switch (phase)
           <argument>
             <kind>1</kind>
             <string>///menu movement &amp; cancelling
-if phase == 2
+
+// exit with b or up
+if phase == 2 &amp;&amp; (global.keyShootPressed[0] || global.keyUpPressed[0])
 {
-    // exit with b or up
-    if global.keyShootPressed[0] || global.keyUpPressed[0]
-    {
-        selected = true;
-        if link == noone
-            phase++;
-        else
-            phase = 1;
-        playSFX(sfxSkullAmulet);
-        exit;
-    }
-   
-    //left and right controlling 
-    dir = (global.keyRightPressed[0] || (global.keyRight[0] &amp;&amp; quickScrollTimer &lt;= 0)) - (global.keyLeftPressed[0] || (global.keyLeft[0] &amp;&amp; quickScrollTimer &lt;= 0))
-        + ((global.keyWeaponSwitchRightPressed[0] - global.keyWeaponSwitchLeftPressed[0]) * 4);
-    if (dir != 0)
-    {
-        var lo = option;
-        option += dir;
-        option = clamp(option, 0, cpTotal);
-        if lo != option //if option actually changed
-            playSFX(sfxWeaponSwitch);
-        else
-            quickScrollTimer = 25;
-    }
-    //quick scroll timer handling
-    if (global.keyLeft[0] ^^ global.keyRight[0])
-    {
-        if (quickScrollTimer-- &lt;= 0)
-            quickScrollTimer = 9;
-    }
+    selected = true;
+    if link == noone
+        phase++;
+    else
+        phase = 1;
+    playSFX(sfxSkullAmulet);
+    exit;
+}
+
+//left and right controlling 
+dir = (global.keyRightPressed[0] || (global.keyRight[0] &amp;&amp; quickScrollTimer &lt;= 0)) - (global.keyLeftPressed[0] || (global.keyLeft[0] &amp;&amp; quickScrollTimer &lt;= 0))
+    + ((global.keyWeaponSwitchRightPressed[0] - global.keyWeaponSwitchLeftPressed[0]) * 4);
+if (dir != 0)
+{
+    var lo = option;
+    option += dir;
+    option = clamp(option, 0, cpTotal);
+    if lo != option //if option actually changed
+        playSFX(sfxWeaponSwitch);
     else
         quickScrollTimer = 25;
 }
+//quick scroll timer handling
+if (global.keyLeft[0] ^^ global.keyRight[0])
+{
+    if (quickScrollTimer-- &lt;= 0)
+        quickScrollTimer = 9;
+}
+else
+    quickScrollTimer = 25;
 
 scrollOff += ((option * 80) - scrollOff) / 8;   //smooth scrolling
 </string>

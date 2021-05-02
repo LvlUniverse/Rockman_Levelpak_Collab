@@ -4254,6 +4254,10 @@
         <sprite>sprites\sprOptionsCursor</sprite>
         <sprite>sprites\sprOptionSlider</sprite>
         <sprite>sprites\sprControlconfigureScreen</sprite>
+        <sprite>sprites\sprOptionsGear16</sprite>
+        <sprite>sprites\sprOptionsGear12</sprite>
+        <sprite>sprites\sprOptionsGear8</sprite>
+        <sprite>sprites\sprOptionsGear6</sprite>
       </sprites>
       <sprites name="Map">
         <sprite>sprites\sprWilyCastle</sprite>
