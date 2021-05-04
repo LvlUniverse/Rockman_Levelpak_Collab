@@ -277,6 +277,21 @@ for (i = 0; i &lt;= cpTotal; i++)
 //cp name
 draw_text(drawXPosition + (view_wview / 2), drawYPosition + 180, cpNames[option]);
 
+// colored text overlays
+if (global.showColoredTextOverlays)
+{
+    draw_set_color(make_color_rgb(global.coloredTextOverlaysRed, global.coloredTextOverlaysGreen, global.coloredTextOverlaysBlue));
+    draw_set_alpha(global.coloredTextOverlaysOpacity / 255);
+    
+    var headw = string_length(mapName) * 4; //8 / 2
+    draw_rectangle(drawXPosition + (view_wview / 2) - headw, drawYPosition + 32, 
+        drawXPosition + (view_wview / 2) + headw, drawYPosition + 48, false);
+    draw_rectangle(drawXPosition - 20, drawYPosition + 179, 
+        drawXPosition + view_wview + 20, drawYPosition + 188, false);
+    
+    draw_set_color(c_white);
+    draw_set_alpha(1);
+}
 </string>
           </argument>
         </arguments>

@@ -19,10 +19,10 @@ global.showControllerOverlay = false;
 //accessibility
 global.showMovingText = true;
 global.showColoredTextOverlays = false;
-global.showColoredTextOverlaysRed = 1;
-global.showColoredTextOverlaysGreen = 1;
-global.showColoredTextOverlaysBlue = 1;
-global.showColoredTextOverlaysOpacity = 1;
+global.coloredTextOverlaysRed = 0;
+global.coloredTextOverlaysGreen = 170;
+global.coloredTextOverlaysBlue = 255;
+global.coloredTextOverlaysOpacity = 120;
 global.doFlashing = true;
 
 //game style

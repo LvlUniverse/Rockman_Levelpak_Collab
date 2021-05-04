@@ -22,7 +22,16 @@ global.jumpSound             = sl(global.jumpSound, "jump-sound");
 global.teleportSound         = sl(global.teleportSound, "teleport-sound");
 global.vsync                 = sl(global.vsync,          "vsync");
 global.showControllerOverlay = sl(global.showControllerOverlay, "controlleroverlay");
-global.escapeBehavior         = sl(global.escapeBehavior, "escapebehavior");
+global.escapeBehavior        = sl(global.escapeBehavior, "escapebehavior");
+global.escapeBehavior        = sl(global.escapeBehavior, "escapebehavior");
+global.doFlashing            = sl(global.doFlashing, "doFlashing");
+
+//color overlays
+global.showColoredTextOverlays      = sl(global.showColoredTextOverlays, "showColoredTextOverlays");
+global.coloredTextOverlaysRed       = sl(global.coloredTextOverlaysRed, "coloredTextOverlaysRed");
+global.coloredTextOverlaysGreen     = sl(global.coloredTextOverlaysGreen, "coloredTextOverlaysGreen");
+global.coloredTextOverlaysBlue      = sl(global.coloredTextOverlaysBlue, "coloredTextOverlaysBlue");
+global.coloredTextOverlaysOpacity   = sl(global.coloredTextOverlaysOpacity, "coloredTextOverlaysOpacity");
 
 // controls
 for (var i = 0; i < 4; i += 1)

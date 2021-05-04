@@ -12,11 +12,6 @@ global.difficulty = DIFF_NORMAL;
 
 // in the example game, save files can be set to skip over levels
 global.debugSkipStageMode = false;
-global.showColoredTextOverlays = false;
-global.coloredTextOverlaysRed = 0;
-global.coloredTextOverlaysGreen = 200;
-global.coloredTextOverlaysBlue = 255;
-global.coloredTextOverlaysOpacity = 170;
 
 global.bolts = 0;
 global.eTanks = 0;

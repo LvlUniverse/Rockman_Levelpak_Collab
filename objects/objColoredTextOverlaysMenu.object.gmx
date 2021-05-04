@@ -209,7 +209,7 @@ if (phase == 2 &amp;&amp; !selected)
                 global.showColoredTextOverlays = min(max(0, global.showColoredTextOverlays + dir), 1);
                 if (global.showColoredTextOverlays != pre)
                 {
-                    playSFX(sfxTextBox);
+                    playSFX(sfxMenuMove);
                 }
                 break;
             
@@ -308,7 +308,7 @@ if (phase == 2 &amp;&amp; !selected)
             option = array_length_1d(optionText) - 1;
         }
         
-        playSFX(sfxMenuMove);
+        playSFX(sfxTextBox);
     }
     else if (global.keyDownPressed[0] || (global.keyDown[0] &amp;&amp; verticalQuickScrollTimer &lt;= 0))
     {
@@ -320,7 +320,7 @@ if (phase == 2 &amp;&amp; !selected)
             option = 0;
         }
         
-        playSFX(sfxMenuMove);
+        playSFX(sfxTextBox);
     }
     
     // vertical quick scroll timer handling
@@ -395,56 +395,68 @@ if (cursorImgIndex &gt;= 5)
     cursorImgIndex -= 5;
 }
 
-// draw options
 draw_set_halign(fa_left);
 draw_set_valign(fa_top);
-for (var j = 0; j &lt; array_length_1d(optionText); j++)
-{
-    draw_text_ext(view_xview[0] + 16, view_yview[0] + 8 + j * 12, optionText[j], 12, 256);
-}
 
-// draw current option status'
-opt = '';
+//draw options
+var opt = '';
 for (var j = 0; j &lt; array_length_1d(optionText); j++)
 {
+    //option name
+    draw_set_halign(fa_left);
+    draw_text_ext(view_xview[0] + 16, view_yview[0] + 8 + (j * 12), optionText[j], 12, 256);
+    
+    //get option variable
     switch (j)
     {
         // enabled
         case 1:
             if (!global.showColoredTextOverlays)
-            {
-                opt += "OFF";
-            }
+                opt = "OFF";
             else
-            {
-                opt += "ON";
-            }
+                opt = "ON";
             
             break;
         case 2:
-            opt += string(global.coloredTextOverlaysRed);
-            
+            opt = global.coloredTextOverlaysRed;
             break;
+            
         case 3:
-            opt += string(global.coloredTextOverlaysGreen);
-            
+            opt = global.coloredTextOverlaysGreen;
             break;
+            
         case 4:
-            opt += string(global.coloredTextOverlaysBlue);
-            
+            opt = global.coloredTextOverlaysBlue;
             break;
-        case 5:
-            opt += string(global.coloredTextOverlaysOpacity);
             
+        case 5:
+            opt = global.coloredTextOverlaysOpacity;
             break;
     }
     
-    // next line
-    opt += "#";
+    //draw option status
+    draw_set_halign(fa_right);
+    if j == 5
+    {
+        draw_sprite_part(sprOptionSlider, 0, 0, 0, 24, 8, 
+            view_xview[0] + 91, view_yview[0] + 8 + (j * 12));
+        draw_sprite_part(sprOptionSlider, 0, 24, 0, 48, 8, 
+            view_xview[0] + 101, view_yview[0] + 8 + (j * 12));
+        
+        draw_sprite(sprOptionSlider, 1, view_xview[0] + 88 + floor(opt * (57 / 255)), view_yview[0] + 8 + (j * 12));
+        
+        draw_text(view_xview[0] + 230, view_yview[0] + 8 + (j * 12), string(opt));
+    }
+    else if j &gt; 1
+    {   //draw scrollbar and number
+        draw_sprite(sprOptionSlider, 0, view_xview[0] + 88, view_yview[0] + 8 + (j * 12));
+        draw_sprite(sprOptionSlider, 1, view_xview[0] + 88 + floor(opt * (57 / 255)), view_yview[0] + 8 + (j * 12));
+        
+        draw_text(view_xview[0] + 230, view_yview[0] + 8 + (j * 12), string(opt));
+    }
+    else    //draw on/off text
+        draw_text(view_xview[0] + 230, view_yview[0] + 8 + (j * 12), opt);
 }
-
-draw_set_halign(fa_right);
-draw_text_ext(view_xview[0] + 230, view_yview[0] + 8, opt, 12, 256);
 
 // demo text
 draw_set_halign(fa_left);
