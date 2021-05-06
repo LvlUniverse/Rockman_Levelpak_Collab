@@ -31,15 +31,17 @@ visible = false;
 phase = 0;
 
 option = 1;
+optReturn = 1;
 
 sortOption = 0; //todo: sort menu w/ shoulder button
 sortOptionMemory = 0;
 sortMode = false;
 
-scrollOffset = 1;
-offsetTimer = -1;
+scrollOffset = 0;
+offsetTimer = 0;
 
 animTimer = 0;
+bgTimer = choose(0, 360, 720, 1080);
 quickScrollTimer = 25;
 extremeSpeedTimer = 400;
 
@@ -50,7 +52,7 @@ equipmentCosts = makeArray(3, 8, 3, 0, 6, 5, 12, 12);
 equipmentNames = makeArray("Energy Balancer", "Energy Charger", "Energy Converter", "Normal Item", "Skull Amulet", "Met Helmet", "Energy Saver", "Super E.Balancer");
 
 ownedCount = array_length_1d(global.equipmentOwned);
-shownAtOnce = min(9, ownedCount);
+shownAtOnce = min(8, ownedCount);
 
 //BP used is only really relevant in this menu, so it's calculated on the spot instead of stored
 bpUsed = 0;
@@ -70,11 +72,11 @@ bpAnimDest = allocateArray(coinsTotal, 0);
 badgesListX = 88;
 badgesListY = 16;
 badgesListW = 146;
-badgesListH = 160;
+badgesListH = 142;
 badgesDescX = 88;
 badgesDescY = 192;
 bpTallyX = 24;
-bpTallyY = 56;
+bpTallyY = 40;
 showModeX = 24;
 showModeY = 8;
 sortMenuX = 88;
@@ -210,7 +212,10 @@ switch (phase)  //copied from pause menu
             if (xDir != 0)
             {
                 playSFX(sfxWeaponSwitch);
-                option = !option;   //0 becomes 1, &gt;=1 becomes 0
+                if option == 0
+                    option = optReturn;
+                else
+                    option = 0;
             }
             
             //scroll &amp; quickscroll
@@ -248,6 +253,12 @@ switch (phase)  //copied from pause menu
                     option = ownedCount;
                 if option &gt;= ownedCount + 1
                     option = 1;
+                optReturn = option;
+                //different offset based on the direction you scroll in
+                if yDir &lt; 0
+                    scrollOffset = clamp((option) - 4, 0, ownedCount - shownAtOnce);
+                else
+                    scrollOffset = clamp((option) - 5, 0, ownedCount - shownAtOnce); 
                 playSFX(sfxWeaponSwitch);
             }
         }
@@ -413,8 +424,6 @@ if phase == 2 &amp;&amp; (global.keyJumpPressed[0] || global.keyPausePressed[0] 
 animTimer++;
 
 //smoothly scrolling badge list
-if (option != 0) &amp;&amp; (option &lt;= ownedCount)
-    scrollOffset = clamp((option) - ceil(shownAtOnce * 0.5), 0, ownedCount - shownAtOnce);
 if (abs(scrollOffset - offsetTimer) &lt; 0.05 || offsetTimer &lt; 0)
     offsetTimer = scrollOffset;
 offsetTimer += (scrollOffset - offsetTimer) / 8;
@@ -571,8 +580,23 @@ event_perform(ev_destroy, 0);
 drawXPosition = view_xview[0] + view_wview[0] / 2 - 128;
 drawYPosition = view_yview[0] + view_hview[0] / 2 - 112;
 
+//cool backing
+bgTimer += 0.25;
+var sx = abs((bgTimer mod 1440) - 720);
+var sy = abs(((bgTimer + 360) mod 1440) - 720);
+for(var i = (sy mod 120) - 120; i &lt;= view_hview; i += 120)
+{
+    for(var j = (sx mod 120) - 120; j &lt;= view_wview; j += 120)
+    {
+        draw_background(bgArcadeCarpet, view_xview + j, view_yview + i);
+    }
+}
+
 // draw menu bg
 draw_sprite(sprite_index, 0, drawXPosition, drawYPosition);
+
+//exit button
+draw_sprite(sprExit, option == 0, drawXPosition + 40, drawYPosition + 16);
 
 draw_set_halign(fa_left);
 draw_set_valign(fa_top);

@@ -210,7 +210,7 @@ draw_set_halign(fa_center);
 draw_set_valign(fa_top);
 
 //todo: all
-draw_sprite(sprite_index, 1, drawXPosition, drawYPosition);
+draw_sprite(sprite_index, 3, drawXPosition, drawYPosition);
 </string>
           </argument>
         </arguments>

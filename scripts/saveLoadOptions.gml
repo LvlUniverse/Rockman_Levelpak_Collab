@@ -25,6 +25,7 @@ global.showControllerOverlay = sl(global.showControllerOverlay, "controlleroverl
 global.escapeBehavior        = sl(global.escapeBehavior, "escapebehavior");
 global.escapeBehavior        = sl(global.escapeBehavior, "escapebehavior");
 global.doFlashing            = sl(global.doFlashing, "doFlashing");
+global.showHUDWeaponIcon     = sl(global.showHUDWeaponIcon, "hud-wepicon");
 
 //color overlays
 global.showColoredTextOverlays      = sl(global.showColoredTextOverlays, "showColoredTextOverlays");

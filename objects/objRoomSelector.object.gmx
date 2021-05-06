@@ -160,7 +160,7 @@ if (!selected)
             shift = option - endx;
         }
         
-        playSFX(sfxMenuMove);
+        playSFX(sfxTextBox);
     }
     else if (global.keyDownPressed[0] || (global.keyDown[0] &amp;&amp; quickScrollTimer &lt;= 0))
     {
@@ -177,7 +177,7 @@ if (!selected)
             shift += 1;
         }
         
-        playSFX(sfxMenuMove);
+        playSFX(sfxTextBox);
     }
     else if (global.keyWeaponSwitchLeftPressed[0])
     {
@@ -209,7 +209,7 @@ if (!selected)
             shift = 0;
         }
         
-        playSFX(sfxMenuMove);
+        playSFX(sfxTextBox);
     }
     else if (global.keyWeaponSwitchRightPressed[0])
     {
@@ -241,7 +241,7 @@ if (!selected)
             shift = ds_list_size(roomlist) - endx;
         }
         
-        playSFX(sfxMenuMove);
+        playSFX(sfxTextBox);
     }
     if (global.keyPausePressed[0])
     {

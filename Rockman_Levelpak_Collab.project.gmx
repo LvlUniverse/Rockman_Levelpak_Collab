@@ -4241,13 +4241,6 @@
         <sprite>sprites\sprWeaponSort</sprite>
         <sprite>sprites\sprWeaponIconsBlank</sprite>
         <sprite>sprites\sprArrow</sprite>
-        <sprite>sprites\sprMapMenuHeader</sprite>
-        <sprite>sprites\sprMapLamps</sprite>
-        <sprite>sprites\sprMapMenuThumbFrame</sprite>
-        <sprites name="Map Thumbnails">
-          <sprite>sprites\sprMapThumbBack</sprite>
-          <sprite>sprites\sprMapThumbTest</sprite>
-        </sprites>
       </sprites>
       <sprites name="Options">
         <sprite>sprites\sprOptionsMenuBG</sprite>
@@ -4260,6 +4253,13 @@
         <sprite>sprites\sprOptionsGear6</sprite>
       </sprites>
       <sprites name="Map">
+        <sprites name="Map Thumbnails">
+          <sprite>sprites\sprMapThumbBack</sprite>
+          <sprite>sprites\sprMapThumbTest</sprite>
+        </sprites>
+        <sprite>sprites\sprMapMenuHeader</sprite>
+        <sprite>sprites\sprMapLamps</sprite>
+        <sprite>sprites\sprMapMenuThumbFrame</sprite>
         <sprite>sprites\sprWilyCastle</sprite>
         <sprite>sprites\sprWilyCastlePath</sprite>
         <sprite>sprites\sprWilyCastleSkull</sprite>

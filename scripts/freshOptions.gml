@@ -13,8 +13,9 @@ global.damagePopup = 0;
 global.chargeBar = 0;
 global.showFPS = 0;
 global.familyFriendlyText = false;
-global.escapeBehavior = 0;
+global.escapeBehavior = 1;
 global.showControllerOverlay = false;
+global.showHUDWeaponIcon = true;
 
 //accessibility
 global.showMovingText = true;
