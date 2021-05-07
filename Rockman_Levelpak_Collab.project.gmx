@@ -4282,6 +4282,7 @@
         <sprite>sprites\sprEquipmentSortPrompt</sprite>
         <sprite>sprites\sprEquipmentSortMenu</sprite>
         <sprite>sprites\sprEquipmentIcons</sprite>
+        <sprite>sprites\sprEquipmentDisabled</sprite>
       </sprites>
     </sprites>
     <sprites name="Misc">
@@ -4389,6 +4390,7 @@
       <background>background\bgStarFieldForeground</background>
       <background>background\tstChallenge</background>
       <background>background\tstStageSelect</background>
+      <background>background\tstMenuTest</background>
       <background>background\bgArcadeCarpet</background>
     </backgrounds>
     <backgrounds name="Tilesets">
@@ -4984,6 +4986,10 @@
         <script>scripts\executeGMLFunction.gml</script>
         <script>scripts\setInstanceVariable.gml</script>
       </scripts>
+      <scripts name="Reference Tables">
+        <script>scripts\accessoryInfoFetch.gml</script>
+        <script>scripts\mapInfoFetch.gml</script>
+      </scripts>
       <scripts name="Unit Tests">
         <scripts name="Framework">
           <script>scripts\unitCase.gml</script>
@@ -5021,7 +5027,6 @@
         <script>scripts\testSuiteBossDoors.gml</script>
       </scripts>
       <script>scripts\scrNoEffect.gml</script>
-      <script>scripts\mapInfoFetch.gml</script>
       <script>scripts\scrInUni_ParallaxAddLayer.gml</script>
       <script>scripts\eventExecute.gml</script>
       <script>scripts\combineObjects.gml</script>
@@ -6608,8 +6613,8 @@
         <object>objects\objOptionsMenu</object>
         <object>objects\objDescriptionMenu</object>
         <object>objects\objMapMenu</object>
-        <object>objects\objQuickAccessoryMenu</object>
         <object>objects\objEquipmentMenu</object>
+        <object>objects\objInventoryMenu</object>
         <object>objects\objColoredTextOverlaysMenu</object>
         <object>objects\objNewFile</object>
         <object>objects\objFileSelector</object>
@@ -6768,6 +6773,7 @@
   <rooms name="rooms">
     <room>rooms\rmInit</room>
     <room>rooms\lvlCopyThisRoom</room>
+    <room>rooms\rmRoom42</room>
     <rooms name="Devkit Example Levels">
       <room>rooms\lvlChillMan</room>
       <room>rooms\lvlCutMan</room>

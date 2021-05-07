@@ -1,5 +1,7 @@
 /// mapInfoFetch([roomID])
 //procures info about available teleport locations
+//returns mapName, thumbImg, warpPointRoom[], cpNames[], warpPointXs[], warpPointYs[]
+
 //if no room is provided, uses current room
 
 var mid;

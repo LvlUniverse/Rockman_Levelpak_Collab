@@ -49,7 +49,11 @@ quickExit = false;
 
 //cost of equipment piece, by image
 equipmentCosts = makeArray(3, 8, 3, 0, 6, 5, 12, 12);
-equipmentNames = makeArray("Energy Balancer", "Energy Charger", "Energy Converter", "Normal Item", "Skull Amulet", "Met Helmet", "Energy Saver", "Super E.Balancer");
+for(var q = 0; q &lt; array_length_1d(equipmentCosts); q++)
+{
+    accessoryInfoFetch(q);
+    equipmentNames[q] = accName;
+}
 
 ownedCount = array_length_1d(global.equipmentOwned);
 shownAtOnce = min(8, ownedCount);
@@ -258,7 +262,9 @@ switch (phase)  //copied from pause menu
                 if yDir &lt; 0
                     scrollOffset = clamp((option) - 4, 0, ownedCount - shownAtOnce);
                 else
-                    scrollOffset = clamp((option) - 5, 0, ownedCount - shownAtOnce); 
+                    scrollOffset = clamp((option) - 5, 0, ownedCount - shownAtOnce);
+                //update description
+                accessoryInfoFetch(global.equipmentOwned[option - 1]); 
                 playSFX(sfxWeaponSwitch);
             }
         }
@@ -367,6 +373,7 @@ if phase == 2 &amp;&amp; (global.keyJumpPressed[0] || global.keyPausePressed[0] 
         {
             //unequip it if it's equipped
             global.equipmentActive[thisItem] = false;
+            global.equipmentDisabled[thisItem] = false;
             bpUsed -= thisCost;
             if bpUsed &lt; 0
             {
@@ -496,6 +503,7 @@ for (var c = 0; c &lt; coinsTotal; c++)
             <kind>1</kind>
             <string>///sorting code
 
+//determine sorting criteria
 var sortArr;
 switch(sortOption)
 {
@@ -526,8 +534,11 @@ switch(sortOption)
             sortArr[p] = random(100);
         break;
 }
-//print(sortArr);
+//sort list
 quickSortBy(global.equipmentOwned, sortArr);
+
+//update description
+accessoryInfoFetch(global.equipmentOwned[option - 1]); 
 </string>
           </argument>
         </arguments>
@@ -697,6 +708,8 @@ if animTimer mod (32 * 2) &lt;= 32 || sortMode
 if sortMode
     draw_sprite(sprEquipmentSortMenu, sortOption, sortMenuX, sortMenuY + 8);
 
+//item description
+draw_text(32, 176, accDesc);
 </string>
           </argument>
         </arguments>

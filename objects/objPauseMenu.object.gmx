@@ -142,7 +142,7 @@ linkFade = 0;
             <kind>1</kind>
             <string>// Can't control while a submenu is open
 if (instance_exists(objOptionsMenu) || instance_exists(objDescriptionMenu)
-    || instance_exists(objMapMenu) || instance_exists(objQuickAccessoryMenu))
+    || instance_exists(objMapMenu) || instance_exists(objInventoryMenu))
 {
     exit;
 }
@@ -200,7 +200,7 @@ switch (phase)
         //swap to item menu with R button
         if global.keyWeaponSwitchRightPressed[0]
         {
-            with(instance_create(x, y, objQuickAccessoryMenu))
+            with(instance_create(x, y, objInventoryMenu))
                 link = other;
             exit;
         }

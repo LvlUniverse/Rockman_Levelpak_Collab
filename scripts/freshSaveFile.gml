@@ -21,10 +21,11 @@ global.mTanks = 0;
 global.energyElements = 0;
 global.elementsCollected = makeArray("");
 
-global.equipmentOwned = makeArray(3, 1, 2, 4, 5, 6, 7, 1, 1, 1, 1, 2, 2, 1, 1, 4, 3, 1, 1, 1);
+global.equipmentOwned = makeArray(0, 1, 2, 3, 4, 5, 6, 7);
 global.equipmentDisabled = allocateArray(sprite_get_number(sprEquipmentIcons));
-global.equipmentHotbar = makeArray();   //nothing is enabled by default
+global.equipmentHotbar = makeArray(0);   //just the energy balancer to start
 global.equipmentActive = allocateArray(sprite_get_number(sprEquipmentIcons));
+global.equipmentActive[0] = true;
 
 //todo: replace these with equipment menu hooks
 //---
