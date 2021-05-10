@@ -17,7 +17,7 @@ accDesc = "No description provided."
 
 switch(argument[0] + (pg * 100))
 {
-    case 000:
+    case ACC_EBalancer:
         accName = "Energy Balancer";
         accDesc = "If your weapon is full,#weapon energy will#refill the weapon that's#lowest on energy instead.";
         break;
@@ -26,7 +26,7 @@ switch(argument[0] + (pg * 100))
         accName = "Energy Charger";
         break;
     
-    case 002:
+    case ACC_EConverter:
         accName = "Energy Converter";
         break;
     
@@ -34,15 +34,15 @@ switch(argument[0] + (pg * 100))
         accName = "Normal Item";
         break;
     
-    case 004:
+    case ACC_SkullAmulet:
         accName = "Skull Amulet";
         break;
     
-    case 005:
+    case ACC_MetHelmet:
         accName = "Met Helmet";
         break;
     
-    case 006:
+    case ACC_ESaver:
         accName = "Energy Saver";
         break;
     

@@ -1,4 +1,6 @@
 var bulletLimit = 3;
+if accIsEnabled(ACC_Turret3)
+    bulletLimit = 4;
 var weaponCost = 0;
 var action = 1; // 0 - no frame; 1 - shoot; 2 - throw
 var willStop = 0; // If this is 1, the player will halt on shooting ala Metal Blade.
@@ -125,6 +127,8 @@ if (!global.lockBuster)
                     if (i)
                     {
                         i.xspeed = image_xscale * 5.5;
+                        if accIsEnabled(ACC_Flame3)
+                            i.sprite_index = sprBusterShotChargedPlus;
                     }
                 }
                 

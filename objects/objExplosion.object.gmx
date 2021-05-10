@@ -101,7 +101,6 @@ if (myItem &gt;= 0)
         else
         {
             var randItem = floor(random(600));
-            randItem *= 1 - (global.dropUpgrade * 0.33) - (global.converter * 0.1);
             
             if (randItem &lt; 4)
             {

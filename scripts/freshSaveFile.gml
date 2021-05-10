@@ -21,22 +21,14 @@ global.mTanks = 0;
 global.energyElements = 0;
 global.elementsCollected = makeArray("");
 
-global.equipmentOwned = makeArray(0, 1, 2, 3, 4, 5, 6, 7);
+global.equipmentOwned = makeArray(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
 global.equipmentDisabled = allocateArray(sprite_get_number(sprEquipmentIcons));
-global.equipmentHotbar = makeArray(0);   //just the energy balancer to start
+global.equipmentHotbar = makeArray(ACC_EBalancer);   //just the energy balancer to start
 global.equipmentActive = allocateArray(sprite_get_number(sprEquipmentIcons));
-global.equipmentActive[0] = true;
+global.equipmentActive[ACC_EBalancer] = true;
 
-//todo: replace these with equipment menu hooks
-//---
-global.chargeUpgrade = 0;
-global.shotUpgrade = 0;
-global.dropUpgrade = 0;
-global.skullAmulet = 0;
-global.sturdyHelmet = 0;
-global.converter = 0;
+//todo: replace this with advanced equipment menu hook
 global.energySaver = 0;
-//---
 
 global.gameTimer = 0;
 

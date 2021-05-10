@@ -70,12 +70,6 @@ slideFrames = 26;
 
 // climbSpeed = 1.296875; //Official value of MM3
 climbSpeed = 1.3;
-hitTime = 32; // The amount of frames you experience knockback after getting hit
-
-if (global.sturdyHelmet)
-{
-    hitTime = 10;
-}
 
 // Variables
 
