@@ -44,13 +44,16 @@ ds_list_add(roomnames, "Main Menu...");
 ds_list_add(roomlist, rmTitleScreen);
 arrayAppend(nonLevels, rmTitleScreen);
 
+ds_list_add(roomnames, "@Equipment Test");
+ds_list_add(roomlist, rmEquipmentTest);
+arrayAppend(nonLevels, rmEquipmentTest);
+
 ds_list_add(roomlist, -3);
 ds_list_add(roomnames, "@#Difficulty: ");
 /*
 ds_list_add(roomlist, rmFileSelect);
 ds_list_add(roomnames, "@Example Game");
 arrayAppend(nonLevels, rmFileSelect);
-*/
 ds_list_add(roomnames, "@Character Select...");
 ds_list_add(roomlist, rmCharacterSelect);
 arrayAppend(nonLevels, rmCharacterSelect);
@@ -64,6 +67,7 @@ ds_list_add(roomnames, "@Load External...");
 
 ds_list_add(roomlist, -2);
 ds_list_add(roomnames, "@Play Recording...");
+*/
 
 // Get lvl-rooms
 for (i = 0; i &lt;= lr; i += 1)
@@ -156,7 +160,7 @@ if (!selected)
             shift = option - endx;
         }
         
-        playSFX(sfxMenuMove);
+        playSFX(sfxTextBox);
     }
     else if (global.keyDownPressed[0] || (global.keyDown[0] &amp;&amp; quickScrollTimer &lt;= 0))
     {
@@ -173,7 +177,7 @@ if (!selected)
             shift += 1;
         }
         
-        playSFX(sfxMenuMove);
+        playSFX(sfxTextBox);
     }
     else if (global.keyWeaponSwitchLeftPressed[0])
     {
@@ -205,7 +209,7 @@ if (!selected)
             shift = 0;
         }
         
-        playSFX(sfxMenuMove);
+        playSFX(sfxTextBox);
     }
     else if (global.keyWeaponSwitchRightPressed[0])
     {
@@ -237,7 +241,7 @@ if (!selected)
             shift = ds_list_size(roomlist) - endx;
         }
         
-        playSFX(sfxMenuMove);
+        playSFX(sfxTextBox);
     }
     if (global.keyPausePressed[0])
     {

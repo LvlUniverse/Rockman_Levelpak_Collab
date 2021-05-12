@@ -15,15 +15,8 @@ global.eTanks = sl(global.eTanks);
 global.mTanks = sl(global.mTanks);
 global.energyElements = sl(global.energyElements);
 global.elementsCollected = sl(global.elementsCollected, "elements", true);
-global.chargeUpgrade = sl(global.chargeUpgrade);
-global.shotUpgrade = sl(global.shotUpgrade);
-global.dropUpgrade = sl(global.dropUpgrade);
-global.skullAmulet = sl(global.skullAmulet);
-global.sturdyHelmet = sl(global.sturdyHelmet);
-global.converter = sl(global.converter);
 global.difficulty = sl(global.difficulty, "difficulty");
 global.debugSkipStageMode = sl(global.debugSkipStageMode, "skip-stages");
-global.energySaver = sl(global.energySaver, "energy-saver");
 
 global.gameTimer = sl(global.gameTimer);
 

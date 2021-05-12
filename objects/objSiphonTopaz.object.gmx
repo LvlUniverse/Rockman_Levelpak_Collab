@@ -157,7 +157,9 @@ if (global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
 weaponSetup("SIPHON TOPAZ", 
     make_color_rgb(132, 112, 34), 
     make_color_rgb(232, 185, 82), 
-    sprWeaponIconsSiphonTopaz, 3);
+    sprWeaponIconsSiphonTopaz, 3, 
+        " You throw a large topaz in an arc. The topaz will bounce up and steal health when it hits an enemy.## After hitting an enemy, it powers up, dealing more damage and stealing more health.## This can be fired even if the shot limit has been reached.",
+        "2 - 4#1#1#2");
 </string>
           </argument>
         </arguments>

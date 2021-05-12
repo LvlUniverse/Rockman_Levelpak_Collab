@@ -182,9 +182,11 @@ if (global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
             <kind>1</kind>
             <string>///weapon setup
 weaponSetup("FLAME SWEEPER", 
-    make_color_rgb(0, 184, 0), 
-    make_color_rgb(220, 248, 120), 
-    sprWeaponIconsFlameMixer, 4);
+    make_color_rgb(0, 88, 248), 
+    make_color_rgb(164, 228, 252), 
+    sprWeaponIconsFlameMixer, 4, 
+        " You fire a small harmless fireball, and then press FIRE again to detonate it, sending three powerful, piercing fireballs sweeping back towards you.## The weapon is weaker if detonated directly on top of an enemy.",
+        "3#7#1#3");
 </string>
           </argument>
         </arguments>

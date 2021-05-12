@@ -126,7 +126,7 @@ if (!global.frozen &amp;&amp; !pop)
             {
                 if (canHit &amp;&amp; other.dmg &gt; 0)
                 {
-                    if (global.skullAmulet)
+                    if (accIsEnabled(ACC_SkullAmulet))
                     {
                         if (!(global.playerHealth[playerID] - other.dmg)
                             &amp;&amp; global.playerHealth[playerID] &gt; 1)

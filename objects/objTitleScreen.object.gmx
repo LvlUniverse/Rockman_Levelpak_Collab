@@ -95,7 +95,7 @@ freshSaveFile();
         {
             option = 0;
         }
-        playSFX(sfxMenuMove);
+        playSFX(sfxTextBox);
     }
     
     

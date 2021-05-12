@@ -21,5 +21,8 @@
   <height>16</height>
   <frames>
     <frame index="0">images\sprPauseMenuWeaponDisabled_0.png</frame>
+    <frame index="1">images\sprPauseMenuWeaponDisabled_1.png</frame>
+    <frame index="2">images\sprPauseMenuWeaponDisabled_2.png</frame>
+    <frame index="3">images\sprPauseMenuWeaponDisabled_3.png</frame>
   </frames>
 </sprite>

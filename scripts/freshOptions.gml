@@ -1,29 +1,37 @@
 /// freshOptions()
 // resets all options-specific variables to their default value
 
-global.healthEffect = 0;
+//sound
 global.musicvolume = 80;
 global.soundvolume = 100;
+
+//"display"
+global.showControllerOverlay = false;
+global.vsync = 0;
+global.healthEffect = 0;
 global.damagePopup = 0;
-global.mmColor = 0;
 global.chargeBar = 0;
 global.showFPS = 0;
 global.familyFriendlyText = false;
-global.escapeBehavior = 0;
+global.escapeBehavior = 1;
+global.showControllerOverlay = false;
+global.showHUDWeaponIcon = true;
+
+//accessibility
+global.showMovingText = true;
+global.showColoredTextOverlays = false;
+global.coloredTextOverlaysRed = 0;
+global.coloredTextOverlaysGreen = 170;
+global.coloredTextOverlaysBlue = 255;
+global.coloredTextOverlaysOpacity = 120;
+global.doFlashing = true;
+
+//game style
+global.mmColor = 0;
 global.pickupGraphics = 0;
 global.deathEffect = 0;
 global.jumpSound = 0;
 global.teleportSound = 0;
-
-global.showControllerOverlay = false;
-global.showMovingText = true;
-global.showControllerOverlay = false;
-global.showColoredTextOverlays = false;
-global.showColoredTextOverlaysRed = 1;
-global.showColoredTextOverlaysGreen = 1;
-global.showColoredTextOverlaysBlue = 1;
-global.showColoredTextOverlaysOpacity = 1;
-global.vsync = 0;
 
 global.playerSpriteMax = 4;
 for (i = 0; i < global.playerSpriteMax; i += 1)
@@ -34,7 +42,7 @@ global.playerSprite[1] = sprProtoman;
 global.playerSprite[2] = sprBass;
 global.playerSprite[3] = sprRoll;
 
-// Options - Default values
+//controls
 for (i = 0; i < 4; i += 1)
 {
     global.leftKey[i] = vk_left;

@@ -8,7 +8,7 @@ if (!isHit)
 {
     if (dmg > 0)
     {
-        if (global.skullAmulet)
+        if (accIsEnabled(ACC_SkullAmulet))
         {
             if (!(global.playerHealth[playerID] - dmg) && global.playerHealth[playerID] > 1)
             {

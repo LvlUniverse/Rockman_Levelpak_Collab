@@ -112,7 +112,7 @@ if (global.keyUpPressed[playerID] || (global.keyUp[playerID] &amp;&amp; quickScr
         option = _endy - 1;
     }
     
-    playSFX(sfxMenuMove);
+    playSFX(sfxTextBox);
 }
 
 if (global.keyDownPressed[playerID] || (global.keyDown[playerID] &amp;&amp; quickScrollTimer &lt;= 0))
@@ -123,7 +123,7 @@ if (global.keyDownPressed[playerID] || (global.keyDown[playerID] &amp;&amp; quic
         option = 0;
     }
     
-    playSFX(sfxMenuMove);
+    playSFX(sfxTextBox);
 }
 
 // do quick scroll timer

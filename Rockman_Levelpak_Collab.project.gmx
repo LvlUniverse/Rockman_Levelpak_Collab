@@ -1995,6 +1995,7 @@
       <sound>sound\sfxPause</sound>
       <sound>sound\sfxTextBox</sound>
       <sound>sound\sfxDebugMenu</sound>
+      <sound>sound\sfxHoldPrompt</sound>
     </sounds>
     <sounds name="Misc">
       <sound>sound\sfxDoor</sound>
@@ -4234,6 +4235,7 @@
     </sprites>
     <sprites name="Menu">
       <sprites name="Pause">
+        <sprite>sprites\sprDescriptionMenuBG</sprite>
         <sprite>sprites\sprPauseMenuBG</sprite>
         <sprite>sprites\sprPauseMenuBarPrimary</sprite>
         <sprite>sprites\sprPauseMenuBarSecondary</sprite>
@@ -4242,15 +4244,28 @@
         <sprite>sprites\sprGotoCheckpoint</sprite>
         <sprite>sprites\sprExit</sprite>
         <sprite>sprites\sprPauseMenuWeaponDisabled</sprite>
+        <sprite>sprites\sprWeaponSort</sprite>
+        <sprite>sprites\sprWeaponIconsBlank</sprite>
         <sprite>sprites\sprArrow</sprite>
-        <sprite>sprites\sprShopCursor</sprite>
       </sprites>
       <sprites name="Options">
         <sprite>sprites\sprOptionsMenuBG</sprite>
         <sprite>sprites\sprOptionsCursor</sprite>
+        <sprite>sprites\sprOptionSlider</sprite>
         <sprite>sprites\sprControlconfigureScreen</sprite>
+        <sprite>sprites\sprOptionsGear16</sprite>
+        <sprite>sprites\sprOptionsGear12</sprite>
+        <sprite>sprites\sprOptionsGear8</sprite>
+        <sprite>sprites\sprOptionsGear6</sprite>
       </sprites>
       <sprites name="Map">
+        <sprites name="Map Thumbnails">
+          <sprite>sprites\sprMapThumbBack</sprite>
+          <sprite>sprites\sprMapThumbTest</sprite>
+        </sprites>
+        <sprite>sprites\sprMapMenuHeader</sprite>
+        <sprite>sprites\sprMapLamps</sprite>
+        <sprite>sprites\sprMapMenuThumbFrame</sprite>
         <sprite>sprites\sprWilyCastle</sprite>
         <sprite>sprites\sprWilyCastlePath</sprite>
         <sprite>sprites\sprWilyCastleSkull</sprite>
@@ -4263,6 +4278,17 @@
         <sprite>sprites\sprStageSelectArrow</sprite>
         <sprite>sprites\sprStageSelectCursor</sprite>
         <sprite>sprites\sprMM8BossIntroBorder</sprite>
+        <sprite>sprites\sprShopCursor</sprite>
+      </sprites>
+      <sprites name="Equipment">
+        <sprite>sprites\sprEquipMenuBG</sprite>
+        <sprite>sprites\sprEquipCoin</sprite>
+        <sprite>sprites\sprEquipCoin10</sprite>
+        <sprite>sprites\sprEquipCoin100</sprite>
+        <sprite>sprites\sprEquipmentSortPrompt</sprite>
+        <sprite>sprites\sprEquipmentSortMenu</sprite>
+        <sprite>sprites\sprEquipmentIcons</sprite>
+        <sprite>sprites\sprEquipmentDisabled</sprite>
       </sprites>
     </sprites>
     <sprites name="Misc">
@@ -4372,6 +4398,8 @@
       <background>background\bgStarFieldForeground</background>
       <background>background\tstChallenge</background>
       <background>background\tstStageSelect</background>
+      <background>background\tstMenuTest</background>
+      <background>background\bgArcadeCarpet</background>
     </backgrounds>
     <backgrounds name="Tilesets">
       <background>background\tstBeta</background>
@@ -4724,11 +4752,13 @@
     </scripts>
     <scripts name="Weapons">
       <script>scripts\weaponSetup.gml</script>
+      <script>scripts\autoSpaceDescription.gml</script>
       <script>scripts\setWeaponLocked.gml</script>
       <script>scripts\specialDamageValue.gml</script>
       <script>scripts\getWeaponDamage.gml</script>
       <script>scripts\getWeaponID.gml</script>
       <script>scripts\weaponReward.gml</script>
+      <script>scripts\accIsEnabled.gml</script>
       <scripts name="Buster Replacements">
         <scripts name="Default">
           <script>scripts\scrBusterDefault_Create.gml</script>
@@ -4964,6 +4994,10 @@
         <script>scripts\scriptExecuteNargs.gml</script>
         <script>scripts\executeGMLFunction.gml</script>
         <script>scripts\setInstanceVariable.gml</script>
+      </scripts>
+      <scripts name="Reference Tables">
+        <script>scripts\accessoryInfoFetch.gml</script>
+        <script>scripts\mapInfoFetch.gml</script>
       </scripts>
       <scripts name="Unit Tests">
         <scripts name="Framework">
@@ -6709,6 +6743,10 @@
         <object>objects\objDebugMenu</object>
         <object>objects\objPauseMenu</object>
         <object>objects\objOptionsMenu</object>
+        <object>objects\objDescriptionMenu</object>
+        <object>objects\objMapMenu</object>
+        <object>objects\objEquipmentMenu</object>
+        <object>objects\objInventoryMenu</object>
         <object>objects\objColoredTextOverlaysMenu</object>
         <object>objects\objNewFile</object>
         <object>objects\objFileSelector</object>
@@ -6745,6 +6783,7 @@
   <rooms name="rooms">
     <room>rooms\rmInit</room>
     <room>rooms\lvlCopyThisRoom</room>
+    <room>rooms\rmRoom42</room>
     <rooms name="Devkit Example Levels">
       <room>rooms\lvlChillMan</room>
       <room>rooms\lvlCutMan</room>
@@ -6770,6 +6809,7 @@
       <room>rooms\rmNewFile</room>
       <room>rooms\rmStageSelect</room>
       <room>rooms\rmOptions</room>
+      <room>rooms\rmEquipmentTest</room>
       <room>rooms\rmGameOver</room>
       <room>rooms\rmCredits</room>
       <room>rooms\rmWeaponGet</room>
@@ -6791,7 +6831,7 @@
     <room>rooms\lvlMovingWaterTest</room>
     <room>rooms\lvlDeflectTest</room>
   </rooms>
-  <constants number="37">
+  <constants number="44">
     <constant name="PL_LOCK_MAX">15</constant>
     <constant name="PL_LOCK_AERIAL">13</constant>
     <constant name="PL_LOCK_GROUND">12</constant>
@@ -6829,6 +6869,13 @@
     <constant name="gravAccel">0.25</constant>
     <constant name="waterAccelMod">0.57</constant>
     <constant name="MAX_SLOPE">2</constant>
+    <constant name="ACC_EBalancer">0</constant>
+    <constant name="ACC_SkullAmulet">4</constant>
+    <constant name="ACC_MetHelmet">5</constant>
+    <constant name="ACC_EConverter">2</constant>
+    <constant name="ACC_ESaver">6</constant>
+    <constant name="ACC_Turret3">9</constant>
+    <constant name="ACC_Flame3">8</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>
