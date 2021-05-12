@@ -6606,6 +6606,7 @@
             <object>objects\objBlockTurret</object>
             <object>objects\objTeleportPhaser</object>
             <object>objects\objItem4</object>
+            <object>objects\objSkeletuppinPakkajoe</object>
             <object>objects\objFlameSweeperAlter</object>
             <objects name="Misc.">
               <object>objects\objDischargeDashDash</object>
@@ -6701,7 +6702,6 @@
             <object>objects\objPlantBarrier</object>
             <object>objects\objBrickWeapon</object>
             <object>objects\objIceSlasher</object>
-            <object>objects\objSkeletuppinPakkajoe</object>
             <objects name="Misc.">
               <object>objects\objBrickWeaponDebris</object>
             </objects>
