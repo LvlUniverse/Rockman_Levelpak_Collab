@@ -28,7 +28,7 @@
             <string>event_inherited();
 
 bulletLimitCost = 1;
-contactDamage = -2;
+canDamage = false;
 
 despawnRange = 24;
 
@@ -36,7 +36,6 @@ penetrate = 3;
 pierces = 2;
 
 moveAngle = 0;
-imageAngle = 0;
 </string>
           </argument>
         </arguments>
@@ -63,14 +62,16 @@ imageAngle = 0;
 
 if (!global.frozen &amp;&amp; !dead)
 {
-    //animate
-    image_index = imageAngle;
-    
     //move
-    if (canDamage)
+    xspeed = cos(degtorad(moveAngle)) * 4;
+    yspeed = -sin(degtorad(moveAngle)) * 4;
+    
+    //die if it hits a deflect block
+    var p = instance_place(x, y, objDestroyableBlock)
+    if p != noone &amp;&amp; p.weakness != global.weaponID[? objFlameSweeper]
     {
-        xspeed = cos(degtorad(moveAngle)) * 4;
-        yspeed = -sin(degtorad(moveAngle)) * 4;
+        event_user(EV_REFLECTED);
+        exit;
     }
     
     //it comes back when press of buton
@@ -78,7 +79,7 @@ if (!global.frozen &amp;&amp; !dead)
     {
         with(parent)
         {
-            if global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT)
+            if global.keyShootPressed[playerID] &amp;&amp; (!playerIsLocked(PL_LOCK_SHOOT) || isHit)
             {
                 //detonate
                 with(other)
@@ -128,7 +129,7 @@ if (!global.frozen &amp;&amp; !dead)
 //fire when shot
 if (global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
 {
-    i = fireWeapon(14, 0, objFlameSweeper, 1, 3, 1, 0);
+    i = fireWeapon(14, 0, objFlameSweeper, 1, 4, 1, 0);
     if (instance_exists(i))
     {
         //sound
@@ -150,7 +151,7 @@ if (global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
         if (yDir != 0)
         {
             i.moveAngle += 25 * -mxdir * yDir;
-            i.imageAngle = 1;
+            i.image_index = 1;
             if yDir == -1
                 i.image_yscale = -i.image_yscale;
         }
@@ -183,33 +184,9 @@ if (global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
 weaponSetup("FLAME SWEEPER", 
     make_color_rgb(0, 88, 248), 
     make_color_rgb(164, 228, 252), 
-    sprWeaponIconsFlameMixer, 3, 
+    sprWeaponIconsFlameMixer, 4, 
         " You fire a small harmless fireball, and then press FIRE again to detonate it, sending three powerful, piercing fireballs sweeping back towards you.## The weapon is weaker if detonated directly on top of an enemy.",
         "3#7#1#3");
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="7" enumb="18">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>///never does any damage
-global.damage = 0;
 </string>
           </argument>
         </arguments>
@@ -233,12 +210,9 @@ global.damage = 0;
           <argument>
             <kind>1</kind>
             <string>///dies when deflected
-if(guardCancel == 4)
-{
-    playSFX(sfxReflect);
-    instance_create(x, y, objExplosion);
-    instance_destroy();
-}
+playSFX(sfxReflect);
+instance_create(x, y, objExplosion);
+instance_destroy();
 </string>
           </argument>
         </arguments>

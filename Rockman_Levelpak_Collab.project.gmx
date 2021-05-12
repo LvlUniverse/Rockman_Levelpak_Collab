@@ -3374,6 +3374,8 @@
           <sprite>sprites\sprMechaDragonTeleport</sprite>
           <sprite>sprites\sprMechaDragon</sprite>
           <sprite>sprites\sprMechaDragonFire</sprite>
+          <sprite>sprites\sprMechaDragonHurt</sprite>
+          <sprite>sprites\sprMechaDragonFireHurt</sprite>
           <sprite>sprites\sprMechaDragonFireBall</sprite>
         </sprites>
         <sprites name="Boobeam ">
@@ -3389,6 +3391,7 @@
           <sprite>sprites\sprGutsDozer</sprite>
           <sprite>sprites\mskGutsDozer</sprite>
           <sprite>sprites\sprGutsDozerHand</sprite>
+          <sprite>sprites\sprGutsDozerHurt</sprite>
         </sprites>
       </sprites>
       <sprites name="MM3">
@@ -3461,6 +3464,7 @@
         </sprites>
         <sprites name="MetallDaddy">
           <sprite>sprites\sprMetallDaddy</sprite>
+          <sprite>sprites\sprMetallDaddyHurt</sprite>
           <sprite>sprites\mskMetallDaddy</sprite>
           <sprite>sprites\sprMetallDaddyJump</sprite>
         </sprites>
@@ -4022,7 +4026,6 @@
         <sprite>sprites\sprBoubou</sprite>
         <sprite>sprites\sprBoubouThick</sprite>
         <sprite>sprites\sprMM8SledStop</sprite>
-        <sprite>sprites\sprTenguLeaf</sprite>
         <sprite>sprites\sprMM8Door</sprite>
         <sprite>sprites\sprMM8DoorG</sprite>
         <sprite>sprites\sprMM8Button</sprite>
@@ -4035,6 +4038,8 @@
         <sprite>sprites\sprSkullElevatorShaft</sprite>
         <sprite>sprites\sprTenguWind</sprite>
         <sprite>sprites\sprTenguWindTrigger</sprite>
+        <sprite>sprites\sprTenguLeaf</sprite>
+        <sprite>sprites\sprThunderClawPole</sprite>
       </sprites>
       <sprites name="MM9">
         <sprite>sprites\sprMM9SpinningPlatform</sprite>
@@ -4226,6 +4231,7 @@
       <sprite>sprites\sprKeyGate</sprite>
       <sprite>sprites\sprKeyCoin</sprite>
       <sprite>sprites\sprKeyCoinHUD</sprite>
+      <sprite>sprites\sprSpecialCoin</sprite>
     </sprites>
     <sprites name="Menu">
       <sprites name="Pause">
@@ -4344,6 +4350,7 @@
           <sprite>sprites\sprWeaponIconsItem4</sprite>
           <sprite>sprites\sprWeaponIconsTeleportPhaser</sprite>
         </sprites>
+        <sprite>sprites\spr4MICrit</sprite>
         <sprite>sprites\sprNekoClaw</sprite>
         <sprite>sprites\sprNekoClawChain</sprite>
         <sprite>sprites\sprDischargeDashOrbital</sprite>
@@ -4351,15 +4358,14 @@
         <sprite>sprites\mskDischargeDash1</sprite>
         <sprite>sprites\mskDischargeDash2</sprite>
         <sprite>sprites\sprTinTrooper</sprite>
-        <sprite>sprites\sprFlameSweeperLarge</sprite>
         <sprite>sprites\sprFlameSweeperSmall</sprite>
+        <sprite>sprites\sprFlameSweeperLarge</sprite>
         <sprite>sprites\sprSiphonTopaz</sprite>
+        <sprite>sprites\mskSiphonTopazCharged</sprite>
         <sprite>sprites\sprSiphonTopazPickupS</sprite>
         <sprite>sprites\sprSiphonTopazPickupM</sprite>
         <sprite>sprites\sprTyphoonFunnel</sprite>
         <sprite>sprites\sprTyphoonFunnelWater</sprite>
-        <sprite>sprites\sprTyphoonFunnelNoBlack</sprite>
-        <sprite>sprites\sprTyphoonFunnelWaterNoBlack</sprite>
         <sprite>sprites\sprHailBreakerShot</sprite>
         <sprite>sprites\sprHailBreakerTwinkle</sprite>
         <sprite>sprites\sprHailBreakerIceBlock</sprite>
@@ -4367,6 +4373,8 @@
         <sprite>sprites\sprBlockTurretShot</sprite>
         <sprite>sprites\sprItem4</sprite>
         <sprite>sprites\sprItem4Teleport</sprite>
+        <sprite>sprites\sprFlameSweeperAlterSmall</sprite>
+        <sprite>sprites\sprFlameSweeperAlterLarge</sprite>
       </sprites>
       <sprite>sprites\sprInUniverse_4MIKerone</sprite>
       <sprite>sprites\sprTotemerPreview</sprite>
@@ -5035,10 +5043,6 @@
     </scripts>
   </scripts>
   <objects name="objects">
-    <objects name="RLC">
-      <object>objects\objTargetDummy</object>
-      <object>objects\objInUniverse_4MIKerone</object>
-    </objects>
     <objects name="Level Objects">
       <object>objects\objDefaultSpawn</object>
       <object>objects\objDestroyField</object>
@@ -6402,6 +6406,7 @@
         <object>objects\objMM8Switch</object>
         <object>objects\objTenguWind</object>
         <object>objects\objTenguWindSpeedTrigger</object>
+        <object>objects\objThunderClawPole</object>
         <objects name="Don't Use">
           <object>objects\objSkullElevatorMask</object>
           <object>objects\objTenguLeaf</object>
@@ -6576,6 +6581,7 @@
       <object>objects\objKeyCoin</object>
       <object>objects\objKeyBarrier</object>
       <object>objects\objEddie</object>
+      <object>objects\objSpecialCoin</object>
     </objects>
     <objects name="Don't Use">
       <objects name="Player">
@@ -6583,6 +6589,131 @@
         <object>objects\objMegamanSweat</object>
         <object>objects\objMegamanExplosion</object>
         <object>objects\objMegamanExit</object>
+        <objects name="Weapons">
+          <object>objects\objBusterShot</object>
+          <object>objects\objBusterShotHalfCharged</object>
+          <object>objects\objBusterShotCharged</object>
+          <object>objects\objBusterShotHalfChargedProto</object>
+          <object>objects\objBusterShotChargedProto</object>
+          <objects name="RLC Weapons">
+            <object>objects\objNekoClaw</object>
+            <object>objects\objDischargeDash</object>
+            <object>objects\objTinTrooper</object>
+            <object>objects\objFlameSweeper</object>
+            <object>objects\objSiphonTopaz</object>
+            <object>objects\objTyphoonFunnel</object>
+            <object>objects\objHailBreaker</object>
+            <object>objects\objBlockTurret</object>
+            <object>objects\objTeleportPhaser</object>
+            <object>objects\objItem4</object>
+            <object>objects\objFlameSweeperAlter</object>
+            <objects name="Misc.">
+              <object>objects\objDischargeDashDash</object>
+              <object>objects\objDischargeDashMomentum</object>
+              <object>objects\objFlameSweeperReturn</object>
+              <object>objects\objFlameSweeperAlterReturn</object>
+              <object>objects\objHailBreakerShot</object>
+              <object>objects\objAnimatedParticle</object>
+              <object>objects\objHailBreakerTempIce</object>
+              <object>objects\objTinTrooper_Explosion</object>
+              <object>objects\objTopazDebris</object>
+              <object>objects\objSiphonTopazPickup</object>
+              <object>objects\objBlockTurretShot</object>
+              <object>objects\objItem4Teleport</object>
+              <object>objects\objItem4Shot</object>
+            </objects>
+          </objects>
+          <object>objects\objRushCoil</object>
+          <object>objects\objRushJet</object>
+          <objects name="MaGMML3">
+            <object>objects\objSparkChaser</object>
+            <object>objects\objLaserTrident</object>
+            <object>objects\objWaterShield</object>
+            <object>objects\objTornadoBlow</object>
+            <object>objects\objThunderBeam</object>
+            <object>objects\objMagneticShockwave</object>
+            <object>objects\objIceWall</object>
+            <object>objects\objBreakDash</object>
+            <object>objects\objRushCycle</object>
+            <object>objects\objMagnetBeam</object>
+            <objects name="Misc.">
+              <object>objects\objBubblePopEffect</object>
+              <object>objects\objTornadoEffect</object>
+            </objects>
+          </objects>
+          <objects name="MaGMML1">
+            <object>objects\objMetalBlade</object>
+            <object>objects\objGeminiLaser</object>
+            <object>objects\objSolarBlaze</object>
+            <object>objects\objTopSpin</object>
+            <object>objects\objThunderWool</object>
+            <object>objects\objPharaohShot</object>
+            <object>objects\objBlackHoleBomb</object>
+            <object>objects\objMagicCard</object>
+            <objects name="Misc.">
+              <object>objects\objBHBEffect</object>
+            </objects>
+          </objects>
+          <objects name="MaGMML2">
+            <object>objects\objHornetChaser</object>
+            <object>objects\objJewelSatellite</object>
+            <object>objects\objGrabBuster</object>
+            <object>objects\objTripleBlade</object>
+            <object>objects\objFlashStopper</object>
+            <object>objects\objSlashClaw</object>
+            <object>objects\objWheelCutter</object>
+            <object>objects\objSakugarne</object>
+            <object>objects\objWireAdapter</object>
+            <object>objects\objSuperArrow</object>
+            <objects name="Misc.">
+              <object>objects\objGrabBusterPickup</object>
+              <object>objects\objSlashEffect</object>
+            </objects>
+          </objects>
+          <objects name="MaG24HMML">
+            <object>objects\objSuperArm</object>
+            <object>objects\objChillShot</object>
+            <objects name="Misc.">
+              <object>objects\objChillSpikeLanded</object>
+              <object>objects\objChillDebris</object>
+              <object>objects\objSuperArmBlockProjectile</object>
+              <object>objects\objSuperArmDebris</object>
+            </objects>
+          </objects>
+          <objects name="MaG48HMML">
+            <object>objects\objFlameMixer</object>
+            <object>objects\objRainFlush</object>
+            <object>objects\objSparkShock</object>
+            <object>objects\objSearchSnake</object>
+            <object>objects\objTenguBlade</object>
+            <object>objects\objSaltWater</object>
+            <object>objects\objConcreteShot</object>
+            <object>objects\objHomingSniper</object>
+            <objects name="Misc.">
+              <object>objects\objSparkShockParalyze</object>
+              <object>objects\objTenguDash</object>
+              <object>objects\objTenguDisk</object>
+            </objects>
+          </objects>
+          <objects name="Other Examples">
+            <object>objects\objTimeStopper</object>
+            <object>objects\objPowerStone</object>
+            <object>objects\objPlantBarrier</object>
+            <object>objects\objBrickWeapon</object>
+            <object>objects\objIceSlasher</object>
+            <object>objects\objSkeletuppinPakkajoe</object>
+            <objects name="Misc.">
+              <object>objects\objBrickWeaponDebris</object>
+            </objects>
+          </objects>
+          <objects name="Misc.">
+            <object>objects\objNormalBusterShot</object>
+            <object>objects\objRushTeleport</object>
+            <object>objects\objRushTeleportBlock</object>
+            <object>objects\objWeaponExplosion</object>
+            <object>objects\objProtoShield</object>
+          </objects>
+        </objects>
       </objects>
       <objects name="Core">
         <objects name="Parents">
@@ -6643,132 +6774,10 @@
         <object>objects\objBigExplosion</object>
         <object>objects\objDialogueBox</object>
       </objects>
-      <objects name="Weapons">
-        <object>objects\objBusterShot</object>
-        <object>objects\objBusterShotHalfCharged</object>
-        <object>objects\objBusterShotCharged</object>
-        <object>objects\objBusterShotHalfChargedProto</object>
-        <object>objects\objBusterShotChargedProto</object>
-        <objects name="RLC Weapons">
-          <object>objects\objNekoClaw</object>
-          <object>objects\objDischargeDash</object>
-          <object>objects\objTinTrooper</object>
-          <object>objects\objFlameSweeper</object>
-          <object>objects\objSiphonTopaz</object>
-          <object>objects\objTyphoonFunnel</object>
-          <object>objects\objHailBreaker</object>
-          <object>objects\objBlockTurret</object>
-          <object>objects\objTeleportPhaser</object>
-          <object>objects\objItem4</object>
-          <object>objects\objSkeletuppinPakkajoe</object>
-          <objects name="Misc.">
-            <object>objects\objDischargeDashDash</object>
-            <object>objects\objDischargeDashMomentum</object>
-            <object>objects\objFlameSweeperReturn</object>
-            <object>objects\objFlameSweeperKEReturn</object>
-            <object>objects\objHailBreakerShot</object>
-            <object>objects\objAnimatedParticle</object>
-            <object>objects\objHailBreakerTempIce</object>
-            <object>objects\objTinTrooper_Explosion</object>
-            <object>objects\objTopazDebris</object>
-            <object>objects\objSiphonTopazPickup</object>
-            <object>objects\objBlockTurretShot</object>
-            <object>objects\objItem4Teleport</object>
-            <object>objects\objItem4Shot</object>
-          </objects>
-        </objects>
-        <object>objects\objFlameSweeperKE</object>
-        <object>objects\objNekoClawKE</object>
-        <object>objects\objRushCoil</object>
-        <object>objects\objRushJet</object>
-        <objects name="MaGMML1">
-          <object>objects\objMetalBlade</object>
-          <object>objects\objGeminiLaser</object>
-          <object>objects\objSolarBlaze</object>
-          <object>objects\objTopSpin</object>
-          <object>objects\objThunderWool</object>
-          <object>objects\objPharaohShot</object>
-          <object>objects\objBlackHoleBomb</object>
-          <object>objects\objMagicCard</object>
-          <objects name="Misc.">
-            <object>objects\objBHBEffect</object>
-          </objects>
-        </objects>
-        <objects name="MaGMML2">
-          <object>objects\objHornetChaser</object>
-          <object>objects\objJewelSatellite</object>
-          <object>objects\objGrabBuster</object>
-          <object>objects\objTripleBlade</object>
-          <object>objects\objFlashStopper</object>
-          <object>objects\objSlashClaw</object>
-          <object>objects\objWheelCutter</object>
-          <object>objects\objSakugarne</object>
-          <object>objects\objWireAdapter</object>
-          <object>objects\objSuperArrow</object>
-          <objects name="Misc.">
-            <object>objects\objGrabBusterPickup</object>
-            <object>objects\objSlashEffect</object>
-          </objects>
-        </objects>
-        <objects name="MaGMML3">
-          <object>objects\objSparkChaser</object>
-          <object>objects\objLaserTrident</object>
-          <object>objects\objWaterShield</object>
-          <object>objects\objTornadoBlow</object>
-          <object>objects\objThunderBeam</object>
-          <object>objects\objMagneticShockwave</object>
-          <object>objects\objIceWall</object>
-          <object>objects\objBreakDash</object>
-          <object>objects\objRushCycle</object>
-          <object>objects\objMagnetBeam</object>
-          <objects name="Misc.">
-            <object>objects\objBubblePopEffect</object>
-            <object>objects\objTornadoEffect</object>
-          </objects>
-        </objects>
-        <objects name="MaG24HMML">
-          <object>objects\objSuperArm</object>
-          <object>objects\objChillShot</object>
-          <objects name="Misc.">
-            <object>objects\objChillSpikeLanded</object>
-            <object>objects\objChillDebris</object>
-            <object>objects\objSuperArmBlockProjectile</object>
-            <object>objects\objSuperArmDebris</object>
-          </objects>
-        </objects>
-        <objects name="MaG48HMML">
-          <object>objects\objFlameMixer</object>
-          <object>objects\objRainFlush</object>
-          <object>objects\objSparkShock</object>
-          <object>objects\objSearchSnake</object>
-          <object>objects\objTenguBlade</object>
-          <object>objects\objSaltWater</object>
-          <object>objects\objConcreteShot</object>
-          <object>objects\objHomingSniper</object>
-          <objects name="Misc.">
-            <object>objects\objSparkShockParalyze</object>
-            <object>objects\objTenguDash</object>
-            <object>objects\objTenguDisk</object>
-          </objects>
-        </objects>
-        <objects name="Other Examples">
-          <object>objects\objTimeStopper</object>
-          <object>objects\objPowerStone</object>
-          <object>objects\objPlantBarrier</object>
-          <object>objects\objBrickWeapon</object>
-          <object>objects\objIceSlasher</object>
-          <objects name="Misc.">
-            <object>objects\objBrickWeaponDebris</object>
-          </objects>
-        </objects>
-        <objects name="Misc.">
-          <object>objects\objNormalBusterShot</object>
-          <object>objects\objRushTeleport</object>
-          <object>objects\objRushTeleportBlock</object>
-          <object>objects\objWeaponExplosion</object>
-          <object>objects\objProtoShield</object>
-        </objects>
-      </objects>
+    </objects>
+    <objects name="RLC">
+      <object>objects\objTargetDummy</object>
+      <object>objects\objInUniverse_4MIKerone</object>
     </objects>
   </objects>
   <rooms name="rooms">

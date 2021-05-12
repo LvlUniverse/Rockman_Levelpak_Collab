@@ -55,6 +55,11 @@ with (prtEntity)
     }
 }
 
+// exception to keep block turret from pushing itself
+if object_index == objBlockTurret
+    with(objBlockTurret)
+        solid = false;
+
 // Stoppers are only solid for the object_index they have stored
 with (objGenericStopper)
 {

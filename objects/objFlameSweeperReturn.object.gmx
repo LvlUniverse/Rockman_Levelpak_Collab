@@ -30,19 +30,19 @@ event_inherited();
 
 bulletLimitCost = 1;
 
-contactDamage = 2;
+contactDamage = 3;
 
-penetrate = 0;
+penetrate = 1;
 pierces = 2;
 attackDelay = 6;
 
 despawnRange = 24;
 
-//object-specific
-moveAngle = 0;
-moveSpeed = 2;
+image_speed = 1/8;
 
-animTimer = 0;
+//object-specific
+moveSpeed = 2;
+dir = 0;
 
 hasHitList = makeArray(noone);
 </string>
@@ -71,10 +71,6 @@ hasHitList = makeArray(noone);
 
 if (!global.frozen) &amp;&amp; (canDamage)
 {
-    //animate
-    animTimer++;
-    image_index = (animTimer / 10) mod 2;
-    
     //decelerate lateral movement
     if abs(yspeed) != 0
         yspeed = (abs(yspeed) - 0.02) * (4 / 5) * sign(yspeed);
@@ -82,10 +78,10 @@ if (!global.frozen) &amp;&amp; (canDamage)
     if moveSpeed &lt; 7
         moveSpeed += 0.35;
     else
+    {
         moveSpeed = 7;
-    //return to default despawn range after being alive for a bit
-    if animTimer &gt; 20
-        despawnRange = 4;
+        despawnRange = 4;   //return to normal despawn range
+    }
     
     //move
     xspeed = dir * moveSpeed;
@@ -112,12 +108,11 @@ if (!global.frozen) &amp;&amp; (canDamage)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///strong against mid-hp enemies, weak if detonated right on enemy
+            <string>///weak if detonated right on enemy, weaker against enemies it hits too many times
 
-//especially effective against semi-bulky enemies
-if (other.healthpointsStart &lt; 8)
-    &amp;&amp; !object_is_ancestor(other.object_index, prtMiniBoss)
-    global.damage = 3;
+//less effective on enemies that are wide enough to be hit many times
+if (other.bbox_right - other.bbox_left &gt;= 64)
+    global.damage = 2;
 
 //hit counter copied from objTinTrooperExplosion, and modified a bit
 //for each entry in the list of hit enemies...
@@ -134,7 +129,7 @@ for (var g = 0; g &lt; length; g++)
 //if we didn't get a match, do damage as normal, 
 //but tell all of the fireballs to never hit this enemy again
 //(assuming this is real early in our lifetime)
-if animTimer &lt; 4
+if moveSpeed &lt; 3
 {
     var oid = other.id;
     with(object_index)

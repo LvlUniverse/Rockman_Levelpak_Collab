@@ -2,7 +2,7 @@
 <object>
   <spriteName>sprNekoClaw</spriteName>
   <solid>0</solid>
-  <visible>0</visible>
+  <visible>-1</visible>
   <depth>0</depth>
   <persistent>0</persistent>
   <parentName>prtPlayerProjectile</parentName>
@@ -36,14 +36,22 @@ attackDelay = 4;    //automatically hits for its full attack delay when held!
 penetrate = 3;
 pierces = 2;    //needs to survive every time it hits an enemy, even if it can't do damage afterwards
 
+
+//object-specific
 moveAngle = 0;
+myIsShoot = 1;
 dist = 8;
 hitFreeze = undefined;
 
-turnLock = undefined;
-heldItem = noone;
 xoff = 0;
 yoff = 0;
+itemXOff = 0;
+itemYOff = 0;
+turnLock = undefined;
+
+heldItem = noone;
+grappled = noone;
+grappleLock = undefined;
 </string>
           </argument>
         </arguments>
@@ -69,8 +77,10 @@ yoff = 0;
             <string>///clear locks when destroyed
 lockPoolRelease(turnLock);
 
-if instance_exists(parent) &amp;&amp; parent.shootStandStillLock != 0 &amp;&amp; !global.keyShoot[playerID]
+if instance_exists(parent) &amp;&amp; parent.shootStandStillLock != 0 &amp;&amp; (!global.keyShoot[playerID] || parent.isHit)
     parent.shootStandStillLock = lockPoolRelease(parent.shootStandStillLock);
+if grappleLock != undefined
+    lockPoolRelease(grappleLock);
 </string>
           </argument>
         </arguments>
@@ -104,8 +114,16 @@ if (!global.frozen)
         exit;
     }
     
+    //if grappled, but grapple point is gone somehow, die
+    if grappled != noone &amp;&amp; (!instance_exists(grappled) || grappled.dead)
+    {
+        instance_destroy();
+        exit;
+    }
+    
     //force player into shooting pose
     parent.shootTimer = 14;
+    parent.isShoot = myIsShoot;
     //lock player's movement if they land, to keep them from using the walking aiming sprites
     with(parent)
     {
@@ -116,86 +134,120 @@ if (!global.frozen)
         }
     }
     
-    //movement
-    if hitFreeze == undefined
-    {   //extend
-        dist += 8;
-        if dist &gt; 56    //return with no hitfreeze when it extends too far
-            hitFreeze = 0;
+    //movement while not grappled
+    if grappled == noone
+    {
+        if hitFreeze == undefined
+        {   //extend
+            dist += 8;
+            if dist &gt; 56    //return with no hitfreeze when it extends too far
+                hitFreeze = 0;
+        }
+        else if hitFreeze-- &lt;= 0
+        {   //retract
+            dist -= 8;
+            //delete when fully returned
+            if dist &lt; 0
+            {
+                parent.shootTimer = 15;
+                if instance_exists(heldItem)    //drop off held item
+                {
+                    heldItem.x = parent.x + (heldItem.x - spriteGetXCenterObject(heldItem));
+                    heldItem.y = parent.y + (heldItem.y - spriteGetYCenterObject(heldItem));
+                }
+                instance_destroy();
+                exit;
+            }
+        }
+        
+        //moves with player using an angle and a distance, instead of moving via xspeed and yspeed
+        event_user(0);
+        x = parent.x + (xoff * parent.image_xscale) + (cos(degtorad(moveAngle)) * dist);
+        y = parent.y + (yoff * parent.image_yscale) + (-sin(degtorad(moveAngle)) * dist);
+        
+        //if not already grabbing something...
+        if (heldItem == noone)
+        {
+            //look for poles to grab
+            if (canDamage)
+            {
+                with(objThunderClawPole)
+                {
+                    if instance_place(x, y, other)
+                    {   //succesful grapple
+                        other.grappled = id;
+                        with(other)
+                        {
+                            playSFX(sfx4MIWireAdaptorLatch);
+                            x = grappled.x + 8 + -(itemXOff / 2);
+                            y = grappled.y + 8 + -(itemYOff / 2);
+                            hitFreeze = 0;
+                            canDamage = false;
+                            image_index = (image_index mod 4) + 4;
+                            grappleLock = lockPoolLock(parent.localPlayerLock[PL_LOCK_MOVE]);
+                        }
+                        break;
+                    }
+                }
+            }
+            //look for items to grab
+            if (grappled == noone) then with(prtPickup)
+            {
+                if grabable &amp;&amp; instance_place(x, y, other)
+                {
+                    grav = 0;
+                    blockCollision = false;
+                    other.heldItem = self;
+                    other.image_index = (other.image_index mod 4) + 4;
+                    break;
+                }
+            }
+        }
+        else    //i.e. if heldItem != noone
+        {
+            if instance_exists(heldItem)
+            {
+                //keep item positioned within claw
+                heldItem.x = x + itemXOff + (heldItem.x - spriteGetXCenterObject(heldItem));
+                heldItem.y = y + itemYOff + (heldItem.y - spriteGetYCenterObject(heldItem));
+            }
+            else    //if held item vanishes unexpectedly, de-hold it
+            {
+                heldItem = noone;
+                image_index = image_index mod 4;
+            }
+        }
     }
-    else if hitFreeze-- &lt;= 0
-    {   //retract
-        dist -= 8;
-        //delete when fully returned
-        if dist &lt; 0
+    else    //i.e. if grappled != noone
+    {
+        //retract until fully returned
+        dist = max(dist - 8, 0);
+        
+        //move the player with us, instead of moving with player
+        event_user(0);
+        var ppx = (xoff * parent.image_xscale) + (cos(degtorad(moveAngle)) * dist);
+        var ppy = (yoff * parent.image_yscale) + (-sin(degtorad(moveAngle)) * dist);
+        with(parent)
+            shiftObject((other.x - ppx) - x, (other.y - ppy) - y, true);
+        parent.yspeed = 0;
+        
+        //you can jump out of it
+        if global.keyJumpPressed[playerID]
         {
             parent.shootTimer = 15;
-            if instance_exists(heldItem)    //drop off held item
-            {
-                heldItem.x = parent.x + (heldItem.x - spriteGetXCenterObject(heldItem));
-                heldItem.y = parent.y + (heldItem.y - spriteGetYCenterObject(heldItem));
-            }
+            with(parent)
+                playerJump();
+            instance_destroy();
+            exit;
+        }
+        else if global.keyShootPressed[playerID] &amp;&amp; (dist == 0)
+        {   //or let go if you fire again
+            parent.shootTimer = 15;
+            parent.yspeed = 0;
             instance_destroy();
             exit;
         }
     }
-    
-    //moves with player using an angle and a distance, instead of moving via xspeed and yspeed
-    event_user(0);
-    x = parent.x + (xoff * parent.image_xscale) + (cos(degtorad(moveAngle)) * dist);
-    y = parent.y + (yoff * parent.image_yscale) + (-sin(degtorad(moveAngle)) * dist);
-    visible = true;
-    
-    //grabs items
-    if (heldItem == noone) //look for items to grab if we're not already holding one
-    {
-        with(prtPickup)
-        {
-            if grabable &amp;&amp; instance_place(x, y, other)
-            {
-                grav = 0;
-                blockCollision = false;
-                other.heldItem = self;
-                other.image_index = (other.image_index mod 4) + 4;
-                break;
-            }
-        }
-    }
-    else
-    {   //control item if we're holding one
-        if instance_exists(heldItem)
-        {
-            var ix = 0;
-            var iy = 0;
-            //todo: since image is static, position can be determined on firing
-            switch(image_index mod 4)
-            {
-                case 0:
-                    iy = -10 * image_yscale;
-                    break;
-                case 1:
-                    ix = 7 * image_xscale;
-                    iy = -6 * image_yscale;
-                    break;
-                case 2:
-                    ix = 10 * image_xscale;
-                    break;
-                case 3:
-                    ix = 7 * image_xscale;
-                    iy = 6 * image_yscale;
-                    break;
-            }
-            heldItem.x = x + ix + (heldItem.x - spriteGetXCenterObject(heldItem));
-            heldItem.y = y + iy + (heldItem.y - spriteGetYCenterObject(heldItem));
-        }
-        else    //if held item vanishes unexpectedly, de-hold it
-        {
-            heldItem = noone;
-            image_index = image_index mod 4;
-        }
-    }
-    
-    //TODO: Thunder claw poles!
 }
 </string>
           </argument>
@@ -223,7 +275,7 @@ if (!global.frozen)
 //fire while button is held
 if (global.keyShoot[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
 {
-    i = fireWeapon(16, 0, objNekoClaw, 1, 0.3333334, 1, 1);
+    i = fireWeapon(16, 0, objNekoClaw, 1, 0.5, 1, 1);
     if (instance_exists(i))
     {
         //sound
@@ -258,18 +310,24 @@ if (global.keyShoot[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
         {
             case 0: //up
                 i.image_index = 0;
+                i.itemYOff = -10;
                 isShoot = 3;
                 break;
             case 45:    //up-side
                 i.image_index = 1;
+                i.itemXOff = 7;
+                i.itemYOff = -6;
                 isShoot = 4;
                 break;
             case 90:    //side
                 i.image_index = 2;
+                i.itemXOff = 10;
                 isShoot = 1;
                 break;
             case 135:   //down-side
                 i.image_index = 3;
+                i.itemXOff = 7;
+                i.itemYOff = 6;
                 isShoot = 5;
                 break;
             case 180:   //down: this should never happen
@@ -279,7 +337,13 @@ if (global.keyShoot[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
         if image_yscale &lt; 0
             i.moveAngle = (180 - abs(i.moveAngle)) * s;
         
-        i.moveAngle = i.moveAngle + 90
+        with(i)
+        {
+            moveAngle = moveAngle + 90
+            itemXOff *= image_xscale;
+            itemYOff *= image_yscale;
+            myIsShoot = parent.isShoot;
+        }
     }
 }
 </string>
@@ -308,7 +372,7 @@ if (global.keyShoot[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
 weaponSetup("NEKO CLAW", 
     make_color_rgb(228, 92, 16), 
     c_white, 
-    sprWeaponIconsNekoClaw, 1/3, 
+    sprWeaponIconsNekoClaw, 0.5, 
     " A large hydaulic powered cat paw that pierces shields, and can retrieve minor items.## It can be aimed in seven directions, but its range is limited.## If you hold down FIRE, it will fire again as soon as it returns. If you are very close to a foe, it will fire rapidly for huge damage.",
     "1#8#1#1/3");
 </string>

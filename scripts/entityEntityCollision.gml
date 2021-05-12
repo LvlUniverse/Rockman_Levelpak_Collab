@@ -21,7 +21,7 @@ if (other.ignoreBullet == id)
 // now set the damage
 
 // Set proper damage values from the hitter's end
-if (faction == 2)
+if (faction == 2 || faction == 8)
 {
     event_user(EV_WEAPON_SETDAMAGE);
     //inuni tweak: cancel damage event completely if the weapon wants to

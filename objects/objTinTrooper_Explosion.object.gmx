@@ -27,7 +27,7 @@
             <kind>1</kind>
             <string>event_inherited();
 
-contactDamage = 3;
+contactDamage = 2;
 
 pierces = 2;
 penetrate = 0;

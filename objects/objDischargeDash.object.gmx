@@ -33,7 +33,6 @@ contactDamage = 1;
 
 penetrate = 1;
 pierces = 2;
-attackDelay = 16;
 
 despawnRange = -1; // don't be despawned by scrolling offscreen
 shiftVisible = true;
@@ -43,10 +42,9 @@ rotRadius = 0;
 targetRotRadius = 20;
 animTimer = 0;
 we = 0;
+antiRapidBuffer = 0;
 
 bufferRecharge = false;
-
-playSFX(sfxElectricShot);
 </string>
           </argument>
         </arguments>
@@ -139,6 +137,9 @@ if !global.frozen || instance_exists(objSectionSwitcher)
             mask_index = mskDischargeDash2;
         else
             mask_index = mskDischargeDash1;
+        
+        //timer goes down
+        antiRapidBuffer--;
     }
     else
     {   //die if player dies
@@ -171,6 +172,24 @@ if !global.frozen || instance_exists(objSectionSwitcher)
 
 if canDamage &amp;&amp; !other.dead &amp;&amp; (global.ammo[playerID, global.weaponID[? objDischargeDash]] &gt; 0)
 {
+    //special case for electric hazards, making them harmless but not destroying them, regardless of reflectability
+    if other.sprite_index == sprElecThunder || other.sprite_index == sprElectricGabyoallCurrent
+    {
+        if other.contactDamage != 0
+        {
+            other.contactDamage = 0;
+            if parent.dischargeDashCharges &lt; 3
+            {
+                parent.dischargeDashCharges++;
+                animTimer = 0;
+                var fx = instance_create(bboxGetXCenter(), bboxGetYCenter(), objSingleLoopEffect);
+                fx.image_speed = 1/3;
+                fx.sprite_index = spr4MICrit;
+                playSFX(sfxEnkerCharge);
+            }
+        }
+        exit;
+    }
     switch (other.reflectable)
     {
         case -1:
@@ -184,7 +203,12 @@ if canDamage &amp;&amp; !other.dead &amp;&amp; (global.ammo[playerID, global.wea
                     animTimer = 0;
                     playSFX(sfxEnkerCharge);
                     with (other)
+                    {
                         instance_destroy();
+                        var fx = instance_create(bboxGetXCenter(), bboxGetYCenter(), objSingleLoopEffect);
+                        fx.image_speed = 1/3;
+                        fx.sprite_index = spr4MICrit;
+                    }
                 }
                 else
                 {
@@ -197,7 +221,12 @@ if canDamage &amp;&amp; !other.dead &amp;&amp; (global.ammo[playerID, global.wea
                     }
                 }
                 //drain weapon energy in either case
-                global.ammo[playerID, global.weaponID[? objDischargeDash]] -= 1 / (global.energySaver + 1);
+                if antiRapidBuffer &lt;= 0
+                    global.ammo[playerID, global.weaponID[? objDischargeDash]] -= 1 / (global.energySaver + 1);
+                else
+                    global.ammo[playerID, global.weaponID[? objDischargeDash]] -= 0.2 / (global.energySaver + 1);
+                
+                antiRapidBuffer = 4;
             }
             break;
     }
@@ -230,14 +259,16 @@ if canDamage &amp;&amp; !other.dead &amp;&amp; (global.ammo[playerID, global.wea
 if global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT)
 {
     //if no barrier, summon barrier for 4 weapon energy
-    if (!playerIsLocked(PL_LOCK_SHOOT) &amp;&amp; !instance_exists(objDischargeDash) 
-        &amp;&amp; global.ammo[playerID, global.weaponID[? objDischargeDash]] &gt; 2) //if fired from 2 energy, it can't soak up any shots at all and would die instantly
+    if !instance_exists(objDischargeDash) 
     {
-        var p = fireWeapon(0, 0, objDischargeDash, 1, 2, 2, 0);
-        if instance_exists(p)
+        if global.ammo[playerID, global.weaponID[? objDischargeDash]] &gt; 2 //if fired from 2 energy, it can't soak up any shots at all and would die instantly
+        {
+            fireWeapon(0, 0, objDischargeDash, 1, 2, 2, 0);
             dischargeDashCharges = 0;
+            playSFX(sfxElectricShot);
+        }
     }
-    else if instance_exists(objDischargeDash)
+    else
     {   //if barrier exists, try to perform dash at the cost of a charge
         if (dischargeDashCharges &gt; 0)
         {
@@ -385,9 +416,17 @@ if instance_exists(parent)
     {
         parent.dischargeDashCharges++;
         animTimer = 0;
+        var fx = instance_create(bboxGetXCenterObject(other), bboxGetYCenterObject(other), objSingleLoopEffect);
+        fx.image_speed = 1/3;
+        fx.sprite_index = spr4MICrit;
         playSFX(sfxEnkerCharge);
     }
-    global.ammo[playerID, global.weaponID[? objDischargeDash]] -= 1 / (global.energySaver + 1);
+    if antiRapidBuffer &lt;= 0
+        global.ammo[playerID, global.weaponID[? objDischargeDash]] -= 1 / (global.energySaver + 1);
+    else
+        global.ammo[playerID, global.weaponID[? objDischargeDash]] -= 0.2 / (global.energySaver + 1);
+    
+    antiRapidBuffer = 4;
 }
 </string>
           </argument>

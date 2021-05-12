@@ -244,6 +244,8 @@ specialDamageValue(objBreakDash, 3);
 specialDamageValue(objChillSpikeLanded, 3);
 specialDamageValue(objTenguDash, 3);
 specialDamageValue(objSkeletuppinPakkajoe, 3);
+specialDamageValue(objTinTrooper, 3);
+specialDamageValue(objItem4, 3);
 </string>
           </argument>
         </arguments>

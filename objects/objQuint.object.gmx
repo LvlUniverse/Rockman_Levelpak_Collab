@@ -86,7 +86,7 @@ enemyDamageValue(objHailBreakerShot, 1);
 enemyDamageValue(objBlockTurretShot, 1);
 enemyDamageValue(objItem4, 4);
 enemyDamageValue(objItem4Shot, 2);
-enemyDamageValue(objTeleportPhaser, 2);
+enemyDamageValue(objTeleportPhaser, 3);
 
 // MaGMML3
 enemyDamageValue(objSparkChaser, 2);

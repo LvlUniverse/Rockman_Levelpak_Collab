@@ -27,12 +27,15 @@
             <kind>1</kind>
             <string>event_inherited();
 
-canDamage = false; //this thing firs shots, but isn't really a shot itself
+contactDamage = -2; //this thing fires shots, but isn't really a shot itself
+pierces = 2;
 
 grav = 0.4; //heavy!
 
 isSolid = true;
+fnsolid = 1;
 blockCollision = 1;
+doesTransition = false;
 
 bulletLimitCost = 0;
 
@@ -43,6 +46,8 @@ shootTimer = 0;
 isHeld = false;
 haslanded = false;
 mySolid = noone;
+
+isMySolid = false;
 </string>
           </argument>
         </arguments>
@@ -93,8 +98,18 @@ if instance_exists(mySolid)    //destroy my solid if held, just in case...
             <kind>1</kind>
             <string>event_inherited();
 
-if (!global.frozen)
+if (!global.frozen &amp;&amp; !isMySolid)
 {
+    //if is being held, but parent has died, un-helds itself
+    if isHeld &amp;&amp; (!instance_exists(parent) || parent.dead)
+    {
+        isHeld = false;
+        grav = 0.4 * image_yscale;
+        despawnRange = 4;
+        isSolid = true;
+        blockCollision = true;
+    }
+    
     //stop when it hits the ground
     if ground &amp;&amp; !haslanded &amp;&amp; !isHeld
     {
@@ -107,13 +122,14 @@ if (!global.frozen)
         hasLanded = false;
     
     //fire shots
-    shootTimer = ++shootTimer mod 48;
-    if (shootTimer &lt; 36) &amp;&amp; (shootTimer mod 6 == 0)
+    shootTimer = ++shootTimer mod 60;
+    if (shootTimer &lt; 48) &amp;&amp; (shootTimer mod 8 == 0)
     {
         var s = instance_create(x + (18 * image_xscale), 
             y + ((7 + -extended) * image_yscale) + -(image_yscale == -1), 
             objBlockTurretShot);
         s.image_xscale = image_xscale;
+        s.xspeed = 5 * sign(image_xscale);  //zoom
         //s.depth = depth + 1;
     }
     
@@ -133,6 +149,7 @@ if (!global.frozen)
                     other.extendDir = -other.extendDir;
                     playSFX(sfxBladeManSeeSawCart1);
                 }
+                /*
                 //turn to face the direction the player is facing
                 if sign(other.image_xscale) != sign(image_xscale)
                 {
@@ -144,6 +161,7 @@ if (!global.frozen)
                         mySolid.x = x;
                     }
                 }
+                */
             }
         }
         //change size accordingly, if there's room
@@ -156,12 +174,13 @@ if (!global.frozen)
         //control solid
         if !instance_exists(mySolid)
         {
-            mySolid = instance_create(x, y, objSolidEntity);
-            //mySolid.visible = true;
+            mySolid = instance_create(x, y, objBlockTurret);
+            mySolid.visible = false;
             mySolid.image_xscale = image_xscale;
             mySolid.image_yscale = image_yscale;
-            mySolid.faction = faction;
-            mySolid.fnsolid = fnsolid;
+            mySolid.blockCollision = false;
+            mySolid.isMySolid = true;
+            mySolid.grav = 0;
         }
         mySolid.xspeed = x - mySolid.x;
         mySolid.yspeed = (y - (extended * image_yscale)) - mySolid.y;
@@ -195,11 +214,11 @@ if (!global.frozen)
 
 var doShoot = (global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
 //if no block turret exists, make one when shoot is pressed
-if !instance_exists(objBlockTurret) &amp;&amp; (global.ammo[playerID, global.weaponID[? objBlockTurret]] &gt;= 6)
+if !instance_exists(objBlockTurret) &amp;&amp; (global.ammo[playerID, global.weaponID[? objBlockTurret]] &gt;= 8)
 {
     if doShoot
     {
-        var i = fireWeapon(0.5, -25, objBlockTurret, 999, 6, 0, 0);
+        var i = fireWeapon(0.5, -25, objBlockTurret, 999, 8, 0, 0);
         if (instance_exists(i))
         {
             i.isHeld = true;
@@ -217,33 +236,36 @@ else    //if block turret exists...
         if isHeld
         {
             r = false;
-            //super arm code
-            other.isShoot = 6;
-            other.shootTimer = 0;
-            blockCollision = false;
-            grav = 0;
-            despawnRange = -1;
-            isSolid = false;
-            with(other)
-            {
-                originToBBoxBottom = bbox_bottom - round(y);
-                originToBBoxTop = round(y) - bbox_top;
-                originToBBoxCenter = (bbox_left + bbox_right) / 2 - round(x);
-                var superArmDesiredX = x - originToBBoxCenter;
-                var superArmDesiredY = y - originToBBoxBottom - 6 - (isSlide * -4);
-                if (image_yscale == -1)
-                {
-                    superArmDesiredY = y + originToBBoxTop + 6;
-                }
-            }
-            //print(string(x - superArmDesiredX) + ", " + string(y - superArmDesiredY));
-            x = superArmDesiredX;
-            y = superArmDesiredY;
             xspeed = 0;
             yspeed = 0;
             image_xscale = other.image_xscale
             image_yscale = other.image_yscale;
-            if(doShoot) //if it's held and you press fire, place it down
+            //super arm code
+            if(!doShoot)
+            {
+                other.isShoot = 6;
+                other.shootTimer = 0;
+                blockCollision = false;
+                grav = 0;
+                despawnRange = -1;
+                isSolid = false;
+                //follow mega
+                with(other)
+                {
+                    originToBBoxBottom = bbox_bottom - round(y);
+                    originToBBoxTop = round(y) - bbox_top;
+                    originToBBoxCenter = (bbox_left + bbox_right) / 2 - round(x);
+                    var superArmDesiredX = x - originToBBoxCenter - (image_xscale == -1);
+                    if (image_yscale == 1)
+                        var superArmDesiredY = y - originToBBoxBottom;
+                    else
+                        var superArmDesiredY = y + originToBBoxTop - 1;
+                }
+                event_perform_object(objBlockTurret, ev_other, ev_user0);
+                x = superArmDesiredX - (xoff * other.image_xscale);
+                y = superArmDesiredY - (yoff * other.image_yscale);
+            }
+            else    //i.e. if doShoot       put it on the ground
             {
                 isHeld = false;
                 other.isShoot = 2;
@@ -259,11 +281,24 @@ else    //if block turret exists...
         }
     }
     
-    //fire buster shots elsewise
+    //if a turret is already out...
     if r &amp;&amp; doShoot
-    {
-        with (fireWeapon(16, 0, objNormalBusterShot, 3, 0, 1, 0))
-            xspeed = image_xscale * 5; // zoom
+    {   //try to pick up a turret nearby
+        with(objBlockTurret)
+        {
+            if !isMySolid &amp;&amp; (instance_place(x + 4, y, other) || instance_place(x - 4, y, other))
+            {
+                isHeld = true;
+                haslanded = false;
+                break;
+            }
+        }
+        
+        /*
+        if !p   //buster shots if no turret was picked up
+            with (fireWeapon(16, 0, objNormalBusterShot, 3, 0, 1, 0))
+                xspeed = image_xscale * 5; // zoom
+        */
     }
 }
 </string>
@@ -292,9 +327,119 @@ else    //if block turret exists...
 weaponSetup("BLOCK TURRET", 
     make_color_rgb(168, 0, 32), 
     make_color_rgb(248, 88, 152), 
-    sprWeaponIconsBlockTurret, 6, 
+    sprWeaponIconsBlockTurret, 8, 
         " You form and hold a rapid-firing turret in your hand, and can press FIRE again to place it on the floor.## Once placed, you can fire buster shots in addition to the turret's shots.## The turret can be stood on, and will adjust its height when landed on.",
         "1#5#1#6");
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="18">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///never does any damage
+global.damage = 0;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="17">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///explodes when deflected
+
+if guardCancel == 4 &amp;&amp; !isHeld &amp;&amp; !isMySolid
+{
+    var i = instance_create(bboxGetXCenter(), bboxGetYCenter(), objTinTrooper_Explosion)
+    if instance_exists(i)
+    {
+        i.canDamage = false;
+        playSFX(sfxExplosion2);
+    }
+    instance_destroy();
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="10">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///offsets while held
+
+if (parent.isSlide)
+{   //sliding
+    xoff = 0;
+    yoff = 1;
+}
+else if (parent.climbing)
+{   //climbing
+    xoff = 8;
+    yoff = 6;
+}
+else if (!parent.ground)
+{   //jumping
+    xoff = 4;
+    yoff = 11;
+}
+else
+{
+    if (parent.stepTimer &gt;= parent.stepFrames)
+    {   //walking
+        xoff = 2;
+        yoff = 6;
+    }
+    else
+    {   //standng
+        xoff = 2;
+        yoff = 6;
+    }
+}
 </string>
           </argument>
         </arguments>
@@ -327,18 +472,18 @@ if extended != 0
     for(var p = 1; p &lt;= 3; p++)
     {
         myExtend = (16 - extended) * ((4 - p) / 3);
-        draw_sprite_part_ext(sprite_index, p, 0, 0, 16, 16 - myExtend, floor(x + 0.5), 
+        draw_sprite_part_ext(sprite_index, p, 0, 0, 16, 16 - myExtend, x, 
             ceil(y + 0.5 + gravMod + ((-4 + myExtend) * image_yscale)), 
             image_xscale, image_yscale, c_white, 1);
     }
 }
 
 //base
-draw_sprite_ext(sprite_index, 0, floor(x + 0.5), 
+draw_sprite_ext(sprite_index, 0, x, 
     floor(y + 0.5 + -(extended * image_yscale)), 
     image_xscale, image_yscale, 0, c_white, 1);
 //gun
-draw_sprite_ext(sprite_index, 4, floor(x + 0.5), floor(y + 0.5), 
+draw_sprite_ext(sprite_index, 4, x, floor(y + 0.5), 
     image_xscale, image_yscale, 0, c_white, 1);
 </string>
           </argument>

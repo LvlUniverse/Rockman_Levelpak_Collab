@@ -45,6 +45,7 @@ mySpeed = 32;
 obstacleList[0] = objConcreteShot;
 obstacleList[1] = objIceWall;
 obstacleList[2] = objPlantBarrier;
+obstacleList[3] = objBlockTurret;
 </string>
           </argument>
         </arguments>

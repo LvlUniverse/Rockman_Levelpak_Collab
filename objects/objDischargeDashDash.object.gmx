@@ -36,15 +36,10 @@ penetrate = 2; // obviously we don't want to destroy the control for the dash
 pierces = 2;
 attackDelay = 8;
 
-visible = 0;
-
 shiftVisible = 3;
 despawnRange = -1;
 
-playSFX(sfxMM9Thunder); // needs its own sfx later
-
-flashTimer = 0;
-flashOffset = 0;
+playSFX(sfxMM9Thunder);
 
 animTimer = 0;
 animFrame = 0;
@@ -74,14 +69,13 @@ breakDashLock = undefined;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>event_inherited();
+            <string>///release lcok pools, grant momentum
 
 if instance_exists(parent)
 {
     with(parent)
     {
         lockPoolRelease(other.breakDashLock);
-        hitTimer = 0;
         iFrames = 20;
     }
     with(instance_create(x, y, objDischargeDashMomentum))
@@ -131,27 +125,11 @@ else
 
 if (!global.frozen &amp;&amp; !global.switchingSections)
 {
-    // iFrames fist/dash
-    flashTimer += 1;
-    if (flashTimer == 3)
-    {
-        flashOffset = !flashOffset;
-        flashTimer = 0;
-    }
+    //animation
+    animFrame = (floor(animTimer++ / 4) * 2) mod 6;
     
-    // real anim
-    animTimer += 1;
-    if (animTimer == 4)
-    {
-        animFrame += 2;
-        if (animFrame &gt;= 6)
-        {
-            animFrame = 0;
-        }
-        animTimer = 0;
-    }
-    
-    with (parent) // Mega Man anim + movement forcing
+    //control mega's movement
+    with(parent)
     {
         if (!other.breakDashLock)
         {
@@ -213,7 +191,8 @@ if (!global.frozen &amp;&amp; !global.switchingSections)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>playSFX(sfxReflect);
+            <string>///no reaction, but plays the sound
+playSFX(sfxReflect);
 </string>
           </argument>
         </arguments>

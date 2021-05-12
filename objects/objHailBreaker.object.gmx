@@ -40,6 +40,8 @@ contactDamage = 0;
 hailBreakerLock = undefined;
 timer = -5;
 
+despawnRange = -1;
+
 opacity = 0;
 </string>
           </argument>
@@ -126,6 +128,14 @@ if !global.frozen
                 particleTimer = floor(p * (p + cust));   //i don't care much how this gets evaluated, just that it's unique
             }
         }
+        
+        // also heal Chill Blocks
+        // I had to put this here because really dumb shit was happening when I tried to put it all into Chill Blocks ok
+        with(objChillManBlock) if(!dead)
+        {
+            healthpoints = min(3,healthpoints+1);
+            if(breakTimer &gt; -1) breakTimer = -1;
+        }
     }
     
     //cold white flash
@@ -168,9 +178,8 @@ if (global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
 {
     //fire a hail breaker, if there's energy left and one isn't already active
     if !instance_exists(objHailBreakerShot) &amp;&amp; !instance_exists(objHailBreaker)
-        &amp;&amp; global.ammo[playerID, global.weaponID[? objHailBreaker]] &gt; 0
     {
-        var w = fireWeapon(0, 0, objHailBreaker, 45, 4, 0, 0);
+        var w = fireWeapon(0, 0, objHailBreaker, 45, 5, 0, 0);
         if instance_exists(w)
         {
             xspeed = 0;
@@ -215,9 +224,9 @@ if (global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
             <string>///weapon setup
 weaponSetup("HAIL BREAKER", 
     make_color_rgb(164, 228, 252), c_white, 
-    sprWeaponIconsHailBreaker, 4, 
-        " You summon a torrent of ice that freezes enemies and water all around you.## Frozen enemies can be walked on without harm.## The ice does not go away when you switch weapons.",
-        "0#3#1#4");
+    sprWeaponIconsHailBreaker, 5, 
+    " You summon a torrent of ice that freezes enemies and water all around you.## Frozen enemies can be walked on without harm.## The ice does not go away when you switch weapons.",
+    "0#3#1#4");
 </string>
           </argument>
         </arguments>

@@ -40,6 +40,21 @@ grav = 0;
 bubbleTimer = -1;
 
 killOverride = false;
+
+canIce = false; //most of the weapons that can put this out are ice weapons. haveng them freeze it would give the wrong impression
+
+// What puts out the flames
+waterSource[1] = objRainFlush;
+waterSource[2] = objWaterShield;
+waterSource[3] = objChillSpikeLanded;
+waterSource[4] = objChillShot;
+waterSource[5] = objSaltWater;
+waterSource[6] = objBlackHoleBomb;
+waterSource[7] = objTornadoBlow;
+waterSource[8] = objIceWall;
+waterSource[9] = objIceSlasher;
+waterSource[10] = objTyphoonFunnel;
+waterSource[11] = objHailBreakerShot;
 </string>
           </argument>
         </arguments>
@@ -171,8 +186,18 @@ dieTime = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (global.damage == other.contactDamage || dying)
+            <string>if dying
+    other.guardCancel = 2;
+else
 {
+    for (var p = 0; p &lt; array_length_1d(waterSource); p++)
+    {
+        if other.object_index == waterSource[p]
+        {
+            global.damage = 6;
+            exit;
+        }
+    }
     other.guardCancel = 2;
 }
 </string>

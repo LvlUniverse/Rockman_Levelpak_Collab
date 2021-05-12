@@ -77,7 +77,7 @@ enemyDamageValue(objHailBreakerShot, 3);    //slightly weak to rain flush and po
 enemyDamageValue(objBlockTurretShot, 1);
 enemyDamageValue(objItem4, 1);
 enemyDamageValue(objItem4Shot, 1);
-enemyDamageValue(objTeleportPhaser, 1);
+enemyDamageValue(objTeleportPhaser, 3);
 
 // MaGMML3
 enemyDamageValue(objSparkChaser, 2);

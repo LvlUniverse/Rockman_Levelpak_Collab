@@ -206,7 +206,9 @@ animSpeed = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>other.guardCancel = 1;
+            <string>///deflects shots
+if other.object_index != objTinTrooper
+    other.guardCancel = 1;
 </string>
           </argument>
         </arguments>

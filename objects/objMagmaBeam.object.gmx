@@ -231,7 +231,7 @@ contactDamage = 28 * !isSolid;
     other.guardCancel = 2;
     
     if (other.object_index == objIceWall || other.object_index == objConcreteShot
-        || other.object_index == objIceSlasher || other.object_index == objHailBreaker)
+        || other.object_index == objIceSlasher || other.object_index == objHailBreakerShot)
     {
         isFrozen = 240;
         isSolid = 1;

@@ -57,7 +57,11 @@ if (showReady)
         teleporting = true;
         playerIntro(true);
     }
-} // If it's not READY time, just draw the player
+} 
+// hack to make sure item 4 is drawn properly
+else if instance_exists(vehicle) && vehicle.object_index == objItem4
+    exit;
+// If it's not READY time, just draw the player
 else
 {
     if restoreMusic == 1

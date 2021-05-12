@@ -140,7 +140,7 @@ iceTimer = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (other.object_index != objIceWall &amp;&amp; object_index != objHailBreaker) 
+            <string>if (other.object_index != objIceWall &amp;&amp; object_index != objHailBreakerShot) 
     || (iceTimer &gt; 0)
 {
     other.guardCancel = 2;
