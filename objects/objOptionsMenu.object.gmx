@@ -429,7 +429,7 @@ if (phase &gt;= 6 &amp;&amp; !selected &amp;&amp; !instance_exists(objColoredTex
                 }
                 break;
             
-            // Controller Overlay
+            // Weapon energy HUD thing
             case 108:
                 pre = global.showHUDWeaponIcon;
                 global.showHUDWeaponIcon = min(max(0, global.showHUDWeaponIcon + xdir), 2);

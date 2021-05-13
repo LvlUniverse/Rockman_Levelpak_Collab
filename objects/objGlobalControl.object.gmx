@@ -1397,6 +1397,7 @@ depth = depthstart;
                 }
                 
                 //inuni edit: draw weapon icon below weapon bar
+                if global.showHUDWeaponIcon == 1
                 if !(global.weaponCost[global.weapon[z]] == 0 || global.infiniteEnergy[global.weapon[z]] == true)
                 {
                     draw_sprite_ext(global.weaponIcon[global.weapon[z]],

@@ -35,17 +35,18 @@ if (instance_number(object_index) &gt; 1) || !instance_exists(objPauseMenu)
 link = noone;
 
 phase = 0;
-
 option = 0;
+
+animTimer = 0;
 
 var itemSpacing = 22;
 
 //filler in case you have no items
 accName = "Nothing";
-accDesc = "You are bereft of worldly#posessions. How quaint."
+accDesc = "You don't have any #items to see."
 
-buttonPos[0, 0] = 0;
-buttonPos[0, 1] = 0;
+buttonPos[0, 0] = -9999;
+buttonPos[0, 1] = -9999;
 var i = 0;
 
 equipNum = array_length_1d(global.equipmentHotbar);
@@ -360,8 +361,14 @@ draw_set_valign(fa_top);
 //frame
 draw_sprite(sprite_index, 3, drawXPosition, drawYPosition);
 
-//draw items
+/*---------------
+   accessories
+---------------*/
+if equipNum &lt;= 6 //filler squares
+    draw_sprite(sprite_index, 4, drawXPosition, drawYPosition);
+//draw accessories
 if equipNum != 0
+{
     for(var i = 0; i &lt; equipNum; i++)
     {
         draw_sprite(sprEquipmentIcons, global.equipmentHotbar[i], 
@@ -370,11 +377,25 @@ if equipNum != 0
             draw_sprite(sprEquipmentDisabled, 0, 
                 drawXPosition + buttonPos[i, 0], drawYPosition + buttonPos[i, 1]);
     }
+}
+else
+{   //draw "no item" text
+    draw_text(drawXPosition + 100, drawYPosition + 48, "NO ITEM");
+}
+
+/*---------
+   items
+---------*/
+//system's not in yet!
+draw_sprite(sprite_index, 5, drawXPosition, drawYPosition);
+draw_text(drawXPosition + 100, drawYPosition + 120, "NO ITEM");
+
+
 
 if phase == 2
 {
     //draw cursor
-    draw_sprite(sprShopCursor, 0, drawXPosition + buttonPos[option, 0], 
+    draw_sprite(sprShopCursor, (animTimer++ / 10) mod 4, drawXPosition + buttonPos[option, 0], 
         drawYPosition + buttonPos[option, 1]);
     
     //draw description

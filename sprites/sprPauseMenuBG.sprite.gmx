@@ -24,5 +24,7 @@
     <frame index="1">images\sprPauseMenuBG_1.png</frame>
     <frame index="2">images\sprPauseMenuBG_2.png</frame>
     <frame index="3">images\sprPauseMenuBG_3.png</frame>
+    <frame index="4">images\sprPauseMenuBG_4.png</frame>
+    <frame index="5">images\sprPauseMenuBG_5.png</frame>
   </frames>
 </sprite>

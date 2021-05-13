@@ -303,10 +303,9 @@ switch (phase)
                 }
                 else
                 {
+                    //w-tank fill returns to w-tank selection, incase you want to use more w-tanks
                     if global.wTanks &gt; 0
                         phase = 6;
-                    else
-                        option = 1;
                 }
                 
                 audio_stop_sound(sfxEnergyRestore);
@@ -331,10 +330,7 @@ switch (phase)
         
         //quit from selection if player presses shoot
         if global.keyShootPressed[playerID]
-        {
-            option = 1;
             phase = 2;
-        }
         else if (option &gt;= 10)
         {   //use tank if fire is pressed
             if (global.keyJumpPressed[playerID] || global.keyPausePressed[playerID])
@@ -358,12 +354,23 @@ switch (phase)
     case 7: //Rearrange weapons
         event_user(0);  //allow selection of weapons
         
-        //if b is pressed and you're not holding a wep, exit rearrange mode
-        if global.keyShootPressed[playerID] &amp;&amp; rHeldWeapon == undefined
+        //b button functions
+        if global.keyShootPressed[playerID]
         {
-            phase = 2;
-            playSFX(sfxMenuSelect);
-            exit;
+            if rHeldWeapon == undefined
+            {   //if we're not holding a wep, exit rearrange mode
+                phase = 2;
+                playSFX(sfxMenuSelect);
+                exit;
+            }
+            else
+            {   //else, put the held weapon back down
+                rCursorAnim = 1;
+                rAnimTime = 5;
+                rAnimatingOption = rHeldWeapon + 10;
+                rHeldWeapon = undefined;
+                playSFX(sfxClamp);
+            }
         }
         
         //hold L and R together for 1 second to reset weapon order to default
@@ -376,6 +383,9 @@ switch (phase)
             if rResetTimer &gt;= 1
             { //reset
                 playSFX(sfxMenuSelect);
+                //preserve held weapon
+                if rHeldWeapon != undefined
+                    rHeldWeapon = global.weaponHotbar[rHeldWeapon];
                 for (var i = 0; i &lt;= global.totalWeapons; i++)
                     global.weaponHotbar[i] = i;
                 rResetTimer = -1;
@@ -444,7 +454,7 @@ switch (phase)
                     }
                 }
                 
-                //get colors of held option
+                //update stored player colors
                 if !err
                 {
                     if rHeldWeapon != undefined
@@ -475,7 +485,7 @@ switch (phase)
             }
         }
         
-        //cursor function
+        //cursor smoothing
         if rHeldWeapon != undefined
         {
             rCursorX += ((buttonPos[option, 0] - 28) - rCursorX) / 3;
