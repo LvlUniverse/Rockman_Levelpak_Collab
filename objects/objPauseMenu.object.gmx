@@ -202,6 +202,7 @@ switch (phase)
         {
             with(instance_create(x, y, objInventoryMenu))
                 link = other;
+            playSFX(sfxPageSwitch);
             exit;
         }
         

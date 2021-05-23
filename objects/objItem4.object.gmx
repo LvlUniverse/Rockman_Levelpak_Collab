@@ -173,7 +173,7 @@ if (!global.frozen)
             y = parent.y;
             exit;
         }
-        //if player is frozen or timestopped or whatever, don't
+        //if player is iced or timestopped or whatever, don't
         if isLocked(global.playerFrozen)
         {
             xspeed = 0;
@@ -220,6 +220,14 @@ if (!global.frozen)
                 yspeed = -6 * sign(image_yscale);
                 jump = 1;
                 animID = 1;
+                /*
+                with(instance_create(x, y + (32 * image_yscale), objExplosion))
+                {
+                    sprite_index = sprMetallDaddyJump;
+                    image_yscale = other.image_yscale;
+                    image_speed = 1/8;
+                }
+                */
             }
         }
         else //i.e. if !ground
@@ -561,19 +569,19 @@ if other.healthpointsStart &gt; 3
 switch(floor(image_index))
 {
     case 0:
-    case 3:
-    case 5:
+    case 2:
         imgPlayerY = 0;
         break;
     case 1:
-        imgPlayerY = -4;
+        imgPlayerY = 7;
         break;
-    case 2:
+    case 3:
+    case 5:
         imgPlayerY = 3;
         break;
     case 4:
     case 6:
-        imgPlayerY = 1;
+        imgPlayerY = 2;
         break;
     //default:
     //    printErr("objItem4's image_index out of bounds! " + string(image_index));
@@ -610,13 +618,19 @@ if active &amp;&amp; instance_exists(parent)
     if (parent.isHit &amp;&amp; (parent.hitTimer mod 8) &lt;= 3)   //hitspark
         draw_sprite_ext(sprHitspark, 0, 
             round(spriteGetXCenterObject(parent)) - sign(parent.image_xscale),
-            round(spriteGetYCenterObject(parent) - (imgPlayerY * image_yscale)), 
+            round(spriteGetYCenterObject(parent) + (imgPlayerY * image_yscale)), 
             image_xscale, image_yscale, 0, c_white, 1);
     else
         drawPlayer(parent.playerID, parent.costumeID, 8, 12, 
             round(parent.x) - sign(parent.image_xscale), 
-            round(parent.y - (imgPlayerY * image_yscale)), 
+            round(parent.y + (imgPlayerY * image_yscale)), 
             parent.image_xscale, parent.image_yscale);
+    
+    //some parts go in front of player
+    draw_sprite_ext(sprItem4FG, 0, 
+        round(x) + (-9 * image_xscale), 
+        round(y) + (imgPlayerY * image_yscale), 
+        image_xscale, image_yscale, 0, image_blend, image_alpha);
 }
 </string>
           </argument>

@@ -101,6 +101,10 @@ if !instance_exists(parent)
     exit;
 }
 
+//follow player
+x = parent.x;
+y = parent.y;
+
 //sprite handling
 animFrame = clamp(floor(timer / 5), 0, 2);
 with(parent)

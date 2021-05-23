@@ -710,6 +710,14 @@ if sortMode
 
 //item description
 draw_text(32, 176, accDesc);
+
+// colored text overlays
+if (global.showColoredTextOverlays)
+{
+    draw_sprite_ext(sprDot, 0, drawXPosition + 16, drawYPosition, view_wview[0] - 32, view_hview[0], 0,
+        make_color_rgb(global.coloredTextOverlaysRed, global.coloredTextOverlaysGreen, global.coloredTextOverlaysBlue),
+        global.coloredTextOverlaysOpacity / 255);
+}
 </string>
           </argument>
         </arguments>

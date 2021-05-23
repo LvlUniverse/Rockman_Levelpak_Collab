@@ -262,8 +262,11 @@ for(var l = 0; l &lt;= cpTotal; l++)
     draw_sprite(sprMapLamps, option == l, dx, drawYPosition + 70);
 }
 
-//thumbnails
+//thumbnails &amp; bookends
 var xOff = cntr - scrollOff;
+
+draw_sprite(sprMapMenuCaps, 0, drawXPosition + xOff + -56 + -40 + -8, drawYPosition + 112);
+
 for (i = 0; i &lt;= cpTotal; i++)
 {
     draw_sprite(sprMapMenuThumbFrame, option == i, drawXPosition + xOff, drawYPosition + 112);
@@ -273,6 +276,8 @@ for (i = 0; i &lt;= cpTotal; i++)
         draw_sprite(thumbImg, (option == i) + (i * 2) + -2, drawXPosition + xOff + -24, drawYPosition + 112 + -24);
     xOff += 80;
 }
+
+draw_sprite(sprMapMenuCaps, 1, drawXPosition + xOff + -40 + 8, drawYPosition + 112);
 
 //cp name
 draw_text(drawXPosition + (view_wview / 2), drawYPosition + 180, cpNames[option]);

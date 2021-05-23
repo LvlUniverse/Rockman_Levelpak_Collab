@@ -971,6 +971,28 @@ else
 
 var mySub = max(0, phase - 6);
 
+//different gear colors for different submenus
+switch(phase)
+{
+    default:
+        var gearColor = global.nesPalette[6];
+        break;
+    
+    case 7:
+        var gearColor = global.nesPalette[8];
+        break;
+    case 8:
+        var gearColor = global.nesPalette[3];
+        break;
+    case 9:
+        var gearColor = global.nesPalette[12];
+        break;
+    case 10:
+        var gearColor = global.nesPalette[9];
+        break;
+    
+}
+
 //animated gears
 //uses a surface for pixellation at higher resolutions
 if linkFade &gt;= 1
@@ -981,27 +1003,6 @@ if linkFade &gt;= 1
     surface_set_target(gearSurface);
     draw_clear_alpha(c_black, 0);
     
-    //different gear colors for different submenus
-    switch(phase)
-    {
-        default:
-            var gearColor = global.nesPalette[6];
-            break;
-        /*
-        case 7:
-            var gearColor = global.nesPalette[8];
-            break;
-        case 8:
-            var gearColor = global.nesPalette[3];
-            break;
-        case 9:
-            var gearColor = global.nesPalette[12];
-            break;
-        case 10:
-            var gearColor = global.nesPalette[9];
-            break;
-        */
-    }
     //gears
     //bottom-left group
     draw_sprite_ext(sprOptionsGear6, 0, 16, 117, 
@@ -1044,6 +1045,9 @@ draw_clear_alpha(c_black, 0);
 //text alignment
 draw_set_halign(fa_left);
 draw_set_valign(fa_top);
+
+//top cap
+//draw_sprite_ext(sprOptionsMenuCaps, 0, listW / 2, -floor(listScroll + 0.5) + -16, 1, 1, 0, gearColor, 1);
 
 // draw options to surface
 for (var yoff = 0, j = 0, opt, linecnt; j &lt; array_length_2d(optionText, mySub); j++;)
@@ -1263,6 +1267,9 @@ draw_set_color(c_white);
 
 //get bottom of list, for arrow detection
 listBottom = yoff - (8 * ((opt != '') + 1));
+
+//bottom cap
+//draw_sprite_ext(sprOptionsMenuCaps, 1, listW / 2, listBottom + -floor(listScroll + 0.5) + 56 + 16, 1, 1, 0, gearColor, 1);
 
 //draw list surface
 surface_reset_target();

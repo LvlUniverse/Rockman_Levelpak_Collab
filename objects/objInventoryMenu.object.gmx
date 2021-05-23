@@ -156,15 +156,15 @@ switch (phase)
             <string>///menu movement &amp; cancelling
 if phase == 2
 {
-    // exit with L button
-    if global.keyWeaponSwitchLeftPressed[0]
+    // exit with L or B buttons
+    if global.keyWeaponSwitchLeftPressed[0] || global.keyShootPressed[0]
     {
         selected = true;
         if link == noone
             phase++;
         else
             phase = 1;
-        playSFX(sfxSkullAmulet);
+        playSFX(sfxPageSwitch);
         exit;
     }
    
@@ -401,6 +401,15 @@ if phase == 2
     //draw description
     draw_text(drawXPosition + 32, drawYPosition + 152, accName);
     draw_text(drawXPosition + 32, drawYPosition + 168, accDesc);
+}
+
+
+// colored text overlays
+if (global.showColoredTextOverlays)
+{
+    draw_sprite_ext(sprDot, 0, drawXPosition + 24, drawYPosition + 8, view_wview[0] - 48, view_hview[0] - 16, 0,
+        make_color_rgb(global.coloredTextOverlaysRed, global.coloredTextOverlaysGreen, global.coloredTextOverlaysBlue),
+        global.coloredTextOverlaysOpacity / 255);
 }
 </string>
           </argument>
