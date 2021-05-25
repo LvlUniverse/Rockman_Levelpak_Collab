@@ -4233,6 +4233,7 @@
       <sprite>sprites\sprKeyCoin</sprite>
       <sprite>sprites\sprKeyCoinHUD</sprite>
       <sprite>sprites\sprSpecialCoin</sprite>
+      <sprite>sprites\sprSpecialCoinDupe</sprite>
     </sprites>
     <sprites name="Menu">
       <sprites name="Pause">

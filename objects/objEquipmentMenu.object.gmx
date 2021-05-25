@@ -193,18 +193,12 @@ switch (phase)  //copied from pause menu
                 sortMode = true;
             }
         }
-        else
+        else if sortMode
         {
-            if sortMode
-            {
-                if (sortOption != sortOptionMemory) || (sortOption == 4)
-                {
-                    playSFX(sfxMenuSelect);
-                    event_user(0);
-                }
-                sortMode = false;
-                sortOptionMemory = sortOption;
-            }
+            playSFX(sfxMenuSelect);
+            event_user(0);
+            sortMode = false;
+            sortOptionMemory = sortOption;
         }
         
         var xDir = (global.keyRightPressed[0] - global.keyLeftPressed[0]);

@@ -180,7 +180,7 @@ if (!global.frozen)
                         {
                             playSFX(sfx4MIWireAdaptorLatch);
                             x = grappled.x + 8 + -(itemXOff / 2);
-                            y = grappled.y + 8 + -(itemYOff / 2);
+                            y = grappled.y + 12 + -(itemYOff / 2);
                             hitFreeze = 0;
                             canDamage = false;
                             image_index = (image_index mod 4) + 4;

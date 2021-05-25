@@ -1057,7 +1057,7 @@ if (phase != 0)
         draw_text(x + 133, y + 24, zeroPad(global.energyElements, 3));
         
         // Side Collectible
-        draw_sprite_ext(sprKey, 0, x + 168, y + 8, 1, 1, 0, c_white, 1);
+        draw_sprite_ext(sprSpecialCoin, 0, x + 168, y + 8, 1, 1, 0, c_white, 1);
         
         draw_text(x + 165, y + 24, zeroPad(0, 3));
     }

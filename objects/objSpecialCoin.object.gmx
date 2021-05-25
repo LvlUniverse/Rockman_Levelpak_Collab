@@ -67,17 +67,20 @@ if (!global.frozen)
     //gently float if not collected
     if !flyingOff
     {
-        sinx += 0.1;
-        yspeed = -(cos(sinx) * 0.3);
+        sinx += 0.06;
+        yspeed = -(cos(sinx) * 0.1);
         
         switch(animTimer++)
         {
-            case 80:
-                image_speed = 8 / 30;
+            case 40 + 40:
+                image_speed = 7 / 50;
                 break;
-            case 110:
-                animTimer = 0;
+            case 90 + 40:
                 image_speed = 0;
+                image_index = 7;
+                break;
+            case 104 + 40:
+                animTimer = 0;
                 image_index = 0;
                 break;
         }

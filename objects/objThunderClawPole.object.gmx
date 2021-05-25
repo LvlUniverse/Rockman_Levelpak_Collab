@@ -36,6 +36,49 @@ shiftVisible = 1;
 blockCollision = 0;
 grav = 0;
 bubbleTimer = -1;
+
+//@cc the color of the pole
+//you can set this to any RGB color you like using make_colour_rgb(),
+//or you can use the global.nesPalette[] to pick a color from the NES pallete
+//default is grey
+col = undefined; 
+
+/*
+quick predefs:
+global.nesPalette[19] red
+global.nesPalette[34] yellow
+global.nesPalette[28] blue
+global.nesPalette[22] green
+*/
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>//colorable
+event_inherited();
+
+if col != undefined
+{
+    draw_sprite_ext(sprite_index, 1, x, y, image_xscale, image_yscale, image_angle, col, image_alpha);
+}
 </string>
           </argument>
         </arguments>
