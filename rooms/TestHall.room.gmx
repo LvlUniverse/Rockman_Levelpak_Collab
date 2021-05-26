@@ -189,8 +189,6 @@
     <instance objName="objGutsLift" x="4144" y="288" name="inst_DE1DFC6E" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objCrashLift" x="4128" y="288" name="inst_41FC0889" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objCrashLift" x="4128" y="384" name="inst_6C7342AC" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objTornadoPlatform" x="4256" y="384" name="inst_48D05A14" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objTornadoPlatform" x="4256" y="352" name="inst_F46B384A" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objLineVertical" x="4064" y="352" name="inst_8B3B1BA0" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objLineVertical" x="4064" y="368" name="inst_04BDFDDE" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objLineVerticalDrop" x="4064" y="336" name="inst_30DF95E4" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
@@ -219,7 +217,6 @@
     <instance objName="objLineTopLeft" x="3968" y="272" name="inst_EC2A5677" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objGutsLift" x="4032" y="320" name="inst_1BC862DF" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objCrashLift" x="4048" y="384" name="inst_49C9224F" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objTornadoPlatform" x="4000" y="384" name="inst_F176A707" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objRailTopLeft" x="3840" y="272" name="inst_E309436F" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objRailVertical" x="3840" y="288" name="inst_1EC01A4B" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objRailVertical" x="3840" y="304" name="inst_70B1B74A" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
@@ -247,7 +244,6 @@
     <instance objName="objRailHorizontal" x="3920" y="384" name="inst_BC6DF363" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objRailHorizontalHole" x="3904" y="384" name="inst_055C2AB2" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objCrashLift" x="3920" y="384" name="inst_C24B5DBC" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objTornadoPlatform" x="3872" y="384" name="inst_90D6954A" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objGutsLift" x="3904" y="320" name="inst_B13DBBA0" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objPUSwitchBlockBlue" x="3760" y="416" name="inst_4FAA5374" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objPUSwitchBlockBlue" x="3776" y="416" name="inst_B939A057" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>

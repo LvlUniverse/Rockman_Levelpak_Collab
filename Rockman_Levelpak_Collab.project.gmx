@@ -2020,6 +2020,7 @@
       <sprite>sprites\sprProtoman</sprite>
       <sprite>sprites\sprBass</sprite>
       <sprite>sprites\sprRoll</sprite>
+      <sprite>sprites\sprHats</sprite>
       <sprite>sprites\mskMegaman</sprite>
       <sprite>sprites\mskMegamanSlide</sprite>
       <sprite>sprites\mskMegamanSlide2</sprite>
@@ -6431,7 +6432,6 @@
         <object>objects\objSplashWomanPlatformSpawner</object>
         <object>objects\objSplashWomanPlatform</object>
         <object>objects\objMagmaBeamSource</object>
-        <object>objects\objTornadoPlatform</object>
         <object>objects\objWily4Laser</object>
         <objects name="Don't Use">
           <object>objects\objMagmaBeam</object>
