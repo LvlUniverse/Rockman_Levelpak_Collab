@@ -10,7 +10,7 @@
   <bbox_left>0</bbox_left>
   <bbox_right>202</bbox_right>
   <bbox_top>0</bbox_top>
-  <bbox_bottom>151</bbox_bottom>
+  <bbox_bottom>202</bbox_bottom>
   <HTile>0</HTile>
   <VTile>0</VTile>
   <TextureGroups>
@@ -18,9 +18,10 @@
   </TextureGroups>
   <For3D>0</For3D>
   <width>203</width>
-  <height>152</height>
+  <height>203</height>
   <frames>
     <frame index="0">images\sprHats_0.png</frame>
     <frame index="1">images\sprHats_1.png</frame>
+    <frame index="2">images\sprHats_2.png</frame>
   </frames>
 </sprite>

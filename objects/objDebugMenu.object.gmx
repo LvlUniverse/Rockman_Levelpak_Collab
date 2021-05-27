@@ -38,7 +38,7 @@ playerID = 0;
 pauseLock = lockPoolLock(global.playerLock[PL_LOCK_PAUSE]);
 option = 0;
 quickScrollTimer = 25;
-endy = 10;
+endy = 11;
 mode = 0; // 0: normal. 1: record input menu
 
 optionText = "ROOM SELECT#
@@ -47,6 +47,7 @@ INVINCIBILITY#
 INFINITE HEALTH#
 SWAP GRAVITY#
 COSTUME CHANGE#
+HAT CHANGE#
 RECORD INPUT#
 VISIBLE COLLISION#
 PRESS 2#
@@ -257,8 +258,33 @@ if (mode == 0)
                 }
                 break;
             
-            // record input
+            // hats
             case 6:
+                if (global.keyLeftPressed[playerID] &amp;&amp; !global.keyRightPressed[playerID])
+                {
+                    // Costumes
+                    playSFX(sfxUnlocked);
+                    with (objMegaman)
+                    {
+                        hatID--;
+                        if (hatID &lt; 0)
+                            hatID = sprite_get_number(sprHats) - 1;
+                    }
+                }
+                else if (global.keyRightPressed[playerID] &amp;&amp; !global.keyLeftPressed[playerID])
+                {
+                    playSFX(sfxUnlocked);
+                    with (objMegaman)
+                    {
+                        hatID++;
+                        if (hatID &gt;= sprite_get_number(sprHats))
+                            hatID = 0;
+                    }
+                }
+                break;
+            
+            // record input
+            case 7:
                 switch (global.recordInputMode)
                 {
                     case 0:
@@ -279,7 +305,7 @@ if (mode == 0)
                 break;
             
             // visible solids
-            case 7:
+            case 8:
                 with (objSolid)
                     visible ^= true;
                 with (objLadder)
@@ -293,7 +319,7 @@ if (mode == 0)
                 break;
             
             // PRESS 2
-            case 8:
+            case 9:
                 for (i = 0; i &lt;= 8; i += 1)
                 {
                     global.playerHealth[i] = 0;
@@ -302,7 +328,7 @@ if (mode == 0)
                 break;
             
             // instakill entities
-            case 9:
+            case 10:
                 playSFX(sfxExplosion2);
                 with prtEntity
                 {
@@ -430,6 +456,10 @@ if (mode == 0)
             // costumes
             case 5:
                 draw_text(view_xview[0] + 256 - 8, view_yview[0] + i, string(objMegaman.costumeID));
+                break;
+            // hats
+            case 6:
+                draw_text(view_xview[0] + 256 - 8, view_yview[0] + i, string(objMegaman.hatID));
                 break;
         }
     }

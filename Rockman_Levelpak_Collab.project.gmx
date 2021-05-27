@@ -4727,6 +4727,7 @@
       <script>scripts\drawCostume.gml</script>
       <script>scripts\drawPlayer.gml</script>
       <script>scripts\drawPlayerInk.gml</script>
+      <script>scripts\drawHat.gml</script>
       <script>scripts\animationLoop.gml</script>
       <script>scripts\drawControllerOverlay.gml</script>
       <scripts name="Sprite_center">

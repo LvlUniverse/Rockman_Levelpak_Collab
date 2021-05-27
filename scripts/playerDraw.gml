@@ -88,6 +88,9 @@ else
         {
             drawPlayer(playerID, costumeID, spriteX, spriteY,
                 round(x), round(y), image_xscale, image_yscale);
+            if hatID != 0
+                drawHat(hatID, spriteX, spriteY, 
+                    round(x), round(y), image_xscale, image_yscale);
         }
     }
     

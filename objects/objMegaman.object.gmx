@@ -41,6 +41,7 @@ dieToSpikes = true;
 // co-op variables:
 playerID = 0;
 costumeID = 0;
+hatID = 0;
 fanoutDistance = 0;
 
 // Physics variables
