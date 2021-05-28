@@ -1,5 +1,5 @@
 /// drawHat(hatID, sheetX, sheetY, x, y, xscale, yscale)
-//god help me
+//well, it draws yer hat.
 
 var hid = argument0,
     sheetX = floor(argument1),
@@ -163,9 +163,30 @@ else if sheetY = 12
 
 var SquareSize = 48;
 
-draw_sprite_part_ext(sprHats, hid,
-    1 + (floor(himgX) * (SquareSize + 3)),
-    1 + (floor(himgY) * (SquareSize + 3)), SquareSize,
-    SquareSize, round(_x) - ((24 + -hoffX) * _xscale),
-    round(_y) - ((27 + -hoffY) * _yscale), _xscale, _yscale,
-    c_white, true);
+if hid < sprite_get_number(sprHats)
+{   //static color hats
+    draw_sprite_part_ext(sprHats, hid,
+        1 + (floor(himgX) * (SquareSize + 3)),
+        1 + (floor(himgY) * (SquareSize + 3)), SquareSize,
+        SquareSize, round(_x) - ((24 + -hoffX) * _xscale),
+        round(_y) - ((27 + -hoffY) * _yscale), _xscale, _yscale,
+        c_white, true);
+}
+else
+{   //changes color with mega hats
+    hid -= sprite_get_number(sprHats);
+    var col;
+    col[0] = c_white;
+    col[1] = global.primaryCol[0];
+    col[2] = global.secondaryCol[0];
+    col[3] = global.outlineCol[0];
+    for (var i = 0; i < 4; i += 1)
+    {
+        draw_sprite_part_ext(sprHats2, (hid * 4) + i,
+            1 + (floor(himgX) * (SquareSize + 3)),
+            1 + (floor(himgY) * (SquareSize + 3)), SquareSize,
+            SquareSize, round(_x) - ((24 + -hoffX) * _xscale),
+            round(_y) - ((27 + -hoffY) * _yscale), _xscale, _yscale,
+            col[i], 1);
+    }
+}

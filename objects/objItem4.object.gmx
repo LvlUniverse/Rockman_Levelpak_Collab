@@ -625,12 +625,8 @@ if active &amp;&amp; instance_exists(parent)
         drawPlayer(parent.playerID, parent.costumeID, 8, 12, 
             round(parent.x) - sign(parent.image_xscale), 
             round(parent.y + (imgPlayerY * image_yscale)), 
-            parent.image_xscale, parent.image_yscale);
-        if parent.hatID != 0
-                drawHat(parent.hatID, 8, 12, 
-                    round(parent.x) - sign(parent.image_xscale),
-                    round(parent.y + (imgPlayerY * image_yscale)), 
-                    parent.image_xscale, parent.image_yscale);
+            parent.image_xscale, parent.image_yscale,
+            parent.hatID);
     }
     
     //some parts go in front of player

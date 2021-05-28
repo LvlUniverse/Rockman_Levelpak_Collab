@@ -260,15 +260,15 @@ if (mode == 0)
             
             // hats
             case 6:
+                var hatnum = sprite_get_number(sprHats) + floor(sprite_get_number(sprHats2) / 2);
                 if (global.keyLeftPressed[playerID] &amp;&amp; !global.keyRightPressed[playerID])
                 {
-                    // Costumes
                     playSFX(sfxUnlocked);
                     with (objMegaman)
                     {
                         hatID--;
                         if (hatID &lt; 0)
-                            hatID = sprite_get_number(sprHats) - 1;
+                            hatID = hatnum - 1;
                     }
                 }
                 else if (global.keyRightPressed[playerID] &amp;&amp; !global.keyLeftPressed[playerID])
@@ -277,7 +277,7 @@ if (mode == 0)
                     with (objMegaman)
                     {
                         hatID++;
-                        if (hatID &gt;= sprite_get_number(sprHats))
+                        if (hatID &gt;= hatnum)
                             hatID = 0;
                     }
                 }

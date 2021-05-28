@@ -1018,7 +1018,7 @@ if (phase != 0)
         {
             if (playerID == other.playerID)
             {
-                drawPlayer(playerID, costumeID, 0, 0, other.x + 41, other.y + 16, 1, 1);
+                drawPlayer(playerID, costumeID, 0, 0, other.x + 41, other.y + 16, 1, 1, hatID);
             }
         }
         

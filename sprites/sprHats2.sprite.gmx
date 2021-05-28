@@ -20,10 +20,9 @@
   <width>203</width>
   <height>203</height>
   <frames>
-    <frame index="0">images\sprHats_0.png</frame>
-    <frame index="1">images\sprHats_1.png</frame>
-    <frame index="2">images\sprHats_2.png</frame>
-    <frame index="3">images\sprHats_3.png</frame>
-    <frame index="4">images\sprHats_4.png</frame>
+    <frame index="0">images\sprHats2_0.png</frame>
+    <frame index="1">images\sprHats2_1.png</frame>
+    <frame index="2">images\sprHats2_2.png</frame>
+    <frame index="3">images\sprHats2_3.png</frame>
   </frames>
 </sprite>
