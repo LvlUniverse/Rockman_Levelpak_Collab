@@ -56,14 +56,12 @@ respawnupondeath = 1;
           <argument>
             <kind>1</kind>
             <string>event_inherited();
-if (global.pickupGraphics)
-{
+if (global.pickupGraphics == 1)
     sprite_index = sprWeaponEnergyBigMM1;
-}
+else if (global.pickupGraphics == 2)
+    sprite_index = sprWeaponEnergyBigMM7;
 else
-{
     sprite_index = sprWeaponEnergyBig;
-}
 </string>
           </argument>
         </arguments>

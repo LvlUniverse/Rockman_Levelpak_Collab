@@ -176,23 +176,29 @@ if (!instance_exists(objSectionSwitcher) &amp;&amp; global.inGame)
 }
 
 // Flicker
-depthAlter = !depthAlter;
-if (depthAlter)
+if !global.doFlashing
+    depth = -100000
+else
 {
-    depth = 10;
-}
-
-for (i = 0; i &lt;= 1; i += 1)
-{
-    with (obj[i])
+    depthAlter = !depthAlter;
+    if (depthAlter)
     {
-        if (depth &lt; 100000 &amp;&amp; !noFlicker)
+        depth = 10;
+    }
+    
+    for (i = 0; i &lt;= 1; i += 1)
+    {
+        with (obj[i])
         {
-            depth = floor(depth) + (irandom(99) * 0.01);
+            if (depth &lt; 100000 &amp;&amp; !noFlicker)
+            {
+                depth = floor(depth) + (irandom(99) * 0.01);
+            }
         }
     }
 }
 
+//fade
 if (global.nextRoom != 0 || fadeAlpha &gt; 0)
 {
     fadetimer += (1 + instance_exists(objPauseMenu));

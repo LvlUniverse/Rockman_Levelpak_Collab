@@ -1026,21 +1026,38 @@ if (phase != 0)
         draw_sprite_ext(sprPauseMenuBarPrimary, global.playerHealth[playerID], x + 55, y + 8, 1, 1, 0, col[0, 2], 1);
         draw_sprite_ext(sprPauseMenuBarSecondary, global.playerHealth[playerID], x + 55, y + 8, 1, 1, 0, col[1, 2], 1);
         
+        var eimg, wimg, mimg;
+        if (global.pickupGraphics == 2)
+        {
+            eimg = sprETankMM7;
+            wimg = sprWTankMM7;
+            mimg = sprMTankMM7;
+        }
+        else
+        {
+            eimg = sprETank;
+            wimg = sprWTank;
+            mimg = sprMTank;
+        }
+        
         // E-Tank
-        draw_sprite_ext(sprETank, 2, x + etankPositionX, y + etankPositionY + -1, 1, 1, 0, col[0, option == 0], 1);
-        draw_sprite_ext(sprETank, 4, x + etankPositionX, y + etankPositionY + -1, 1, 1, 0, col[1, option == 0], 1);
+        draw_sprite_ext(eimg, 0, x + etankPositionX, y + etankPositionY + -1, 1, 1, 0, c_white, 1);
+        draw_sprite_ext(eimg, 2, x + etankPositionX, y + etankPositionY + -1, 1, 1, 0, col[0, option == 0], 1);
+        draw_sprite_ext(eimg, 4, x + etankPositionX, y + etankPositionY + -1, 1, 1, 0, col[1, option == 0], 1);
         
         draw_text(x + etankPositionX, y + etankPositionY + 16, zeroPad(global.eTanks, 2));
         
         // W-Tank
-        draw_sprite_ext(sprWTank, 2, x + wtankPositionX, y + wtankPositionY + -1, 1, 1, 0, col[0, option == 1], 1);
-        draw_sprite_ext(sprWTank, 4, x + wtankPositionX, y + wtankPositionY + -1, 1, 1, 0, col[1, option == 1], 1);
+        draw_sprite_ext(wimg, 0, x + wtankPositionX, y + wtankPositionY + -1, 1, 1, 0, c_white, 1);
+        draw_sprite_ext(wimg, 2, x + wtankPositionX, y + wtankPositionY + -1, 1, 1, 0, col[0, option == 1], 1);
+        draw_sprite_ext(wimg, 4, x + wtankPositionX, y + wtankPositionY + -1, 1, 1, 0, col[1, option == 1], 1);
         
         draw_text(x + wtankPositionX, y + wtankPositionY + 16, zeroPad(global.wTanks, 2));
         
         // M-Tank
-        draw_sprite_ext(sprMTank, 2, x + mtankPositionX, y + mtankPositionY + -1, 1, 1, 0, col[0, option == 2], 1);
-        draw_sprite_ext(sprMTank, 4, x + mtankPositionX, y + mtankPositionY + -1, 1, 1, 0, col[1, option == 2], 1);
+        draw_sprite_ext(mimg, 0, x + mtankPositionX, y + mtankPositionY + -1, 1, 1, 0, c_white, 1);
+        draw_sprite_ext(mimg, 2, x + mtankPositionX, y + mtankPositionY + -1, 1, 1, 0, col[0, option == 2], 1);
+        draw_sprite_ext(mimg, 4, x + mtankPositionX, y + mtankPositionY + -1, 1, 1, 0, col[1, option == 2], 1);
         
         draw_text(x + mtankPositionX, y + mtankPositionY + 16, zeroPad(global.mTanks, 2));
         

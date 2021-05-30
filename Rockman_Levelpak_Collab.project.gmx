@@ -4210,14 +4210,25 @@
       <sprite>sprites\sprShine</sprite>
     </sprites>
     <sprites name="Items">
+      <sprites name="MM1">
+        <sprite>sprites\sprLifeEnergySmallMM1</sprite>
+        <sprite>sprites\sprLifeEnergyBigMM1</sprite>
+        <sprite>sprites\sprWeaponEnergySmallMM1</sprite>
+        <sprite>sprites\sprWeaponEnergyBigMM1</sprite>
+      </sprites>
+      <sprites name="MM7">
+        <sprite>sprites\sprLifeEnergySmallMM7</sprite>
+        <sprite>sprites\sprLifeEnergyBigMM7</sprite>
+        <sprite>sprites\sprWeaponEnergySmallMM7</sprite>
+        <sprite>sprites\sprWeaponEnergyBigMM7</sprite>
+        <sprite>sprites\sprETankMM7</sprite>
+        <sprite>sprites\sprWTankMM7</sprite>
+        <sprite>sprites\sprMTankMM7</sprite>
+      </sprites>
       <sprite>sprites\sprLifeEnergySmall</sprite>
       <sprite>sprites\sprLifeEnergyBig</sprite>
       <sprite>sprites\sprWeaponEnergySmall</sprite>
       <sprite>sprites\sprWeaponEnergyBig</sprite>
-      <sprite>sprites\sprLifeEnergySmallMM1</sprite>
-      <sprite>sprites\sprLifeEnergyBigMM1</sprite>
-      <sprite>sprites\sprWeaponEnergySmallMM1</sprite>
-      <sprite>sprites\sprWeaponEnergyBigMM1</sprite>
       <sprite>sprites\sprLife</sprite>
       <sprite>sprites\sprETank</sprite>
       <sprite>sprites\sprWTank</sprite>

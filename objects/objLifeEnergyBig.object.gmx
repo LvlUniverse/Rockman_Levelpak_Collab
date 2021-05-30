@@ -56,14 +56,12 @@ is1Up = false;
             <kind>1</kind>
             <string>event_inherited();
 
-if (global.pickupGraphics)
-{
+if (global.pickupGraphics == 1)
     sprite_index = sprLifeEnergyBigMM1;
-}
+else if (global.pickupGraphics == 2)
+    sprite_index = sprLifeEnergyBigMM7;
 else
-{
     sprite_index = sprLifeEnergyBig;
-}
 </string>
           </argument>
         </arguments>

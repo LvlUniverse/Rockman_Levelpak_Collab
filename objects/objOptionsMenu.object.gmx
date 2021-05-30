@@ -482,7 +482,7 @@ if (phase &gt;= 6 &amp;&amp; !selected &amp;&amp; !instance_exists(objColoredTex
             // Pickup Graphics
             case 303:
                 pre = global.pickupGraphics;
-                global.pickupGraphics = min(max(0, global.pickupGraphics + xdir), 1);
+                global.pickupGraphics = min(max(0, global.pickupGraphics + xdir), 2);
                 if (global.pickupGraphics != pre)
                 {
                     playSFX(sfxTextBox);
@@ -1221,10 +1221,18 @@ for (var yoff = 0, j = 0, opt, linecnt; j &lt; array_length_2d(optionText, mySub
         
         // Pickup graphics
         case 303:
-            if (global.pickupGraphics)
-                opt = 'MM1';
-            else
-                opt = 'MM2+';
+            switch (global.pickupGraphics)
+            {
+                case 0:
+                    opt = 'MM2+';
+                    break;
+                case 1:
+                    opt = 'MM1';
+                    break;
+                case 2:
+                    opt = 'MM7';
+                    break;
+            }
             break;
         
         // Death effect
