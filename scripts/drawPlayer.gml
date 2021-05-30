@@ -42,5 +42,5 @@ if (_inked)
 }
 
 //hat
-if argument_count > 8
+if (argument_count > 8) && (argument[8] != 0)
     drawHat(argument[8], sheetX, sheetY, _x, _y, _xscale, _yscale);

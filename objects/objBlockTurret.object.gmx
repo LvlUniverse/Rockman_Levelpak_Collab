@@ -328,7 +328,7 @@ weaponSetup("BLOCK TURRET",
     make_color_rgb(168, 0, 32), 
     make_color_rgb(248, 88, 152), 
     sprWeaponIconsBlockTurret, 8, 
-        " You form and hold a rapid-firing turret in your hand, and can press FIRE again to place it on the floor.## Once placed, you can fire buster shots in addition to the turret's shots.## The turret can be stood on, and will adjust its height when landed on.",
+        " You form and hold a rapid-firing turret in your hand, and can press FIRE again to place it on the floor.## Once placed, it can be picked up again by standing nest to it and pressing FIRE.## The turret can be stood on, and will adjust its height when landed on.",
         "1#5#1#6");
 </string>
           </argument>
