@@ -115,11 +115,11 @@
     <instance objName="objObjectSetter" x="0" y="0" name="inst_EB8D9425" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objAnglePlatform" x="544" y="128" name="inst_06D85FDF" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objWeaponSettings" x="1168" y="16" name="inst_2402BEDC" locked="0" code="//should be simple, right?&#xA;for (var j = 0; j &lt;= global.totalWeapons; j++)&#xA;{&#xA;    global.infiniteEnergy[j] = true;&#xA;}&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objReflectBlockLarge" x="1664" y="128" name="inst_210DCB48" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objReflectBlockLarge" x="1696" y="128" name="inst_7C01DD5C" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objReflectBlockLarge" x="1728" y="128" name="inst_36422FA3" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objReflectBlockLarge" x="1760" y="128" name="inst_6AAD805D" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objReflectBlockLarge" x="1792" y="128" name="inst_AD394C53" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objReflectBlockLarge" x="2096" y="160" name="inst_210DCB48" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objReflectBlockLarge" x="2128" y="160" name="inst_7C01DD5C" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objReflectBlockLarge" x="2160" y="160" name="inst_36422FA3" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objReflectBlockLarge" x="2192" y="160" name="inst_6AAD805D" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objReflectBlockLarge" x="2224" y="160" name="inst_AD394C53" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objStopScrollingHorizontal" x="2048" y="0" name="inst_66B4200C" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objGravitron" x="1432" y="32" name="inst_4CBCE617" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objTargetDummy" x="1984" y="176" name="inst_C053F6A4" locked="0" code="" scaleX="-1" scaleY="1" colour="4294967295" rotation="0"/>
@@ -128,28 +128,21 @@
     <instance objName="objTeleporter" x="720" y="160" name="inst_83CC2578" locked="0" code="pressUp = 1;&#xA;X = 1472;&#xA;Y = 176;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objTeleporter" x="592" y="160" name="inst_B9EF037E" locked="0" code="pressUp = 1;&#xA;X = 1216;&#xA;Y = 160;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objThunderClawPole" x="1216" y="96" name="inst_29659AF1" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objThunderClawPole" x="1808" y="32" name="inst_84434708" locked="0" code="col = global.nesPalette[28];&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objThunderClawPole" x="1792" y="32" name="inst_E9C2062E" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objThunderClawPole" x="1936" y="32" name="inst_46382F45" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objThunderClawPole" x="1872" y="128" name="inst_CE59C49C" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objThunderClawPole" x="1328" y="96" name="inst_E4D05D0C" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objThunderClawPole" x="1824" y="32" name="inst_4F60B388" locked="0" code="col = global.nesPalette[22];&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objThunderClawPole" x="1776" y="32" name="inst_D4EB4C2A" locked="0" code="col = global.nesPalette[34];&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objThunderClawPole" x="1760" y="32" name="inst_886E3A5B" locked="0" code="col = global.nesPalette[19];&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objThunderClawPole" x="1664" y="32" name="inst_2E8D1D58" locked="0" code="col = make_color_rgb(irandom_range(40, 200), irandom_range(40, 200), irandom_range(40, 200));&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objNapalm" x="320" y="144" name="inst_1D4411F0" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objNapalm" x="336" y="144" name="inst_F0157768" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objNapalm" x="352" y="112" name="inst_11F1C628" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objNapalm" x="368" y="112" name="inst_0A6648F1" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objSpecialCoin" x="1696" y="80" name="inst_37BF8AF1" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objSpecialCoin" x="1744" y="80" name="inst_695D1A06" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objSpecialCoin" x="1792" y="80" name="inst_4C15A0C6" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objSpecialCoin" x="1920" y="128" name="inst_FDC4FCD6" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objSpecialCoin" x="1840" y="80" name="inst_14E8EF0E" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objThunderClawPole" x="1696" y="32" name="inst_2ECDB4E1" locked="0" code="col = make_color_rgb(irandom_range(40, 200), irandom_range(40, 200), irandom_range(40, 200));&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objThunderClawPole" x="1664" y="64" name="inst_9A007A43" locked="0" code="col = make_color_rgb(irandom_range(40, 200), irandom_range(40, 200), irandom_range(40, 200));&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objThunderClawPole" x="1680" y="48" name="inst_DA63A31C" locked="0" code="col = make_color_rgb(irandom_range(40, 200), irandom_range(40, 200), irandom_range(40, 200));&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objThunderClawPole" x="1696" y="64" name="inst_CB2AE178" locked="0" code="col = make_color_rgb(irandom_range(40, 200), irandom_range(40, 200), irandom_range(40, 200));&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objTurnblock" x="1520" y="112" name="inst_B0F1B247" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objTurnblock" x="1488" y="112" name="inst_716A7490" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objTurnblock" x="1456" y="112" name="inst_A6F9D1CF" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objTurnblock" x="1648" y="112" name="inst_AB352CEF" locked="0" code="sprite_index = sprNekoClawTurnblockV;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objTurnblock" x="1648" y="80" name="inst_06688315" locked="0" code="sprite_index = sprNekoClawTurnblockV;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objTurnblock" x="1648" y="48" name="inst_64A16801" locked="0" code="sprite_index = sprNekoClawTurnblockV;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objTyphoonFan" x="1664" y="144" name="inst_576BBEB4" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objTyphoonFan" x="1696" y="144" name="inst_400B97F5" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objTyphoonFan" x="1728" y="144" name="inst_21E99783" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objTyphoonFan" x="1792" y="48" name="inst_4002CB0B" locked="0" code="" scaleX="1" scaleY="-1" colour="4294967295" rotation="0"/>
+    <instance objName="objTyphoonFan" x="1824" y="48" name="inst_57162343" locked="0" code="" scaleX="1" scaleY="-1" colour="4294967295" rotation="0"/>
+    <instance objName="objTyphoonFan" x="1904" y="48" name="inst_2F3020DF" locked="0" code="" scaleX="1" scaleY="-1" colour="4294967295" rotation="0"/>
+    <instance objName="objTyphoonFan" x="1904" y="160" name="inst_E8720090" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles>
     <tile bgName="bgBasic" x="0" y="0" w="128" h="128" xo="0" yo="0" id="11354782" name="inst_A470C83D" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>

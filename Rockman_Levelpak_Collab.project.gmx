@@ -4397,6 +4397,9 @@
       <sprite>sprites\sprInUniverse_4MIKerone</sprite>
       <sprite>sprites\sprTotemerPreview</sprite>
       <sprite>sprites\sprTotemer</sprite>
+      <sprite>sprites\sprNekoClawTurnblockH</sprite>
+      <sprite>sprites\sprNekoClawTurnblockV</sprite>
+      <sprite>sprites\sprTyphoonFan</sprite>
     </sprites>
   </sprites>
   <backgrounds name="background">
@@ -6794,6 +6797,8 @@
       </objects>
     </objects>
     <objects name="RLC">
+      <object>objects\objTyphoonFan</object>
+      <object>objects\objTurnblock</object>
       <object>objects\objTargetDummy</object>
       <object>objects\objInUniverse_4MIKerone</object>
     </objects>
