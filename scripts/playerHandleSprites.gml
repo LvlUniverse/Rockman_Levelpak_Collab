@@ -114,17 +114,19 @@ switch (AnimID)
                 spriteX = spriteIDX[floor(spriteLoopID)];
                 animate = 1;
                 break;
+            case 7: // Climbing top 
+                if isShoot == 0
+                {
+                    spriteX = 17;
+                    break;
+                }
+                //do regular climbing anim instead if shooting
             case 4: // Climbing 
                 spriteX = 15;
                 if (instance_exists(objSectionSwitcher))
-                {
-                    climbSpriteTimer += 1;
-                    if (climbSpriteTimer >= 8 && !isShoot)
-                    {
-                        climbSpriteTimer = 0;
-                        image_xscale = -image_xscale;
-                    }
-                }
+                    climbSpriteTimer++;
+                if (climbSpriteTimer mod 16 >= 8)
+                    spriteX = 16;
                 break;
             case 5: // Hit 
                 spriteX = 13 + (!isHit) - isFrozen;
@@ -137,9 +139,6 @@ switch (AnimID)
                 spriteIDX[1] = 12;
                 spriteX = spriteIDX[floor(spriteLoopID)];
                 animate = 1;
-                break;
-            case 7: // Climbing top 
-                spriteX = 17;
                 break;
             case 8: // Stun 
                 spriteX = 14;

@@ -60,19 +60,13 @@ if (!playerIsLocked(PL_LOCK_CLIMB))
     
     if (climbing) // While climbing
     {
-        if (yDir != 0 && !isShoot) // Movement
+        if (yDir != 0 && !shootStandStillLock && isShoot != 6) // Movement
         {
+            climbSpriteTimer++;
             yspeed = climbSpeed * yDir;
-            climbSpriteTimer += 1;
-            if (!(climbSpriteTimer mod 8))
-            {
-                image_xscale = -image_xscale;
-            }
         }
         else
-        {
             yspeed = 0;
-        }
         
         if (xDir != 0) // Left/right
         {
