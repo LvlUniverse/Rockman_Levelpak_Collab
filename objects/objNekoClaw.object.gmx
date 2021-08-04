@@ -230,6 +230,8 @@ if (!global.frozen)
         with(parent)
             shiftObject((other.x - ppx) - x, (other.y - ppy) - y, true);
         parent.yspeed = 0;
+        if parent.xcoll != 0 || parent.ycoll != 0   //undo movement if we collided with something
+            dist += 8;
         
         //you can jump out of it
         if global.keyJumpPressed[playerID]

@@ -136,13 +136,9 @@
     <instance objName="objTurnblock" x="1648" y="112" name="inst_AB352CEF" locked="0" code="sprite_index = sprNekoClawTurnblockV;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objTurnblock" x="1648" y="80" name="inst_06688315" locked="0" code="sprite_index = sprNekoClawTurnblockV;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objTurnblock" x="1648" y="48" name="inst_64A16801" locked="0" code="sprite_index = sprNekoClawTurnblockV;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objTyphoonFan" x="1664" y="144" name="inst_576BBEB4" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objTyphoonFan" x="1696" y="144" name="inst_400B97F5" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objTyphoonFan" x="1728" y="144" name="inst_21E99783" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objTyphoonFan" x="1792" y="48" name="inst_4002CB0B" locked="0" code="" scaleX="1" scaleY="-1" colour="4294967295" rotation="0"/>
-    <instance objName="objTyphoonFan" x="1824" y="48" name="inst_57162343" locked="0" code="" scaleX="1" scaleY="-1" colour="4294967295" rotation="0"/>
-    <instance objName="objTyphoonFan" x="1904" y="48" name="inst_2F3020DF" locked="0" code="" scaleX="1" scaleY="-1" colour="4294967295" rotation="0"/>
-    <instance objName="objTyphoonFan" x="1904" y="160" name="inst_E8720090" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objThunderClawPole" x="1712" y="64" name="inst_FFBB1062" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objThunderClawPole" x="1760" y="64" name="inst_3039963A" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objThunderClawPole" x="1736" y="176" name="inst_1CFE8537" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles>
     <tile bgName="bgBasic" x="0" y="0" w="128" h="128" xo="0" yo="0" id="11354782" name="inst_A470C83D" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
@@ -760,6 +756,10 @@
     <tile bgName="bgBasic" x="736" y="80" w="16" h="16" xo="80" yo="0" id="11377199" name="inst_017262E5" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
     <tile bgName="bgBasic" x="736" y="96" w="16" h="16" xo="0" yo="16" id="11377200" name="inst_600E43D2" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
     <tile bgName="bgBasic" x="736" y="112" w="16" h="16" xo="0" yo="16" id="11377201" name="inst_91C5B4DF" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
+    <tile bgName="bgBasic" x="1728" y="80" w="16" h="16" xo="16" yo="48" id="11378531" name="inst_91D02F4D" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
+    <tile bgName="bgBasic" x="1744" y="80" w="16" h="16" xo="16" yo="48" id="11378532" name="inst_0FC5327A" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
+    <tile bgName="bgBasic" x="1712" y="80" w="16" h="16" xo="0" yo="48" id="11378534" name="inst_60B038A2" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
+    <tile bgName="bgBasic" x="1760" y="80" w="16" h="16" xo="32" yo="48" id="11378535" name="inst_9A73CDD8" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
   </tiles>
   <PhysicsWorld>0</PhysicsWorld>
   <PhysicsWorldTop>0</PhysicsWorldTop>
