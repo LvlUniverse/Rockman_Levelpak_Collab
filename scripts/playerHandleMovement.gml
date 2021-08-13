@@ -29,10 +29,8 @@ if (!playerIsLocked(PL_LOCK_MOVE))
         {
             if (stepTimer < stepFrames)
             {
-                if (xspeed == 0)
-                {
-                    xspeed = stepSpeed * image_xscale;
-                }
+                if stepTimer == 0
+                    shiftObject(xDir, 0, true);
                 stepTimer += 1;
             }
             else
@@ -57,7 +55,7 @@ if (!playerIsLocked(PL_LOCK_MOVE))
         }
         else
         {
-            stepTimer = 0;
+            stepTimer = max(--stepTimer, 0);
             if (xspeed != 0)
             {
                 if icePlat || (place_meeting(x, y + gravDir, objIce)
