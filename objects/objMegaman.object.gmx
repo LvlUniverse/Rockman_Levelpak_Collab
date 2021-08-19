@@ -61,7 +61,7 @@ maxVspeed = 7;
 
 premask = mask_index;
 stepSpeed = 1 / 7;
-stepFrames = 7;
+stepFrames = 6;
 
 iceDec = 0.025; // The deceleration on ice when not holding any buttons
 iceDecWalk = 0.05; // The deceleration on ice when moving in the opposite direction

@@ -49,4 +49,19 @@ switch(argument[0] + (pg * 100))
     case 007:
         accName = "Super E.Balancer";
         break;
+    
+    case ACC_Turret3:
+        accName = "turret3";
+        accDesc = "Increases shot limit#of the buster by 1.";
+        break;
+    
+    case ACC_Flame3:
+        accName = "flame3";
+        accDesc = "Increases the size of#charged buster shots.";
+        break;
+    
+    case ACC_Dab:
+        accName = "Pogger";
+        accDesc = "Allows use of a special#pose, by pressing DOWN#while standing still.";
+        break;
 }

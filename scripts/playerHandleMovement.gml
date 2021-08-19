@@ -24,7 +24,6 @@ if (!playerIsLocked(PL_LOCK_MOVE))
                 break;
             }
         }
-        //default code resumes here
         if (xDir == image_xscale) // Walk on the ground
         {
             if (stepTimer < stepFrames)

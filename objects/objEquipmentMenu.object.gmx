@@ -48,7 +48,7 @@ extremeSpeedTimer = 400;
 quickExit = false;
 
 //cost of equipment piece, by image
-equipmentCosts = makeArray(3, 8, 3, 0, 6, 5, 12, 12, 4, 4);
+equipmentCosts = makeArray(3, 8, 3, 0, 6, 5, 12, 12, 4, 4, 5, 3, 0);
 for(var q = 0; q &lt; array_length_1d(equipmentCosts); q++)
 {
     accessoryInfoFetch(q);
@@ -63,11 +63,11 @@ bpUsed = 0;
 for(var q = 0; q &lt; sprite_get_number(sprEquipmentIcons); q++)
     bpUsed += equipmentCosts[q] * (global.equipmentActive[q] != 0);
 
-bpOwned = 31; //since this is a collectible, it's gonna have to be made a global var no matter what
+bpOwned = 229; //since this is a collectible, it's gonna have to be made a global var no matter what
 
-bpHundreds = 0; //todo: auto-calculate these
-bpTens = 2;
-bpOnes = 11;
+bpHundreds = 1; //todo: auto-calculate these
+bpTens = 11;
+bpOnes = 19;
 coinsTotal = bpHundreds + bpTens + bpOnes;
 bpHeights = allocateArray(coinsTotal, 0);
 bpAnim = allocateArray(coinsTotal, 0);

@@ -75,7 +75,14 @@ switch (AnimID)
         switch (animNameID)
         {
             case 0: // Stand 
-                spriteX = blinkImage;
+                if accIsEnabled(ACC_Dab) && global.keyDown[playerID]
+                    && spriteX <= 1 && spriteY == 0
+                {
+                    spriteX = 12;
+                    spriteY = 9;
+                }
+                else
+                    spriteX = blinkImage;
                 break;
             case 1: // Pixel Step 
                 spriteX = 2;

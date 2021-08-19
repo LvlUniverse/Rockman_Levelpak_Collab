@@ -94,6 +94,8 @@ if sheetY <= 6
     if (sheetY != 0) && (sheetY != 3) && (sheetY != 6) && (sheetX <= 2)
         hoffX = 4;
 }
+else if sheetX = 12 && sheetY = 9    //dab
+        hoffY = 1;
 else if sheetY == 10
 {//ddash anim
     hoffX = 2;
