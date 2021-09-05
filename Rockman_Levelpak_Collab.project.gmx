@@ -2031,31 +2031,39 @@
       <sprite>sprites\sprMegamanTeleportSecondary</sprite>
       <sprite>sprites\sprMegamanTeleportOutline</sprite>
       <sprites name="Weapons">
-        <sprite>sprites\sprBusterShot</sprite>
-        <sprite>sprites\sprBusterShotHalfCharged</sprite>
-        <sprite>sprites\sprBusterShotCharged</sprite>
-        <sprite>sprites\sprBusterShotChargedColourMask</sprite>
-        <sprite>sprites\sprBusterShotChargedPlus</sprite>
-        <sprite>sprites\sprBusterShotChargedPlusColourMask</sprite>
-        <sprite>sprites\sprBusterShotHalfChargedProto</sprite>
-        <sprite>sprites\sprBusterShotChargedProto</sprite>
-        <sprite>sprites\sprBusterShotChargedProtoColourMask</sprite>
+        <sprites name="Mega Buster">
+          <sprite>sprites\sprBusterShot</sprite>
+          <sprite>sprites\sprBusterShotHalfCharged</sprite>
+          <sprite>sprites\sprBusterShotCharged</sprite>
+          <sprite>sprites\sprBusterShotChargedColourMask</sprite>
+          <sprite>sprites\sprBusterShotChargedPlus</sprite>
+          <sprite>sprites\sprBusterShotChargedPlusColourMask</sprite>
+          <sprite>sprites\sprBusterShotHalfChargedProto</sprite>
+          <sprite>sprites\sprBusterShotChargedProto</sprite>
+          <sprite>sprites\sprBusterShotChargedProtoColourMask</sprite>
+          <sprite>sprites\sprLaserBuster</sprite>
+          <sprite>sprites\sprLaserBusterPlus</sprite>
+          <sprite>sprites\sprLaserBusterPoint</sprite>
+          <sprite>sprites\sprArrowBuster</sprite>
+        </sprites>
         <sprite>sprites\sprBassBullet</sprite>
-        <sprite>sprites\sprSparkChaser</sprite>
-        <sprite>sprites\sprLaserTrident</sprite>
-        <sprite>sprites\sprTornadoBlow</sprite>
-        <sprite>sprites\mskTornadoBlow</sprite>
-        <sprite>sprites\sprMagneticShockwave</sprite>
-        <sprite>sprites\sprMagneticShockwaveParticle</sprite>
-        <sprite>sprites\sprWaterShieldBubble</sprite>
-        <sprite>sprites\sprThunderBeam</sprite>
-        <sprite>sprites\sprThunderBeamVertical</sprite>
-        <sprite>sprites\sprIceWall</sprite>
-        <sprite>sprites\sprIceWallShard</sprite>
-        <sprite>sprites\sprIceWallBreak</sprite>
-        <sprite>sprites\sprMagnetBeam</sprite>
-        <sprite>sprites\sprMagnetBeamEnd</sprite>
-        <sprite>sprites\sprMagnetBeamPickup</sprite>
+        <sprites name="MagMML3">
+          <sprite>sprites\sprSparkChaser</sprite>
+          <sprite>sprites\sprLaserTrident</sprite>
+          <sprite>sprites\sprTornadoBlow</sprite>
+          <sprite>sprites\mskTornadoBlow</sprite>
+          <sprite>sprites\sprMagneticShockwave</sprite>
+          <sprite>sprites\sprMagneticShockwaveParticle</sprite>
+          <sprite>sprites\sprWaterShieldBubble</sprite>
+          <sprite>sprites\sprThunderBeam</sprite>
+          <sprite>sprites\sprThunderBeamVertical</sprite>
+          <sprite>sprites\sprIceWall</sprite>
+          <sprite>sprites\sprIceWallShard</sprite>
+          <sprite>sprites\sprMagnetBeam</sprite>
+          <sprite>sprites\sprIceWallBreak</sprite>
+          <sprite>sprites\sprMagnetBeamEnd</sprite>
+          <sprite>sprites\sprMagnetBeamPickup</sprite>
+        </sprites>
         <sprites name="Rush">
           <sprite>sprites\sprRushMask</sprite>
           <sprite>sprites\sprRushTeleport</sprite>
@@ -6614,6 +6622,9 @@
           <object>objects\objBusterShot</object>
           <object>objects\objBusterShotHalfCharged</object>
           <object>objects\objBusterShotCharged</object>
+          <object>objects\objLaserBuster</object>
+          <object>objects\objArrowBuster</object>
+          <object>objects\objArrowBusterScattershot</object>
           <object>objects\objBusterShotHalfChargedProto</object>
           <object>objects\objBusterShotChargedProto</object>
           <objects name="RLC Weapons">
@@ -6854,7 +6865,7 @@
     <room>rooms\lvlMovingWaterTest</room>
     <room>rooms\lvlDeflectTest</room>
   </rooms>
-  <constants number="47">
+  <constants number="49">
     <constant name="PL_LOCK_MAX">15</constant>
     <constant name="PL_LOCK_AERIAL">13</constant>
     <constant name="PL_LOCK_GROUND">12</constant>
@@ -6902,6 +6913,8 @@
     <constant name="ACC_Claw3">10</constant>
     <constant name="ACC_Dsch3">11</constant>
     <constant name="ACC_Dab">12</constant>
+    <constant name="ACC_ArrowShot">14</constant>
+    <constant name="ACC_LaserShot">13</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>

@@ -48,7 +48,7 @@ extremeSpeedTimer = 400;
 quickExit = false;
 
 //cost of equipment piece, by image
-equipmentCosts = makeArray(3, 8, 3, 0, 6, 5, 12, 12, 4, 4, 5, 3, 0);
+equipmentCosts = makeArray(3, 8, 3, 0, 6, 5, 12, 12, 4, 4, 5, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 for(var q = 0; q &lt; array_length_1d(equipmentCosts); q++)
 {
     accessoryInfoFetch(q);

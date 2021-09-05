@@ -33,5 +33,11 @@
     <frame index="10">images\sprEquipmentIcons_10.png</frame>
     <frame index="11">images\sprEquipmentIcons_11.png</frame>
     <frame index="12">images\sprEquipmentIcons_12.png</frame>
+    <frame index="13">images\sprEquipmentIcons_13.png</frame>
+    <frame index="14">images\sprEquipmentIcons_14.png</frame>
+    <frame index="15">images\sprEquipmentIcons_15.png</frame>
+    <frame index="16">images\sprEquipmentIcons_16.png</frame>
+    <frame index="17">images\sprEquipmentIcons_17.png</frame>
+    <frame index="18">images\sprEquipmentIcons_18.png</frame>
   </frames>
 </sprite>

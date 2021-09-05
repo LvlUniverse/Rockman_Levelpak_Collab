@@ -21,7 +21,7 @@ global.mTanks = 0;
 global.energyElements = 0;
 global.elementsCollected = makeArray("");
 
-global.equipmentOwned = makeArray(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
+global.equipmentOwned = makeArray(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14);
 global.equipmentDisabled = allocateArray(sprite_get_number(sprEquipmentIcons));
 global.equipmentHotbar = makeArray(ACC_EBalancer);   //just the energy balancer to start
 global.equipmentActive = allocateArray(sprite_get_number(sprEquipmentIcons));

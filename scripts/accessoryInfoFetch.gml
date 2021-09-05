@@ -64,4 +64,14 @@ switch(argument[0] + (pg * 100))
         accName = "Pogger";
         accDesc = "Allows use of a special#pose, by pressing DOWN#while standing still.";
         break;
+    
+    case ACC_Claw3:
+        accName = "claw3";
+        accDesc = "Increases the speed#of your walk#appreciably. (1.15x)";
+        break;
+    
+    case ACC_Dsch3:
+        accName = "dash3";
+        accDesc = "Increases the speed#of your slide#substantially. (1.35x)";
+        break;
 }

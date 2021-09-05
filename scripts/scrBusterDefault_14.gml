@@ -123,12 +123,34 @@ if (!global.lockBuster)
                 }
                 else // Full charge
                 {
-                    i = fireWeapon(20, 0, objBusterShotCharged, 3, 0, 1, 0);
-                    if (i)
+                    //laser shot
+                    if accIsEnabled(ACC_LaserShot)
                     {
-                        i.xspeed = image_xscale * 5.5;
-                        if accIsEnabled(ACC_Flame3)
-                            i.sprite_index = sprBusterShotChargedPlus;
+                        i = fireWeapon(20, -1, objLaserBuster, 3, 0, 1, 0);
+                        if (i)
+                        {
+                            i.xspeed = image_xscale * 7.5;
+                            if accIsEnabled(ACC_Flame3) 
+                                i.sprite_index = sprLaserBusterPlus;
+                        }
+                    }
+                    else if accIsEnabled(ACC_ArrowShot)
+                    {
+                        //arrow shot
+                        i = fireWeapon(20, 0, objArrowBuster, 3, 0, 1, 0);
+                        if (i)
+                            i.xspeed = image_xscale * 5.5;
+                    }
+                    else
+                    {
+                        //normal shot
+                        i = fireWeapon(20, 0, objBusterShotCharged, 3, 0, 1, 0);
+                        if (i)
+                        {
+                            i.xspeed = image_xscale * 5.5;
+                            if accIsEnabled(ACC_Flame3)
+                                i.sprite_index = sprBusterShotChargedPlus;
+                        }
                     }
                 }
                 

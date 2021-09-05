@@ -3,6 +3,11 @@
 
 if (global.enableSlide && !playerIsLocked(PL_LOCK_SLIDE))
 {
+    if accIsEnabled(ACC_Dsch3)
+        var effSlideSpeed = slideSpeed * 1.35;
+    else
+        var effSlideSpeed = slideSpeed;
+    
     var statusSliding = true;
     if (instance_exists(statusObject))
     {
@@ -44,7 +49,7 @@ if (global.enableSlide && !playerIsLocked(PL_LOCK_SLIDE))
                 image_xscale = other.image_xscale;
             }
             
-            xspeed = slideSpeed * image_xscale;
+            xspeed = effSlideSpeed * image_xscale;
             
         }
     }
@@ -154,7 +159,7 @@ if (global.enableSlide && !playerIsLocked(PL_LOCK_SLIDE))
             
             xspeed = (ground && ((instance_exists(statusObject) && statusObject.statusOnIce)
                 || place_meeting(x, y + gravDir, objIce) || icePlat
-                    )) * slideSpeed * image_xscale * 0.5;
+                    )) * effSlideSpeed * image_xscale * 0.5;
             
             if (jump)
             {
@@ -172,7 +177,7 @@ if (global.enableSlide && !playerIsLocked(PL_LOCK_SLIDE))
                 image_xscale = xDir;
             }
             
-            xspeed = slideSpeed * image_xscale * (!isHit);
+            xspeed = effSlideSpeed * image_xscale * (!isHit);
         }
     }
 }

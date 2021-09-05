@@ -11,6 +11,11 @@ if (!playerIsLocked(PL_LOCK_TURN))
 // Movement (includes initializing sidestep while on the ground)
 if (!playerIsLocked(PL_LOCK_MOVE))
 {
+    if accIsEnabled(ACC_Claw3)
+        var effWalkSpeed = walkSpeed * 1.15;
+    else
+        var effWalkSpeed = walkSpeed;
+    
     if (ground && !playerIsLocked(PL_LOCK_GROUND))
     {
         //inuni mod: test for icy objects
@@ -41,14 +46,14 @@ if (!playerIsLocked(PL_LOCK_MOVE))
                 else if icePlat || place_meeting(x, y + gravDir, objIce)
                     || (instance_exists(statusObject) && statusObject.statusOnIce)// Ice
                 {
-                    if (xspeed * image_xscale < walkSpeed)
+                    if (xspeed * image_xscale < effWalkSpeed)
                     {
                         xspeed += iceDec * xDir;
                     }
                 }
                 else // Normal
                 {
-                    xspeed = walkSpeed * xDir;
+                    xspeed = effWalkSpeed * xDir;
                 }
             }
         }
@@ -73,7 +78,7 @@ if (!playerIsLocked(PL_LOCK_MOVE))
         {
             if (!dashJumped)
             {
-                xspeed = walkSpeed * xDir;
+                xspeed = effWalkSpeed * xDir;
             }
             else
             {
