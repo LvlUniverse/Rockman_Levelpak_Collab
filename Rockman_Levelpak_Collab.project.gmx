@@ -6622,8 +6622,6 @@
           <object>objects\objBusterShot</object>
           <object>objects\objBusterShotHalfCharged</object>
           <object>objects\objBusterShotCharged</object>
-          <object>objects\objLaserBuster</object>
-          <object>objects\objArrowBuster</object>
           <object>objects\objArrowBusterScattershot</object>
           <object>objects\objBusterShotHalfChargedProto</object>
           <object>objects\objBusterShotChargedProto</object>

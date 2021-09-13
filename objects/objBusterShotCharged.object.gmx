@@ -26,6 +26,7 @@
           <argument>
             <kind>1</kind>
             <string>event_inherited();
+//todo: laser buster should have magshock-like deflect anim
 
 bulletLimitCost = 3;
 
@@ -36,7 +37,12 @@ imgIndex = 0;
 penetrate = 0;
 pierces = 1;
 
-playSFX(sfxBusterCharged);
+//playSFX(sfxBusterCharged);
+
+hasHitList = makeArray(noone);
+animTimer = 0;
+deflect = false;
+subShots = 8;
 </string>
           </argument>
         </arguments>
@@ -63,10 +69,116 @@ playSFX(sfxBusterCharged);
 
 if (!global.frozen)
 {
-    imgIndex += 0.5;
+    if sprite_index == sprLaserBuster || sprite_index == sprLaserBusterPlus
+    {   //laser buster
+        animTimer++;
+        if abs(image_xscale) &lt; 1 &amp;&amp; canDamage
+        {
+            var dir = sign(image_xscale);
+            image_xscale = abs(x - xstart) / sprite_get_width(sprite_index);
+            image_xscale = min(1, image_xscale) * dir;
+        }
+    }
+    else
+    {   //regular charge shot animation
+        imgIndex += 0.5;
+        image_index = floor(imgIndex);
+    }
 }
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="18">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///special buster effects
 
-image_index = floor(imgIndex);
+if pierces == 1 //non-laser busters do nothing special
+    exit;
+switch(pierces)
+{
+    case 0: //arrow buster
+        instance_create(x, y, objExplosion);
+        
+        var spacing = 90 / 8;   //8 shots over 90 degrees
+        
+        for (var g = -(spacing * subShots) / 2; g &lt;= (spacing * subShots) / 2; g += spacing;)
+        {
+            var s = instance_create(x, y, objArrowBusterScattershot);
+            s.dir = g + (180 * (image_xscale &lt; 0));
+            //move the shots back a bit in the direction they'll move
+            s.x += -cos(degtorad(s.dir)) * 12;
+            s.y += sin(degtorad(s.dir)) * 12 * sign(image_yscale);
+            //tell scattershot to ignore the enemy the main shot hit
+            if !deflect
+                s.ignoreEnemy = other.id;
+        }
+        
+        instance_destroy();
+        break;
+    
+    case 2: //laser buster
+        //no multihitting
+        var length = array_length_1d(hasHitList);
+        for (var g = 0; g &lt; length; g++)
+        {
+            if other == hasHitList[g]
+            {
+                global.damage = 0;
+                exit;
+            }
+        }
+        hasHitList[length] = other.id;
+        break;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="17">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///arrow buster activates when deflected
+
+if pierces == 0
+{
+    deflect = true;
+    playSFX(sfxReflect);
+    event_perform(ev_other, ev_user8);
+}
+else
+    event_inherited();
 </string>
           </argument>
         </arguments>
@@ -91,21 +203,68 @@ image_index = floor(imgIndex);
             <kind>1</kind>
             <string>if (!dead)
 {
-    draw_sprite_ext(sprite_index, round(image_index), round(x), round(y), image_xscale, image_yscale, image_angle, image_blend, image_alpha);
-    
-    if (round(image_index) == 2)
+    switch(sprite_index)
     {
-        if (sprite_index == sprBusterShotChargedPlus)
-        {
-            spr = sprBusterShotChargedPlusColourMask;
-        }
-        else
-        {
-            spr = sprBusterShotChargedColourMask;
-        }
+        case sprLaserBuster:
+        case sprLaserBusterPlus:
+            if (animTimer mod 8) &gt;= 5
+            {   //player colors
+                var col1 = global.primaryCol[0];
+                var col2 = global.secondaryCol[0];
+            }
+            else
+            {   //player face colors
+                var col1 = global.nesPalette[47];
+                var col2 = c_white;
+            }
+            
+            if !dead
+            {
+                var w, xs, dir, back;
+                w = sprite_get_width(sprite_index);
+                xs = abs(image_xscale)
+                dir = sign(image_xscale);
+                if dir &gt; 0
+                    back = bbox_left;
+                else
+                    back = bbox_right;
+                
+                //lazor
+                draw_sprite_part_ext(sprite_index, 1, round(w - (xs * w)), 0, 
+                    round(xs * w), 8, round(back), round(bbox_top) - 1, dir, 1, col1, 1);
+                draw_sprite_part_ext(sprite_index, 2, round(w - (xs * w)), 0, 
+                    round(xs * w), 8, round(back), round(bbox_top) - 1, dir, 1, col2, 1);
+                //dot
+                if abs(image_xscale) &lt; 1 &amp;&amp; canDamage
+                {
+                    draw_sprite_ext(sprLaserBusterPoint, (animTimer / 3 mod 2) + 2, 
+                        round(xstart), round(y) + (-2 * (image_yscale &lt; 0)), 1, 1, 0, col1, 1);
+                    draw_sprite_ext(sprLaserBusterPoint, (animTimer / 3 mod 2) + 4, 
+                        round(xstart), round(y) + (-2 * (image_yscale &lt; 0)), 1, 1, 0, col2, 1);
+                }
+            }
+            break;
         
-        draw_sprite_ext(spr, 0, round(x), round(y), image_xscale, image_yscale, image_angle, global.secondaryCol[0], image_alpha);
-        draw_sprite_ext(spr, 1, round(x), round(y), image_xscale, image_yscale, image_angle, global.primaryCol[0], image_alpha);
+        
+        case sprBusterShotCharged:
+        case sprBusterShotChargedPlus:
+            draw_sprite_ext(sprite_index, round(image_index), round(x), round(y), image_xscale, image_yscale, image_angle, image_blend, image_alpha);
+            
+            if (round(image_index) == 2)
+            {   //has player colors on this frame
+                if (sprite_index == sprBusterShotChargedPlus)
+                    spr = sprBusterShotChargedPlusColourMask;
+                else
+                    spr = sprBusterShotChargedColourMask;
+                draw_sprite_ext(spr, 0, round(x), round(y), image_xscale, image_yscale, image_angle, global.secondaryCol[0], image_alpha);
+                draw_sprite_ext(spr, 1, round(x), round(y), image_xscale, image_yscale, image_angle, global.primaryCol[0], image_alpha);
+            }
+            break;
+        
+        
+        default:
+            event_inherited();
+            break;
     }
 }
 </string>

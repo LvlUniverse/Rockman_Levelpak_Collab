@@ -123,30 +123,40 @@ if (!global.lockBuster)
                 }
                 else // Full charge
                 {
-                    //laser shot
-                    if accIsEnabled(ACC_LaserShot)
+                    var i = fireWeapon(20, 0, objBusterShotCharged, 3, 0, 1, 0);
+                    if(i)
                     {
-                        i = fireWeapon(20, -1, objLaserBuster, 3, 0, 1, 0);
-                        if (i)
+                        //laser shot
+                        if accIsEnabled(ACC_LaserShot) && !accIsEnabled(ACC_ArrowShot)
                         {
-                            i.xspeed = image_xscale * 7.5;
-                            if accIsEnabled(ACC_Flame3) 
-                                i.sprite_index = sprLaserBusterPlus;
+                            //i = fireWeapon(20, -1, objLaserBuster, 3, 0, 1, 0);
+                            if (i)
+                            {
+                                playSFX(sfxGeminiLaser);
+                                i.xspeed = image_xscale * 7.5;
+                                if accIsEnabled(ACC_Flame3) 
+                                    i.sprite_index = sprLaserBusterPlus;
+                                else
+                                    i.sprite_index = sprLaserBuster;
+                                i.penetrate = 3;
+                                i.pierces = 2;
+                                i.image_xscale = sign(image_xscale) * 0.01;
+                            }
                         }
-                    }
-                    else if accIsEnabled(ACC_ArrowShot)
-                    {
-                        //arrow shot
-                        i = fireWeapon(20, 0, objArrowBuster, 3, 0, 1, 0);
-                        if (i)
-                            i.xspeed = image_xscale * 5.5;
-                    }
-                    else
-                    {
-                        //normal shot
-                        i = fireWeapon(20, 0, objBusterShotCharged, 3, 0, 1, 0);
-                        if (i)
+                        else if accIsEnabled(ACC_ArrowShot) && !accIsEnabled(ACC_LaserShot)
                         {
+                            //arrow shot
+                            //i = fireWeapon(20, 0, objArrowBuster, 3, 0, 1, 0);
+                            playSFX(sfxBusterCharged);
+                            i.xspeed = image_xscale * 5.5;
+                            i.pierces = 0;
+                            i.subShots = 8 + (accIsEnabled(ACC_Flame3) * 3);
+                            i.sprite_index = sprArrowBuster;
+                        }
+                        else
+                        {
+                            //normal shot
+                            playSFX(sfxBusterCharged);
                             i.xspeed = image_xscale * 5.5;
                             if accIsEnabled(ACC_Flame3)
                                 i.sprite_index = sprBusterShotChargedPlus;
