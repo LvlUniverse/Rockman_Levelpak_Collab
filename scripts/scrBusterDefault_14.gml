@@ -6,16 +6,36 @@ var action = 1; // 0 - no frame; 1 - shoot; 2 - throw
 var willStop = 0; // If this is 1, the player will halt on shooting ala Metal Blade.
 
 var chargeTime = 57; // Set charge time for this weapon
-var initChargeTime = 20;
+var initChargeTime = 20 + (global.autoCharge * 4);
 
 if (!global.lockBuster)
 {
-    if (global.keyShootPressed[playerID] && !playerIsLocked(PL_LOCK_SHOOT) && chargeTimer == 0)
+    var doFire = false;
+    if !global.autoFire
+    {   //normal fire
+        doFire = global.keyShootPressed[playerID] && !playerIsLocked(PL_LOCK_SHOOT) && chargeTimer == 0;
+    }
+    else
+    {   //autofire
+        if global.keyShoot[playerID] && !playerIsLocked(PL_LOCK_SHOOT)
+        {
+            autoFireTimer++;
+        }
+        else
+            autoFireTimer = 0;
+        if autoFireTimer >= 9
+            autoFireTimer = 0;
+        doFire = (autoFireTimer == 1) && !(global.autoCharge && chargeTimer > 0);
+    }
+    if(doFire)  //actually make a buster shot
     {
-        i = fireWeapon(16, 0, objBusterShot, bulletLimit, weaponCost, action, willStop);
+        var i = fireWeapon(16, 0, objBusterShot, bulletLimit, weaponCost, action, willStop);
         if (i)
         {
             i.xspeed = image_xscale * 5; // zoom
+            
+            chargeTimer = 0;    //no charging during autofire pls
+            initChargeTimer = 0;
         }
     }
     
@@ -25,7 +45,7 @@ if (!global.lockBuster)
     
     if (global.enableCharge)
     {
-        if ((global.keyShoot[playerID] || (isSlide && chargeTimer > 0))
+        if (((global.keyShoot[playerID] ^^ global.autoCharge) || (isSlide && chargeTimer > 0))
             && !playerIsLocked(PL_LOCK_CHARGE))
         {
             if (!isShoot)

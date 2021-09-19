@@ -23,9 +23,12 @@ global.teleportSound         = sl(global.teleportSound, "teleport-sound");
 global.vsync                 = sl(global.vsync,          "vsync");
 global.showControllerOverlay = sl(global.showControllerOverlay, "controlleroverlay");
 global.escapeBehavior        = sl(global.escapeBehavior, "escapebehavior");
-global.escapeBehavior        = sl(global.escapeBehavior, "escapebehavior");
 global.doFlashing            = sl(global.doFlashing, "doFlashing");
 global.showHUDWeaponIcon     = sl(global.showHUDWeaponIcon, "hud-wepicon");
+
+global.autoFire              = sl(global.autoFire, "auto-fire");
+global.autoCharge            = sl(global.autoCharge, "auto-charge");
+global.holdToggle            = sl(global.holdToggle, "hold-toggle");
 
 //color overlays
 global.showColoredTextOverlays      = sl(global.showColoredTextOverlays, "showColoredTextOverlays");

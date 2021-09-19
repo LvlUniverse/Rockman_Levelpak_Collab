@@ -185,6 +185,7 @@ if (!global.frozen)
                             canDamage = false;
                             image_index = (image_index mod 4) + 4;
                             grappleLock = lockPoolLock(parent.localPlayerLock[PL_LOCK_MOVE]);
+                            parent.myHoldToggle = false;
                         }
                         break;
                     }
@@ -274,8 +275,20 @@ if (!global.frozen)
           <argument>
             <kind>1</kind>
             <string>///when equipped...
+
+//toggle 'held' by pressing, if enabled
+var doShoot;
+if !global.holdToggle
+    doShoot = global.keyShoot[playerID];
+else
+{
+    if global.keyShootPressed[playerID]
+        myHoldToggle = !myHoldToggle;
+    doShoot = myHoldToggle;
+}
+
 //fire while button is held
-if (global.keyShoot[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
+if (doShoot &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
 {
     i = fireWeapon(16, 0, objNekoClaw, 1, 0.5, 1, 1);
     if (instance_exists(i))

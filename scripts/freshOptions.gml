@@ -25,6 +25,9 @@ global.coloredTextOverlaysGreen = 170;
 global.coloredTextOverlaysBlue = 255;
 global.coloredTextOverlaysOpacity = 120;
 global.doFlashing = true;
+global.autoFire = false;
+global.autoCharge = false;
+global.holdToggle = false;
 
 //game style
 global.mmColor = 0;

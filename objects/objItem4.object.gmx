@@ -359,10 +359,11 @@ if (active)
           <argument>
             <kind>1</kind>
             <string>///while equipped...
-if (global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
+if !playerIsLocked(PL_LOCK_SHOOT)
 {
     if (!instance_exists(objItem4) &amp;&amp; !instance_exists(objItem4Teleport)
-    &amp;&amp; global.ammo[playerID, global.weaponID[? objItem4]] &gt; 4)
+        &amp;&amp; global.ammo[playerID, global.weaponID[? objItem4]] &gt; 4)
+        &amp;&amp; global.keyShootPressed[playerID]
     {
         i = fireWeapon(26, 0, objItem4Teleport, 1, 0, 0, 0);
         with (i)
@@ -373,18 +374,38 @@ if (global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
         }
     }
     else if instance_exists(vehicle)//if in vehicle, trigger joe mech shots
-        chargeTimer += (chargeTimer == 0);
+    {
+        if global.keyShoot[playerID]
+            myHoldToggle = 10;
+    }
     else
     {   //buster shots if vehicle is summoned, but we aren't riding it
-        with (fireWeapon(16, 0, objNormalBusterShot, 4, 0, 1, 0))
-            xspeed = other.image_xscale * 5;
+        if !global.autoFire
+            doFire = global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT) &amp;&amp; chargeTimer == 0;
+        else
+        {
+            if global.keyShoot[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT)
+            {
+                autoFireTimer++;
+            }
+            else
+                autoFireTimer = 0;
+            if autoFireTimer &gt;= 9
+                autoFireTimer = 0;
+            doFire = (autoFireTimer == 1) &amp;&amp; !(global.autoCharge &amp;&amp; chargeTimer &gt; 0);
+        }
+        if(doFire)  //actually make a buster shot
+        {
+            with(fireWeapon(16, 0, objNormalBusterShot, 4, 0, 1, 0))
+                xspeed = image_xscale * 5; // zoom
+        }
     }
 }
 
 //joe mech shots: should be identical to those of the actual enemy
 if chargeTimer &gt; 60 || !instance_exists(objItem4)
     chargeTimer = 0;
-if chargeTimer != 0
+if myHoldToggle-- &gt;= 0 || chargeTimer != 0
 {
     if chargeTimer++ mod 15 == 1
     {

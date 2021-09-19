@@ -113,8 +113,27 @@ if (!global.frozen)
           <argument>
             <kind>1</kind>
             <string>///while equipped...
+
+var doFire = false;
+if !global.autoFire
+{   //normal fire
+    doFire = global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT) &amp;&amp; chargeTimer == 0;
+}
+else
+{   //autofire
+    if global.keyShoot[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT)
+    {
+        autoFireTimer++;
+    }
+    else
+        autoFireTimer = 0;
+    if autoFireTimer &gt;= 30
+        autoFireTimer = 0;
+    doFire = (autoFireTimer == 1) &amp;&amp; !(global.autoCharge &amp;&amp; chargeTimer &gt; 0);
+}
+
 //fire when shot
-if (global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
+if (doFire &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
 {
     with (fireWeapon(19, 0, objSiphonTopaz, 2, 2, 2, 1))
     {

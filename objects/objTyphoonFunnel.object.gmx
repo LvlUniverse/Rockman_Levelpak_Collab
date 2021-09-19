@@ -88,10 +88,12 @@ gravLock = undefined;
 if (!global.frozen)
 {
     var wID = global.weaponID[? objTyphoonFunnel];
-
+    
     //can be realeased manually by letting go of fire,
     //and is released automatically if player hits ground or is missing
-    if (!instance_exists(parent) || !global.keyShoot[parent.playerID]
+    if (!instance_exists(parent) 
+        || ((!global.holdToggle &amp;&amp; !global.keyShoot[parent.playerID])
+        || (global.holdToggle &amp;&amp; global.keyShootPressed[parent.playerID] &amp;&amp; animTimer != 0))
         || parent.ground || parent.climbing || (parent.inWater &amp;&amp; parent.isHit)) 
         &amp;&amp; disperse == 0
     {
@@ -203,6 +205,13 @@ if (!global.frozen)
 //fire when shot
 if (global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
 {
+    //cancel firing if we're releasing from a press via 'hold toggle'
+    with(objTyphoonFunnel)
+    {
+        if parent == other &amp;&amp; disperse &lt;= 3    //on the first frame of dispersal, it should be 2.5
+            exit;
+    }
+
     var i = fireWeapon(0, 0, objTyphoonFunnel, 2, 2, 2, 0);
     if instance_exists(i)
     {

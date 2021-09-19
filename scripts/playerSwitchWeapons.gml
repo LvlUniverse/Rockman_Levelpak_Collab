@@ -52,7 +52,11 @@ if (global.weapon[playerID] != oldWeapon)
     // slight pause between scrolls
     quickWeaponScrollTimer = 8 + (10 * (quickWeaponScrollTimer < 0));
     
+    //reset weapon-specific variables
     chargeTimer = 0;
+    myHoldToggle = 0;
+    autoFireTimer = 0;
+    initChargeTimer = 0;
     
     // For the dashing effect of Tengu Blade to not activate mid-slide.
     notDashing = false;

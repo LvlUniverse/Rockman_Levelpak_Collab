@@ -112,6 +112,8 @@ shockedTime = 0; // for how long?
 isCharge = false;
 chargeTimer = 0;
 initChargeTimer = 0; // The timer for when to start charging after exiting the shooting animation
+myHoldToggle = false;
+autoFireTimer = 0;
 
 climbing = false;
 climbSpriteTimer = 0;

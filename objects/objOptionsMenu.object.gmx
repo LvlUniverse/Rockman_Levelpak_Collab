@@ -103,7 +103,10 @@ optionText[0, 6] = 'ACCESSIBILITY...';
     optionText[2, 0] = 'BACK';
     optionText[2, 1] = 'MOVING TEXT';
     optionText[2, 2] = 'FLASHING';
-    optionText[2, 3] = 'COLORED TEXT# OVERLAYS...';
+    optionText[2, 3] = 'AUTO CHARGE';
+    optionText[2, 4] = 'AUTO FIRE';
+    optionText[2, 5] = 'HOLD TOGGLE';
+    optionText[2, 6] = 'COLORED TEXT# OVERLAYS...';
 
 optionText[0, 7] = 'GAME STYLE...';
     optionText[3, 0] = 'BACK';
@@ -459,6 +462,33 @@ if (phase &gt;= 6 &amp;&amp; !selected &amp;&amp; !instance_exists(objColoredTex
                 }
                 break;
             
+            case 203:   //auto charge
+                pre = global.autoCharge;
+                global.autoCharge = min(max(0, global.autoCharge + xdir), 1);
+                if (global.autoCharge != pre)
+                {
+                    playSFX(sfxTextBox);
+                }
+                break;
+                
+            case 204:   //auto fire
+                pre = global.autoFire;
+                global.autoFire = min(max(0, global.autoFire + xdir), 1);
+                if (global.autoFire != pre)
+                {
+                    playSFX(sfxTextBox);
+                }
+                break;
+                
+            case 205:   //hold toggle
+                pre = global.holdToggle;
+                global.holdToggle = min(max(0, global.holdToggle + xdir), 1);
+                if (global.holdToggle != pre)
+                {
+                    playSFX(sfxTextBox);
+                }
+                break;
+            
             // MM Color
             case 301:
                 pre = global.mmColor;
@@ -582,7 +612,7 @@ if (phase &gt;= 6 &amp;&amp; !selected &amp;&amp; !instance_exists(objColoredTex
                 break;
             
             // colored text overlays
-            case 203:
+            case 206:
                 playSFX(sfxPause);
                 instance_create(x, y, objColoredTextOverlaysMenu);
                 break;
@@ -1193,6 +1223,30 @@ for (var yoff = 0, j = 0, opt, linecnt; j &lt; array_length_2d(optionText, mySub
         // flashing
         case 202:
             if (global.doFlashing)
+                opt = 'ON';
+            else
+                opt = 'OFF';
+            break;
+        
+        // auto charge
+        case 203:
+            if (global.autoCharge)
+                opt = 'ON';
+            else
+                opt = 'OFF';
+            break;
+        
+        // auto fire
+        case 204:
+            if (global.autoFire)
+                opt = 'ON';
+            else
+                opt = 'OFF';
+            break;
+        
+        // hold toggle
+        case 205:
+            if (global.holdToggle)
                 opt = 'ON';
             else
                 opt = 'OFF';

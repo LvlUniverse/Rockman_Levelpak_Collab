@@ -169,7 +169,26 @@ if entityCanStep()
           <argument>
             <kind>1</kind>
             <string>/// Fire weapon
-if (global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
+
+var doFire = false;
+if !global.autoFire
+{   //normal fire
+    doFire = global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT) &amp;&amp; chargeTimer == 0;
+}
+else
+{   //autofire
+    if global.keyShoot[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT)
+    {
+        autoFireTimer++;
+    }
+    else
+        autoFireTimer = 0;
+    if autoFireTimer &gt;= 15
+        autoFireTimer = 0;
+    doFire = (autoFireTimer == 1) &amp;&amp; !(global.autoCharge &amp;&amp; chargeTimer &gt; 0);
+}
+
+if (doFire &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
 {
     with(fireWeapon(18, 0, objTinTrooper, 3, 1.5, 2, 1))
     {
