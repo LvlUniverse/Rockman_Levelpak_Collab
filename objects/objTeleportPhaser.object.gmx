@@ -44,6 +44,8 @@ shiftVisible = 3;
 despawnRange = -1;
 
 //variables
+type = 0;   //0 is full charge, 1 is partial charge
+
 xs = 0;
 ys = -4;
 
@@ -83,9 +85,17 @@ if (instance_exists(parent))
     {
         lockPoolRelease(other.phaserLock);
         hitTimer = 0;
-        iFrames = 30;
+        if other.type == 0
+        {
+            yspeed = other.ys * sign(image_yscale);
+            iFrames = 30;
+        }
+        else
+        {
+            yspeed = 0;
+            iFrames = 5;
+        }
         canMinJump = false;
-        yspeed = other.ys * sign(image_yscale);
     }
 }
 </string>
@@ -128,18 +138,21 @@ else
     //handle MM using teleport sprites, efen when paused
     with (parent)
     {
-        spriteX = 12 - other.img;
+        spriteX = 12 - floor(other.img);
         spriteY = 8;
     }
 }
 
 if (!global.frozen)
 {
-    
-    if (timer mod 4 == 0){
-        if (img &lt; 2){
-            img++;
-        }
+    //animation
+    if type == 0 //full charge
+            img = min(img + (1/4), 2);
+    else
+    {   //half charge
+        img -= 1/3;
+        if img &lt; 0
+            img += 3;
     }
     
     with (parent) // Mega Man anim + movement forcing
@@ -158,21 +171,20 @@ if (!global.frozen)
             xspeed = 0;
             yspeed = 0;
         }
-        else{
-            if (other.img &gt; 1)
+        else
+        {
+            if (other.img &gt;= 2) &amp;&amp; (other.type == 0)
                 yspeed = other.ys * other.image_yscale; // movement force
             iFrames = -1;
         }
     }
-    if (isLocked(global.playerLock[PL_LOCK_MOVE]) &amp;&amp;
-    isLocked(global.playerLock[PL_LOCK_TURN]))
-    {
-        timer = 0;
-    }
     
+    if (isLocked(global.playerLock[PL_LOCK_MOVE]) 
+        &amp;&amp; isLocked(global.playerLock[PL_LOCK_TURN]))
+        timer = 0;
     
     // Destroy timer
-    timer -= 1;
+    timer--;
     if (timer &lt;= 0)
     {
         xspeed = 0;
@@ -325,16 +337,26 @@ if (global.ammo[playerID, global.weapon[playerID]] &gt; 0)
             // ACTUAL SHOOTING //
             /////////////////////
             
-            // full charge
-            if (chargeTimer &gt;= chargeTime)
+            var a = fireWeapon(0, 0, objTeleportPhaser, 4, 1 + ((chargeTimer &gt;= chargeTime) * 2), 0, 0);
+            if instance_exists(a)
             {
-                a = fireWeapon(0, 0, objTeleportPhaser, 1, 3, 0, 0);
-                if (a){
+                a.image_yscale = image_yscale;
+                if (chargeTimer &lt; chargeTime)
+                {   //half charge
+                    if (global.teleportSound)
+                        playSFX(sfxTeleportInClassic);
+                    else
+                        playSFX(sfxTeleportIn);
+                    a.type = 1;
+                    a.timer = 12;
+                    a.img = 2.7;
+                }
+                else
+                {   //full charge
                     if (global.teleportSound)
                         playSFX(sfxTeleportOutClassic);
                     else
                         playSFX(sfxTeleportOut);
-                    a.image_yscale = image_yscale;
                 }
             }
             
