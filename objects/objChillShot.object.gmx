@@ -234,7 +234,7 @@ if (!global.frozen)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>weaponSetup("CHILL SPIKE", global.nesPalette[25], make_color_rgb(152, 248, 240), sprWeaponIconsChillShot);
+            <string>//weaponSetup("CHILL SPIKE", global.nesPalette[25], make_color_rgb(152, 248, 240), sprWeaponIconsChillShot);
 </string>
           </argument>
         </arguments>

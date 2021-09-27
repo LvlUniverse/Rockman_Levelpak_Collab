@@ -177,7 +177,7 @@ if (global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>weaponSetup("SOLAR BLAZE", make_color_rgb(216, 40, 0), make_color_rgb(240, 184, 56), sprWeaponIconsSolarBlaze);
+            <string>//weaponSetup("SOLAR BLAZE", make_color_rgb(216, 40, 0), make_color_rgb(240, 184, 56), sprWeaponIconsSolarBlaze);
 </string>
           </argument>
         </arguments>

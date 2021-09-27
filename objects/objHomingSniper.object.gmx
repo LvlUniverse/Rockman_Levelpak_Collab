@@ -444,7 +444,7 @@ if (global.enableCharge)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>weaponSetup("HOMING SNIPER", make_color_rgb(172, 124, 0), make_color_rgb(0, 232, 216), sprWeaponIconsHomingSniper);
+            <string>//weaponSetup("HOMING SNIPER", make_color_rgb(172, 124, 0), make_color_rgb(0, 232, 216), sprWeaponIconsHomingSniper);
 </string>
           </argument>
         </arguments>

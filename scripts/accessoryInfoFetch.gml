@@ -74,4 +74,14 @@ switch(argument[0] + (pg * 100))
         accName = "dash3";
         accDesc = "Increases the speed#of your slide#substantially. (1.35x)";
         break;
+    
+    case ACC_ArrowShot:
+        accName = "Arrow Buster";
+        accDesc = "Replaces your charged#buster shot with an arrow#that splits when it#hits an enemy.";
+        break;
+    
+    case ACC_LaserShot:
+        accName = "Arrow Buster";
+        accDesc = "Replaces your charged#buster shot with a laser#that pierces shields #and all enemies.";
+        break;
 }

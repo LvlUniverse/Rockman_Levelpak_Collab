@@ -161,7 +161,7 @@ if (global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>weaponSetup("TRIPLE BLADE", make_color_rgb(184, 0, 184), make_color_rgb(252, 252, 252), sprWeaponIconsTripleBlade);
+            <string>//weaponSetup("TRIPLE BLADE", make_color_rgb(184, 0, 184), make_color_rgb(252, 252, 252), sprWeaponIconsTripleBlade);
 </string>
           </argument>
         </arguments>

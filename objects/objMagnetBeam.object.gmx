@@ -180,7 +180,7 @@ if (global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>weaponSetup("MAGNET BEAM", -1, -1, sprWeaponIconsMagnetBeam);
+            <string>//weaponSetup("MAGNET BEAM", -1, -1, sprWeaponIconsMagnetBeam);
 </string>
           </argument>
         </arguments>

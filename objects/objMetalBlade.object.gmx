@@ -162,7 +162,7 @@ if (!global.frozen)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>weaponSetup("METAL BLADE", make_color_rgb(136, 112, 0), make_color_rgb(255, 224, 168), sprWeaponIconsMetalBlade);
+            <string>//weaponSetup("METAL BLADE", make_color_rgb(136, 112, 0), make_color_rgb(255, 224, 168), sprWeaponIconsMetalBlade);
 </string>
           </argument>
         </arguments>

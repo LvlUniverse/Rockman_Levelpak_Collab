@@ -250,7 +250,7 @@ specialDamageValue("aquatic", 2);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>weaponSetup("THUNDER WOOL", make_color_rgb(112, 112, 112), make_color_rgb(240, 184, 56), sprWeaponIconsThunderWool);
+            <string>//weaponSetup("THUNDER WOOL", make_color_rgb(112, 112, 112), make_color_rgb(240, 184, 56), sprWeaponIconsThunderWool);
 </string>
           </argument>
         </arguments>

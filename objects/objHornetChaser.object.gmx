@@ -260,7 +260,7 @@ specialDamageValue("floating", 3);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>weaponSetup("HORNET CHASER", make_color_rgb(231, 191, 60), make_color_rgb(252, 252, 252), sprWeaponIconsHornetChaser);
+            <string>//weaponSetup("HORNET CHASER", make_color_rgb(231, 191, 60), make_color_rgb(252, 252, 252), sprWeaponIconsHornetChaser);
 </string>
           </argument>
         </arguments>

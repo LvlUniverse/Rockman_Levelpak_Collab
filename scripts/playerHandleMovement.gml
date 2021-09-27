@@ -11,6 +11,7 @@ if (!playerIsLocked(PL_LOCK_TURN))
 // Movement (includes initializing sidestep while on the ground)
 if (!playerIsLocked(PL_LOCK_MOVE))
 {
+    //increased walk speed
     if accIsEnabled(ACC_Claw3)
         var effWalkSpeed = walkSpeed * 1.15;
     else

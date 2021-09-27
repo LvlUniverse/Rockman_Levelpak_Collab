@@ -128,7 +128,7 @@ if (global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>weaponSetup("GRAB BUSTER", make_color_rgb(88, 216, 84), make_color_rgb(248, 184, 248), sprWeaponIconsGrabBuster);
+            <string>//weaponSetup("GRAB BUSTER", make_color_rgb(88, 216, 84), make_color_rgb(248, 184, 248), sprWeaponIconsGrabBuster);
 </string>
           </argument>
         </arguments>

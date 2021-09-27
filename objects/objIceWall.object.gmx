@@ -248,7 +248,7 @@ specialDamageValue("nature", 3);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>weaponSetup("ICE WALL", make_colour_rgb(60, 188, 252), make_color_rgb(164, 228, 252), sprWeaponIconsIceWall);
+            <string>//weaponSetup("ICE WALL", make_colour_rgb(60, 188, 252), make_color_rgb(164, 228, 252), sprWeaponIconsIceWall);
 </string>
           </argument>
         </arguments>

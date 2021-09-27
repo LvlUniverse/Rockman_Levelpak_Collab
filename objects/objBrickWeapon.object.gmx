@@ -300,7 +300,7 @@ specialDamageValue("mets", 0);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>weaponSetup("BLOCK DROP", global.nesPalette[25], global.nesPalette[47], sprWeaponIconsBrickWeapon);
+            <string>//weaponSetup("BLOCK DROP", global.nesPalette[25], global.nesPalette[47], sprWeaponIconsBrickWeapon);
 </string>
           </argument>
         </arguments>

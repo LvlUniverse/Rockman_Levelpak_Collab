@@ -130,15 +130,8 @@
     <instance objName="objThunderClawPole" x="1216" y="96" name="inst_29659AF1" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objThunderClawPole" x="1328" y="96" name="inst_E4D05D0C" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objSpecialCoin" x="1920" y="128" name="inst_FDC4FCD6" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objTurnblock" x="1520" y="112" name="inst_B0F1B247" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objTurnblock" x="1488" y="112" name="inst_716A7490" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objTurnblock" x="1456" y="112" name="inst_A6F9D1CF" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objTurnblock" x="1648" y="112" name="inst_AB352CEF" locked="0" code="sprite_index = sprNekoClawTurnblockV;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objTurnblock" x="1648" y="80" name="inst_06688315" locked="0" code="sprite_index = sprNekoClawTurnblockV;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objTurnblock" x="1648" y="48" name="inst_64A16801" locked="0" code="sprite_index = sprNekoClawTurnblockV;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objThunderClawPole" x="1712" y="64" name="inst_FFBB1062" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objThunderClawPole" x="1760" y="64" name="inst_3039963A" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objThunderClawPole" x="1736" y="176" name="inst_1CFE8537" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objTurnblock" x="1488" y="80" name="inst_AB352CEF" locked="0" code="sprite_index = sprNekoClawTurnblockV;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles>
     <tile bgName="bgBasic" x="0" y="0" w="128" h="128" xo="0" yo="0" id="11354782" name="inst_A470C83D" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
@@ -756,10 +749,9 @@
     <tile bgName="bgBasic" x="736" y="80" w="16" h="16" xo="80" yo="0" id="11377199" name="inst_017262E5" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
     <tile bgName="bgBasic" x="736" y="96" w="16" h="16" xo="0" yo="16" id="11377200" name="inst_600E43D2" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
     <tile bgName="bgBasic" x="736" y="112" w="16" h="16" xo="0" yo="16" id="11377201" name="inst_91C5B4DF" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
-    <tile bgName="bgBasic" x="1728" y="80" w="16" h="16" xo="16" yo="48" id="11378531" name="inst_91D02F4D" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
-    <tile bgName="bgBasic" x="1744" y="80" w="16" h="16" xo="16" yo="48" id="11378532" name="inst_0FC5327A" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
-    <tile bgName="bgBasic" x="1712" y="80" w="16" h="16" xo="0" yo="48" id="11378534" name="inst_60B038A2" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
-    <tile bgName="bgBasic" x="1760" y="80" w="16" h="16" xo="32" yo="48" id="11378535" name="inst_9A73CDD8" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
+    <tile bgName="bgBasic" x="1664" y="64" w="16" h="16" xo="64" yo="32" id="11378538" name="inst_7A28A51C" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
+    <tile bgName="bgBasic" x="1760" y="128" w="16" h="16" xo="64" yo="32" id="11378541" name="inst_498FB25B" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
+    <tile bgName="bgBasic" x="1680" y="112" w="16" h="16" xo="64" yo="32" id="11378542" name="inst_2E2C6C9C" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
   </tiles>
   <PhysicsWorld>0</PhysicsWorld>
   <PhysicsWorldTop>0</PhysicsWorldTop>

@@ -196,7 +196,7 @@ if (!global.frozen)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>weaponSetup("TOP SPIN", make_color_rgb(124, 124, 124), make_color_rgb(240, 208, 176), sprWeaponIconsTopSpin);
+            <string>//weaponSetup("TOP SPIN", make_color_rgb(124, 124, 124), make_color_rgb(240, 208, 176), sprWeaponIconsTopSpin);
 </string>
           </argument>
         </arguments>

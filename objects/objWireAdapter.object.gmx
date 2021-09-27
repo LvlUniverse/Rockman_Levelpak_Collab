@@ -405,7 +405,7 @@ specialDamageValue("flying", 6);
           <argument>
             <kind>1</kind>
             <string>/// Set Mega Man's palette
-weaponSetup("WIRE ADAPTOR", make_color_rgb(216, 40, 0), make_color_rgb(255, 255, 255), sprWeaponIconsWire);
+//weaponSetup("WIRE ADAPTOR", make_color_rgb(216, 40, 0), make_color_rgb(255, 255, 255), sprWeaponIconsWire);
 </string>
           </argument>
         </arguments>

@@ -286,7 +286,7 @@ specialDamageValue("semi bulky", 3);
           <argument>
             <kind>1</kind>
             <string>/// Set Mega Man's palette
-weaponSetup("GEMINI LASER", make_color_rgb(60, 188, 252), make_color_rgb(252, 252, 252), sprWeaponIconsGeminiLaser);
+//weaponSetup("GEMINI LASER", make_color_rgb(60, 188, 252), make_color_rgb(252, 252, 252), sprWeaponIconsGeminiLaser);
 </string>
           </argument>
         </arguments>

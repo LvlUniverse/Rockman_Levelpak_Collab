@@ -271,7 +271,7 @@ if (!global.frozen || instance_exists(objSectionSwitcher))
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>weaponSetup("WATER SHIELD", make_color_rgb(0, 112, 232), make_color_rgb(168, 224, 248), sprWeaponIconsWaterShield);
+            <string>//weaponSetup("WATER SHIELD", make_color_rgb(0, 112, 232), make_color_rgb(168, 224, 248), sprWeaponIconsWaterShield);
 </string>
           </argument>
         </arguments>

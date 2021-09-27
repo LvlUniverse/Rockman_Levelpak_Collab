@@ -236,7 +236,7 @@ specialDamageValue("floating", 6);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>weaponSetup("TORNADO BLOW", make_color_rgb(0, 172, 26), make_color_rgb(248, 248, 248), sprWeaponIconsTornadoBlow);
+            <string>//weaponSetup("TORNADO BLOW", make_color_rgb(0, 172, 26), make_color_rgb(248, 248, 248), sprWeaponIconsTornadoBlow);
 </string>
           </argument>
         </arguments>

@@ -277,7 +277,7 @@ specialDamageValue("ice", 4);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>weaponSetup("FLAME MIXER", make_color_rgb(231, 0, 99), make_color_rgb(252, 216, 168), sprWeaponIconsFlameMixer);
+            <string>//weaponSetup("FLAME MIXER", make_color_rgb(231, 0, 99), make_color_rgb(252, 216, 168), sprWeaponIconsFlameMixer);
 </string>
           </argument>
         </arguments>

@@ -284,7 +284,7 @@ specialDamageValue("grounded", 3);
           <argument>
             <kind>1</kind>
             <string>/// Set Mega Man's palette
-weaponSetup("WHEEL CUTTER", make_color_rgb(112, 112, 112), make_color_rgb(252, 252, 252), sprWeaponIconsWheelCutter);
+//weaponSetup("WHEEL CUTTER", make_color_rgb(112, 112, 112), make_color_rgb(252, 252, 252), sprWeaponIconsWheelCutter);
 </string>
           </argument>
         </arguments>

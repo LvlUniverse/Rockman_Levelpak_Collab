@@ -232,7 +232,7 @@ if (!global.frozen)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>weaponSetup("FLASH STOPPER", make_color_rgb(216, 0, 204), make_color_rgb(252, 252, 252), sprWeaponIconsFlashStopper);
+            <string>//weaponSetup("FLASH STOPPER", make_color_rgb(216, 0, 204), make_color_rgb(252, 252, 252), sprWeaponIconsFlashStopper);
 </string>
           </argument>
         </arguments>

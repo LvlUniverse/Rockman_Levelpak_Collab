@@ -362,7 +362,7 @@ if (other.reflectable == 1)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>weaponSetup("SAKUGARNE", -3, -3, sprWeaponIconsSakugarne);
+            <string>//weaponSetup("SAKUGARNE", -3, -3, sprWeaponIconsSakugarne);
 </string>
           </argument>
         </arguments>

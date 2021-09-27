@@ -227,7 +227,7 @@ specialDamageValue("flying", 5);
           <argument>
             <kind>1</kind>
             <string>/// Set Mega Man's palette
-weaponSetup("CONCRETE SHOT", make_color_rgb(111, 111, 111), make_color_rgb(184, 184, 184), sprWeaponIconsConcreteShot);
+//weaponSetup("CONCRETE SHOT", make_color_rgb(111, 111, 111), make_color_rgb(184, 184, 184), sprWeaponIconsConcreteShot);
 </string>
           </argument>
         </arguments>

@@ -237,7 +237,7 @@ if (!global.frozen)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>weaponSetup("MAGIC CARD", make_color_rgb(112, 112, 112), make_color_rgb(248, 112, 176), sprWeaponIconsMagicCard);
+            <string>//weaponSetup("MAGIC CARD", make_color_rgb(112, 112, 112), make_color_rgb(248, 112, 176), sprWeaponIconsMagicCard);
 </string>
           </argument>
         </arguments>

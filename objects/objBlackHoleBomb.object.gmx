@@ -238,7 +238,7 @@ if (!global.frozen)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>weaponSetup("BLACK HOLE BOMB", make_color_rgb(128, 0, 240), make_color_rgb(160, 132, 248), sprWeaponIconsBlackHoleBomb);
+            <string>//weaponSetup("BLACK HOLE BOMB", make_color_rgb(128, 0, 240), make_color_rgb(160, 132, 248), sprWeaponIconsBlackHoleBomb);
 </string>
           </argument>
         </arguments>

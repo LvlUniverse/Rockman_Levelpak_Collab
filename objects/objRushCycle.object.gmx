@@ -450,7 +450,7 @@ if (active)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>weaponSetup("RUSH BIKE", -2, -2, sprWeaponIconsRushCycle);
+            <string>//weaponSetup("RUSH BIKE", -2, -2, sprWeaponIconsRushCycle);
 </string>
           </argument>
         </arguments>

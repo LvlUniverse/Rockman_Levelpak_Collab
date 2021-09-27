@@ -386,7 +386,7 @@ specialDamageValue(objSpine, 3);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>weaponSetup("BREAK DASH", make_color_rgb(107, 74, 255), make_color_rgb(222, 189, 255), sprWeaponIconsBreakDash);
+            <string>//weaponSetup("BREAK DASH", make_color_rgb(107, 74, 255), make_color_rgb(222, 189, 255), sprWeaponIconsBreakDash);
 </string>
           </argument>
         </arguments>

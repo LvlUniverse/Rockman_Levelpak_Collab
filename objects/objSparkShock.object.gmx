@@ -95,7 +95,7 @@ if (global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>weaponSetup("SPARK SHOCK", make_color_rgb(248, 120, 88), make_color_rgb(248, 248, 248), sprWeaponIconsSparkShock);
+            <string>//weaponSetup("SPARK SHOCK", make_color_rgb(248, 120, 88), make_color_rgb(248, 248, 248), sprWeaponIconsSparkShock);
 </string>
           </argument>
         </arguments>

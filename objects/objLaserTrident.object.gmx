@@ -173,7 +173,7 @@ specialDamageValue("primate", 3);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>weaponSetup("LASER TRIDENT", make_color_rgb(113, 130, 246), make_color_rgb(231, 191, 60), sprWeaponIconsLaserTrident);
+            <string>//weaponSetup("LASER TRIDENT", make_color_rgb(113, 130, 246), make_color_rgb(231, 191, 60), sprWeaponIconsLaserTrident);
 </string>
           </argument>
         </arguments>

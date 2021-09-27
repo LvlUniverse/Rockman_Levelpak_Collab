@@ -173,7 +173,7 @@ image_single = inWall;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>weaponSetup("SUPER ARROW", -1, -1, sprWeaponIconsSuperArrow);
+            <string>//weaponSetup("SUPER ARROW", -1, -1, sprWeaponIconsSuperArrow);
 </string>
           </argument>
         </arguments>

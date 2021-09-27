@@ -233,7 +233,7 @@ if (global.ammo[playerID, global.weapon[playerID]] &gt; 0)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>weaponSetup("TENGU BLADE", make_color_rgb(128, 128, 136), make_color_rgb(224, 224, 248), sprWeaponIconsTenguBlade);
+            <string>//weaponSetup("TENGU BLADE", make_color_rgb(128, 128, 136), make_color_rgb(224, 224, 248), sprWeaponIconsTenguBlade);
 </string>
           </argument>
         </arguments>

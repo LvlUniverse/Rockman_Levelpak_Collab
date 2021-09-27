@@ -229,7 +229,7 @@ specialDamageValue("shield attackers", 4);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>weaponSetup("SLASH CLAW", make_color_rgb(72, 168, 16), make_color_rgb(232, 208, 32), sprWeaponIconsSlashClaw);
+            <string>//weaponSetup("SLASH CLAW", make_color_rgb(72, 168, 16), make_color_rgb(232, 208, 32), sprWeaponIconsSlashClaw);
 </string>
           </argument>
         </arguments>

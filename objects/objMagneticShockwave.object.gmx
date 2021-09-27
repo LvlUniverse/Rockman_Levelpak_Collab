@@ -191,7 +191,7 @@ specialDamageValue("mets", 0);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>weaponSetup("MAGNETIC SHOCKWAVE", make_color_rgb(96, 48, 136), make_color_rgb(248, 80, 0), sprWeaponIconsMagneticShockwave);
+            <string>//weaponSetup("MAGNETIC SHOCKWAVE", make_color_rgb(96, 48, 136), make_color_rgb(248, 80, 0), sprWeaponIconsMagneticShockwave);
 </string>
           </argument>
         </arguments>

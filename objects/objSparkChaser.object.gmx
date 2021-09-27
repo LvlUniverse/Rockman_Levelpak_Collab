@@ -315,7 +315,7 @@ specialDamageValue("bird", 3);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>weaponSetup("SPARK CHASER", global.nesPalette[24], global.nesPalette[52], sprWeaponIconsSparkChaser);
+            <string>//weaponSetup("SPARK CHASER", global.nesPalette[24], global.nesPalette[52], sprWeaponIconsSparkChaser);
 </string>
           </argument>
         </arguments>
