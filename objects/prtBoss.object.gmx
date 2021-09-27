@@ -116,6 +116,7 @@ doPlayerExplosion = true; // If true it will use the same death effect as the pl
 dieToPits = true;
 useEndStageBehavior = true;
 lockTransitions = true;
+respawnupondeath = true;   //set to false to make it stay dead even if you respawn
 
 stopOnFlash = false;
 hitInvun = 45;
@@ -730,6 +731,15 @@ if (quickSpawn || global.aliveBosses &lt;= 0)
         i.alarm[0] = 1;
         i.visible = false;
         i.myItem = itemDrop;
+    }
+}
+
+if (!respawnupondeath)
+{
+    if (respawn)
+    {
+        with (objGlobalControl)
+            ds_list_add(pickups, string(room) + '/' + string(other.id));
     }
 }
 

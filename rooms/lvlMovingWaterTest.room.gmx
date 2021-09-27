@@ -111,6 +111,9 @@
     <instance objName="objMazeWarp" x="1024" y="448" name="inst_0BA4F722" locked="0" code="camY = y - 224;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objMazeWarp" x="1280" y="224" name="inst_39DBB67A" locked="0" code="camX = x - 256;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objHorizontalScrolling" x="1280" y="224" name="inst_B18497C1" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objBossBarrier" x="1088" y="240" name="inst_FF716BFD" locked="0" code="" scaleX="1" scaleY="3" colour="4294967295" rotation="0"/>
+    <instance objName="objCrashMan" x="1216" y="384" name="inst_762A0535" locked="0" code="useEndStageBehavior = false;&#xA;respawnupondeath = false;&#xA;enemyDamageValue(objBusterShotCharged, 27);&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objBossBarrier" x="1200" y="352" name="inst_ABA6B4B6" locked="0" code="" scaleX="2" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles>
     <tile bgName="bgBasic" x="0" y="0" w="128" h="128" xo="0" yo="0" id="11354986" name="inst_C853391E" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
@@ -292,6 +295,10 @@
     <tile bgName="bgBasic" x="1200" y="208" w="16" h="16" xo="0" yo="16" id="11377171" name="inst_7B854D54" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
     <tile bgName="bgBasic" x="1072" y="208" w="16" h="16" xo="0" yo="16" id="11377172" name="inst_3B8123CE" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
     <tile bgName="bgBasic" x="1088" y="208" w="16" h="16" xo="32" yo="16" id="11377173" name="inst_9AC83909" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
+    <tile bgName="bgBasic" x="1088" y="240" w="16" h="48" xo="64" yo="48" id="11378543" name="inst_9F2F1152" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
+    <tile bgName="bgBasic" x="1200" y="352" w="16" h="16" xo="0" yo="48" id="11378548" name="inst_A5F678C8" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
+    <tile bgName="bgBasic" x="1216" y="352" w="16" h="16" xo="32" yo="48" id="11378549" name="inst_B5C908BF" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
+    <tile bgName="bgBasic" x="1232" y="368" w="16" h="16" xo="64" yo="32" id="11378550" name="inst_264C2D0D" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
   </tiles>
   <PhysicsWorld>0</PhysicsWorld>
   <PhysicsWorldTop>0</PhysicsWorldTop>

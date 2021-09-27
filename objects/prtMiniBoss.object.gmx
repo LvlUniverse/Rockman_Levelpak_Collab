@@ -35,6 +35,7 @@ lockTransition = true;
 rescursiveExplosion = true; // Use this to set whether or not an explosion chain follows death.
 killOverride = false;
 killed = false;
+respawnupondeath = true;   //set to false to make it stay dead even if you respawn
 
 despawnRange = -1;
 
@@ -180,6 +181,14 @@ if (!global.frozen &amp;&amp; dead &amp;&amp; !instance_exists(objSectionSwitche
                 if (canUnlock)
                     global.lockTransition = false;
             }
+            if (!respawnupondeath)
+            {
+                if (respawn)
+                {
+                    with (objGlobalControl)
+                        ds_list_add(pickups, string(room) + '/' + string(other.id));
+                }
+            }
             instance_destroy();
         }
     }
@@ -213,6 +222,14 @@ if (!global.frozen &amp;&amp; dead &amp;&amp; !instance_exists(objSectionSwitche
                 }
                 if (canUnlock)
                     global.lockTransition = false;
+            }
+            if (!respawnupondeath)
+            {
+                if (respawn)
+                {
+                    with (objGlobalControl)
+                        ds_list_add(pickups, string(room) + '/' + string(other.id));
+                }
             }
             instance_destroy();
         }
