@@ -239,7 +239,7 @@ if (global.keyShootPressed[playerID] &amp;&amp; !playerIsLocked(PL_LOCK_SHOOT))
                 image_xscale = ladderXScale;
         }
         //sound
-        playSFX(sfxTyphoonFunnelLoop);
+        playSFX(sfxTyphoonFunnel);
         i.pxspeed = xspeed;
         i.x = x;
         i.y = y;

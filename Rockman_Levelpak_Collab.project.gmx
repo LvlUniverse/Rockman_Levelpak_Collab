@@ -1924,8 +1924,8 @@
         <sound>sound\sfxTinTrooperBonk</sound>
         <sound>sound\sfxSiphonTopaz</sound>
         <sound>sound\sfxSiphonTopazShatter</sound>
-        <sound>sound\sfxTyphoonFunnelLoop</sound>
-        <sound>sound\sfxTyphoonFunnelDisperse</sound>
+        <sound>sound\sfxTyphoonFunnel</sound>
+        <sound>sound\sfx4MIWireAdaptorLatch</sound>
       </sounds>
       <sounds name="MaGMML3">
         <sound>sound\sfxSparkChaser</sound>
@@ -2010,7 +2010,6 @@
     <sounds name="InUniverse_Content">
       <sound>sound\sfxShovelKnightChargeReady</sound>
       <sound>sound\sfxShovelKnightKingDash</sound>
-      <sound>sound\sfx4MIWireAdaptorLatch</sound>
     </sounds>
   </sounds>
   <sprites name="sprites">
