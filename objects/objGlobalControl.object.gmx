@@ -931,6 +931,8 @@ global.nextRoom = 0;
 
 view_wview[0] = min(global.screenWidth, room_width);
 view_hview[0] = min(global.screenHeight, room_height);
+view_wport[0] = view_wview;
+view_hport[0] = view_hview;
 
 room_speed = global.gameSpeed;
 

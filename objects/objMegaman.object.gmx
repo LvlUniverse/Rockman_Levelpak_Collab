@@ -189,6 +189,8 @@ animSpinOffset = 0;
 animSpinTurn = 1;
 
 paletteRefresh = 0;
+
+myProtoShield = noone;
 </string>
           </argument>
         </arguments>
