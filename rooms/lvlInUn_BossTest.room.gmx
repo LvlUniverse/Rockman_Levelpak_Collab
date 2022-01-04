@@ -54,7 +54,7 @@
     <instance objName="objStopScrollingHorizontal" x="256" y="224" name="inst_7BC87D95" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objDefaultSpawn" x="656" y="400" name="inst_27AF24B8" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objDefaultEffect" x="16" y="16" name="inst_586A52B3" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objInUni_AltCrashMan" x="304" y="400" name="inst_5E2ED143" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objInUni_AltCrashMan" x="304" y="400" name="inst_5E2ED143" locked="0" code="healthpointsStart = 28 * 32;&#xA;healthpoints = healthpointsStart;&#xA;&#xA;hitInvun = 12;&#xA;&#xA;//manualColors = true;&#xA;//healthBarPrimaryColor[1] = global.nesPalette[25];&#xA;//healthBarSecondaryColor[1] = c_white;&#xA;healthBarPrimaryColor[2] = c_yellow;&#xA;healthBarSecondaryColor[2] = c_white;&#xA;healthBarPrimaryColor[3] = c_blue;&#xA;healthBarSecondaryColor[3] = c_red;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objSolid" x="752" y="192" name="inst_F50D0AE8" locked="0" code="" scaleX="17" scaleY="3" colour="4294967295" rotation="0"/>
     <instance objName="objSolid" x="1008" y="240" name="inst_22C440DF" locked="0" code="" scaleX="1" scaleY="11" colour="4294967295" rotation="0"/>
     <instance objName="objInUni_AltCrashMan" x="976" y="400" name="inst_29FE0424" locked="0" code="" scaleX="-1" scaleY="1" colour="4294967295" rotation="0"/>
@@ -68,7 +68,6 @@
     <instance objName="objStopScrollingHorizontal" x="1024" y="224" name="inst_F262B91A" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objRightScrolling" x="768" y="224" name="inst_C787FB37" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objLeftScrolling" x="512" y="224" name="inst_C4D37578" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objCrashMan" x="304" y="400" name="inst_AA8486A4" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objStopScrollingHorizontal" x="1024" y="0" name="inst_57FBF7D6" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objHorizontalScrolling" x="768" y="0" name="inst_48D30839" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objTotemer" x="992" y="128" name="inst_3E7F45B4" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>

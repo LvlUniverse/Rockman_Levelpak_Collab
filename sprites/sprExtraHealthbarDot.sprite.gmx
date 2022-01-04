@@ -10,18 +10,18 @@
   <bbox_left>0</bbox_left>
   <bbox_right>7</bbox_right>
   <bbox_top>0</bbox_top>
-  <bbox_bottom>55</bbox_bottom>
+  <bbox_bottom>7</bbox_bottom>
   <HTile>0</HTile>
   <VTile>0</VTile>
   <TextureGroups>
-    <TextureGroup0>45</TextureGroup0>
+    <TextureGroup0>0</TextureGroup0>
   </TextureGroups>
   <For3D>0</For3D>
   <width>8</width>
-  <height>56</height>
+  <height>8</height>
   <frames>
-    <frame index="0">images\sprHealthbarBackground_0.png</frame>
-    <frame index="1">images\sprHealthbarBackground_1.png</frame>
-    <frame index="2">images\sprHealthbarBackground_2.png</frame>
+    <frame index="0">images\sprExtraHealthbarDot_0.png</frame>
+    <frame index="1">images\sprExtraHealthbarDot_1.png</frame>
+    <frame index="2">images\sprExtraHealthbarDot_2.png</frame>
   </frames>
 </sprite>

@@ -1317,9 +1317,6 @@ depth = depthstart;
     /// Draw HUD
     for (z = 0; z &lt; global.playerCount; z += 1)
     {
-        draw_sprite_ext(sprHealthbarBackground, 0, dx, dy, 1, 1, image_angle,
-            c_black, image_alpha);
-        
         // Respawn indicators
         if (global.respawnTimer[z] &gt;= 0)
         {
@@ -1345,28 +1342,26 @@ depth = depthstart;
             var scol = c_white;
             
             // low health -- red color
-            if (global.playerHealth[z] &lt;= global.respawnDonateThreshold &amp;&amp; global.playerCount &gt; 1)
+            if (global.playerCount &gt; 1 &amp;&amp; global.playerHealth[z] &lt;= global.respawnDonateThreshold)
             {
                 scol = pcol;
                 pcol = global.nesPalette[5];
             }
             
-            for (i = 1; i &lt;= ceil(global.playerHealth[z]); i += 1)
-            {
-                draw_sprite_ext(sprHealthbarPrimary, 0, dx + 1,
-                    dy + (sprite_get_height(sprHealthbarBackground) - i * 2),
-                    1, 1, 0, pcol, 1);
-                draw_sprite_ext(sprHealthbarSecondary, 0, dx + 1,
-                    dy + (sprite_get_height(sprHealthbarBackground) - i * 2),
-                    1, 1, 0, scol, 1);
-            }
+            var hp = ceil(global.playerHealth[z]);
+            draw_sprite_part_ext(sprHealthbarBackground, 0, 0, 0, 8, 56, 
+                dx, dy, 1, 1, c_black, 1);
+            draw_sprite_part_ext(sprHealthbarBackground, 1, 0, 0, 8, 2 * hp,
+                dx, dy + ((28 - hp) * 2), 1, 1, pcol, 1);
+            draw_sprite_part_ext(sprHealthbarBackground, 2, 0, 0, 8, 2 * hp,
+                dx, dy + ((28 - hp) * 2), 1, 1, scol, 1);
             
             var display = true;
             
             // Weapons
             if (global.weapon[z] != 0) // Weapon energy
             {
-                c = round(global.ammo[z, global.weapon[z]]);
+                c = ceil(global.ammo[z, global.weapon[z]]);
             }
             else // Charge bar
             {
@@ -1375,7 +1370,7 @@ depth = depthstart;
                 {
                     if (playerID == other.z)
                     {
-                        other.c = min(28, floor(chargeTimer) / 2);
+                        other.c = min(28, floor(chargeTimer / 2));
                     }
                 }
                 display = global.chargeBar;
@@ -1383,68 +1378,73 @@ depth = depthstart;
             
             if (display)
             {
-                draw_sprite_ext(sprHealthbarBackground, 0, dx - 8, dy, 1, 1,
-                    image_angle, global.outlineCol[z], image_alpha);
-                for (i = 1; i &lt;= c; i += 1)
-                {
-                    draw_sprite_ext(sprHealthbarPrimary, 0, dx - 8 + 1, dy
-                        + (sprite_get_height(sprHealthbarBackground) - i * 2),
-                        1, 1, 0, global.primaryCol[z], 1);
-                    draw_sprite_ext(sprHealthbarSecondary, 0, dx - 8 + 1, dy
-                        + (sprite_get_height(sprHealthbarBackground) - i * 2),
-                        1, 1, 0, global.secondaryCol[z], 1);
-                }
+                //weapon energy bar
+                draw_sprite_part_ext(sprHealthbarBackground, 0, 0, 0, 8, 56, 
+                    dx - 8, dy, 1, 1, global.outlineCol[z], 1);
+                draw_sprite_part_ext(sprHealthbarBackground, 1, 0, 0, 8, 2 * c,
+                    dx - 8, dy + ((28 - c) * 2), 1, 1, global.primaryCol[z], 1);
+                draw_sprite_part_ext(sprHealthbarBackground, 2, 0, 0, 8, 2 * c,
+                    dx - 8, dy + ((28 - c) * 2), 1, 1, global.secondaryCol[z], 1);
+                //infinity sign for infinite energy
                 if (global.infiniteEnergy[global.weapon[z]])
                 {
                     draw_sprite_ext(sprInfinityMarkVertical, 0, dx - 8, dy + 28, 1,
                         1, 0, c_white, 1);
-                    draw_sprite_ext(sprInfinityMarkVerticalPrimary, 0, dx - 8,
+                    draw_sprite_ext(sprInfinityMarkVertical, 1, dx - 8,
                         dy + 28, 1, 1, 0, global.primaryCol[z], 1);
-                    draw_sprite_ext(sprInfinityMarkVerticalSecondary, 0, dx - 8,
+                    draw_sprite_ext(sprInfinityMarkVertical, 2, dx - 8,
                         dy + 28, 1, 1, 0, global.secondaryCol[z], 1);
+                    draw_sprite_ext(sprInfinityMarkVertical, 3, dx - 8,
+                        dy + 28, 1, 1, 0, global.outlineCol[z], 1);
                 }
                 
                 //inuni edit: draw weapon icon below weapon bar
-                if global.showHUDWeaponIcon == 1
-                if !(global.weaponCost[global.weapon[z]] == 0 || global.infiniteEnergy[global.weapon[z]] == true)
+                if global.showHUDWeaponIcon == true &amp;&amp; global.weapon[z] != 0
                 {
+                    var b = -8;
+                    if !(global.weaponCost[global.weapon[z]] == 0 || global.infiniteEnergy[global.weapon[z]] == true)
+                    {
+                        b = -12;
+                        draw_set_valign(fa_middle);
+                        draw_set_halign(fa_left);
+                        if global.weaponCost[global.weapon[z]] == 8
+                            draw_text(dx + 6, dy + 68, 
+                                string(floor(global.ammo[z, global.weapon[z]] 
+                                / (global.weaponCost[global.weapon[z]] / (global.energySaver + 1)))));
+                        else
+                            draw_text(dx + 6, dy + 68, 
+                                string(ceil(global.ammo[z, global.weapon[z]] 
+                                / (global.weaponCost[global.weapon[z]] / (global.energySaver + 1)))));
+                    }
                     draw_sprite_ext(global.weaponIcon[global.weapon[z]],
-                        0, dx - 12, dy + 56, 1, 1, 0,
+                        0, dx + b, dy + 56, 1, 1, 0,
                         make_color_rgb(255, 228, 164), 1);
                     draw_sprite_ext(global.weaponIcon[global.weapon[z]],
-                        1, dx - 12, dy + 56, 1, 1, 0,
+                        1, dx + b, dy + 56, 1, 1, 0,
                         global.primaryCol[z], 1);
                     draw_sprite_ext(global.weaponIcon[global.weapon[z]],
-                        2, dx - 12, dy + 56, 1, 1, 0,
+                        2, dx + b, dy + 56, 1, 1, 0,
                         global.secondaryCol[z], 1);
                     draw_sprite_ext(global.weaponIcon[global.weapon[z]],
-                        3, dx - 12, dy + 56, 1, 1, 0,
+                        3, dx + b, dy + 56, 1, 1, 0,
                         c_white, 1);
-                    draw_set_valign(fa_middle);
-                    draw_set_halign(fa_left);
-                    if global.weaponCost[global.weapon[z]] == 8
-                        draw_text(dx + 6, dy + 68, 
-                            string(floor(global.ammo[z, global.weapon[z]] 
-                            / (global.weaponCost[global.weapon[z]] / (global.energySaver + 1)))));
+                    /*
                     else
-                        draw_text(dx + 6, dy + 68, 
-                            string(ceil(global.ammo[z, global.weapon[z]] 
-                            / (global.weaponCost[global.weapon[z]] / (global.energySaver + 1)))));
-                }
-                else
-                {
-                    draw_sprite_ext(global.weaponIcon[global.weapon[z]],
-                        0, dx - 8, dy + 56, 1, 1, 0,
-                        make_color_rgb(255, 228, 164), 1);
-                    draw_sprite_ext(global.weaponIcon[global.weapon[z]],
-                        1, dx - 8, dy + 56, 1, 1, 0,
-                        global.primaryCol[z], 1);
-                    draw_sprite_ext(global.weaponIcon[global.weapon[z]],
-                        2, dx - 8, dy + 56, 1, 1, 0,
-                        global.secondaryCol[z], 1);
-                    draw_sprite_ext(global.weaponIcon[global.weapon[z]],
-                        3, dx - 8, dy + 56, 1, 1, 0,
-                        c_white, 1);
+                    {
+                        draw_sprite_ext(global.weaponIcon[global.weapon[z]],
+                            0, dx - 8, dy + 56, 1, 1, 0,
+                            make_color_rgb(255, 228, 164), 1);
+                        draw_sprite_ext(global.weaponIcon[global.weapon[z]],
+                            1, dx - 8, dy + 56, 1, 1, 0,
+                            global.primaryCol[z], 1);
+                        draw_sprite_ext(global.weaponIcon[global.weapon[z]],
+                            2, dx - 8, dy + 56, 1, 1, 0,
+                            global.secondaryCol[z], 1);
+                        draw_sprite_ext(global.weaponIcon[global.weapon[z]],
+                            3, dx - 8, dy + 56, 1, 1, 0,
+                            c_white, 1);
+                    }
+                    */
                 }
             }
         }
@@ -1460,10 +1460,7 @@ depth = depthstart;
         {
             var dxx = dx + ((healthIndex - 1) * 8); // Multibosses
             
-            // Initial black bg for healthbar
-            draw_sprite_ext(sprHealthbarBackground, 0, dxx, dy, 1, 1, 0, c_black, 1);
-            
-            // Choose color to draw
+            //determine the amount of health the boss has
             var currentExtraHealthBar = 0;
             var myPrimaryColor, mySecondaryColor;
             var _currentHealth = 0;
@@ -1489,39 +1486,130 @@ depth = depthstart;
                     _currentHealth = healthpoints;
                 }
             }
-            // draw the health within the healthbar.
-            for (i = 1; i &lt;= ceil(_currentHealth); i += 1;)
-            {
-                // If the boss has more than 28 health, use this math to find out what 'layer' of
-                // health the boss is currently on. It's i-1/28 because if it was i/28, it would start
-                // a new health layer at the max health (28) rather than 1 over, when it should
-                // overflow.
+            
+            if(false)
+            {   //buster wants a different type though
+                var subHealth = floor((_currentHealth - 1) / 28);
+                var hc = subHealth mod (array_length_1d(healthBarPrimaryColor) - 1);
+                var hc2 = (subHealth - 1) mod (array_length_1d(healthBarPrimaryColor) - 1);
+                draw_sprite_part_ext(sprHealthbarBackground, 0, 0, 0, 8, 56, dxx, dy, 1, 1, c_black, 1);
                 
-                if ((i mod 28) == 1) // Set new colors for the health bar
+                subHealth = ceil(((_currentHealth - 1) mod 28) + 1);
+                if _currentHealth &gt; 28
                 {
-                    currentExtraHealthBar = ((i - 1) / 28);
+                    //text
+                    draw_set_valign(fa_top);
+                    draw_set_halign(fa_center);
+                    draw_text(dxx + 4, dy + 56, "x" + string(floor((_currentHealth - 1) / 28) + 1));
+                    
+                    //back healthbar
                     if (manualColors)
                     {
-                        myPrimaryColor = healthBarPrimaryColor[currentExtraHealthBar + 1];
-                        mySecondaryColor = healthBarSecondaryColor[currentExtraHealthBar + 1];
+                        myPrimaryColor = healthBarPrimaryColor[hc2 + 1];
+                        mySecondaryColor = healthBarSecondaryColor[hc2 + 1];
+                    }
+                    else
+                    {
+                        myPrimaryColor = global.nesPalette[min(54, 
+                            (healthBarPrimaryColor[1] + (healthBarColorSkip * hc2)))];
+                        mySecondaryColor = global.nesPalette[min(54, 
+                            (healthBarSecondaryColor[1] + (healthBarColorSkip * hc2)))];
+                    }
+                    draw_sprite_part_ext(sprHealthbarBackground, 1, 0, 0, 8, 56,
+                        dxx, dy, 1, 1, myPrimaryColor, 1);
+                    draw_sprite_part_ext(sprHealthbarBackground, 2, 0, 0, 8, 56,
+                        dxx, dy, 1, 1, mySecondaryColor, 1);
+                }
+                
+                //front bar
+                if (manualColors)
+                {
+                    myPrimaryColor = healthBarPrimaryColor[hc + 1];
+                    mySecondaryColor = healthBarSecondaryColor[hc + 1];
+                }
+                else
+                {
+                    myPrimaryColor = global.nesPalette[min(54, 
+                        (healthBarPrimaryColor[1] + (healthBarColorSkip * hc)))];
+                    mySecondaryColor = global.nesPalette[min(54, 
+                        (healthBarSecondaryColor[1] + (healthBarColorSkip * hc)))];
+                }
+                draw_sprite_part_ext(sprHealthbarBackground, 1, 0, 0, 8, 2 * subHealth,
+                    dxx, dy + ((28 - subHealth) * 2), 1, 1, myPrimaryColor, 1);
+                draw_sprite_part_ext(sprHealthbarBackground, 2, 0, 0, 8, 2 * subHealth,
+                    dxx, dy + ((28 - subHealth) * 2), 1, 1, mySecondaryColor, 1);
+            }
+            else
+            {
+                //load colors
+                if (manualColors)
+                {
+                    myPrimaryColor = healthBarPrimaryColor[1];
+                    mySecondaryColor = healthBarSecondaryColor[1];
+                }
+                else
+                {
+                    myPrimaryColor = global.nesPalette[min(54, (healthBarPrimaryColor[1]))];
+                    mySecondaryColor = global.nesPalette[min(54, (healthBarSecondaryColor[1]))];
+                }
+                var subHealth = ceil(((_currentHealth - 1) mod 28) + 1);
+                //single healthbar
+                draw_sprite_part_ext(sprHealthbarBackground, 0, 0, 0, 8, 56, dxx, dy, 1, 1, c_black, 1);
+                draw_sprite_part_ext(sprHealthbarBackground, 1, 0, 0, 8, 2 * subHealth,
+                    dxx, dy + ((28 - subHealth) * 2), 1, 1, myPrimaryColor, 1);
+                draw_sprite_part_ext(sprHealthbarBackground, 2, 0, 0, 8, 2 * subHealth,
+                    dxx, dy + ((28 - subHealth) * 2), 1, 1, mySecondaryColor, 1);
+                healthIndex++;
+                
+                //extra helthbars
+                if _currentHealth &gt; 28
+                {
+                    //load colors 2
+                    if (manualColors)
+                    {
+                        myPrimaryColor = healthBarPrimaryColor[2];
+                        mySecondaryColor = healthBarSecondaryColor[2];
                     }
                     else
                     {
                         // if the colors chosen are higher numbered than valid colors on the NES palette, default to the last in the index (black)
-                        myPrimaryColor = global.nesPalette[min(54, (healthBarPrimaryColor[1] + (healthBarColorSkip * (currentExtraHealthBar))))];
-                        mySecondaryColor = global.nesPalette[min(54, (healthBarSecondaryColor[1] + (healthBarColorSkip * (currentExtraHealthBar))))];
+                        myPrimaryColor = global.nesPalette[min(54, (healthBarPrimaryColor[1] + healthBarColorSkip))];
+                        mySecondaryColor = global.nesPalette[min(54, (healthBarSecondaryColor[1] + healthBarColorSkip))];
                     }
+                    subHealth = floor((_currentHealth - 1) / 28);
+                    
+                    //stern warnign for too many healthbars
+                    if _currentHealth &gt; (28 * 29)
+                    {
+                        draw_set_halign(fa_center);
+                        draw_set_valign(fa_middle);
+                        draw_text(view_xview + (view_wview / 2), view_yview + (view_hview / 2),
+                            "bro. stop that.#your boss does not need#that many healthbars");
+                    }
+                    else if _currentHealth &gt; (28 * 8)
+                    {   //healthbar of healthbars
+                        draw_sprite_part_ext(sprHealthbarBackground, 0, 0, 0, 8, 56, dxx + 8, dy, 1, 1, c_black, 1);
+                        draw_sprite_part_ext(sprHealthbarBackground, 1, 0, 0, 8, 2 * subHealth,
+                            dxx + 8, dy + ((28 - subHealth) * 2), 1, 1, myPrimaryColor, 1);
+                        draw_sprite_part_ext(sprHealthbarBackground, 2, 0, 0, 8, 2 * subHealth,
+                            dxx + 8, dy + ((28 - subHealth) * 2), 1, 1, mySecondaryColor, 1);
+                    }
+                    else   //dots
+                    {
+                        for (i = 1; i &lt;= subHealth; i++;)
+                        {
+                            draw_sprite_part_ext(sprExtraHealthbarDot, 0, 0, 0, 8, 8, 
+                                dxx + 8, dy + 56 + (i * -8), 1, 1, c_black, 1);
+                            draw_sprite_part_ext(sprExtraHealthbarDot, 1, 0, 0, 8, 8, 
+                                dxx + 8, dy + 56 + (i * -8), 1, 1, myPrimaryColor, 1);
+                            draw_sprite_part_ext(sprExtraHealthbarDot, 2, 0, 0, 8, 8, 
+                                dxx + 8, dy + 56 + (i * -8), 1, 1, mySecondaryColor, 1);
+                        }
+                    }
+                    healthIndex++;
                 }
-                
-                // now actually draw the pellets themselves, using all the info we've gatehred.
-                draw_sprite_ext(sprHealthbarPrimary, 0, dxx + 1,
-                    dy + (sprite_get_height(sprHealthbarBackground)) - ((i - (currentExtraHealthBar * 28)) * 2),
-                    1, 1, 0, myPrimaryColor, 1);
-                draw_sprite_ext(sprHealthbarSecondary, 0, dxx + 1,
-                    dy + (sprite_get_height(sprHealthbarBackground)) - ((i - (currentExtraHealthBar * 28)) * 2),
-                    1, 1, 0, mySecondaryColor, 1);
             }
-            healthIndex += 1;
+        
         }
         
         if (isIntro &amp;&amp; introType == 3) // MM6 intro fading

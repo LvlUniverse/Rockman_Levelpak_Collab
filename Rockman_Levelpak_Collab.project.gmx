@@ -2218,6 +2218,7 @@
         <sprite>sprites\sprInfinityMarkVertical</sprite>
         <sprite>sprites\sprInfinityMarkVerticalPrimary</sprite>
         <sprite>sprites\sprInfinityMarkVerticalSecondary</sprite>
+        <sprite>sprites\sprExtraHealthbarDot</sprite>
       </sprites>
       <sprites name="Other">
         <sprite>sprites\sprHitspark</sprite>
@@ -4259,6 +4260,7 @@
       <sprites name="Pause">
         <sprite>sprites\sprDescriptionMenuBG</sprite>
         <sprite>sprites\sprPauseMenuBG</sprite>
+        <sprite>sprites\sprPauseMenuBar</sprite>
         <sprite>sprites\sprPauseMenuBarPrimary</sprite>
         <sprite>sprites\sprPauseMenuBarSecondary</sprite>
         <sprite>sprites\sprInfinityMark</sprite>
