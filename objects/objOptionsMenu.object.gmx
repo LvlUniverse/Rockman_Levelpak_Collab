@@ -385,179 +385,89 @@ if (phase &gt;= 6 &amp;&amp; !selected &amp;&amp; !instance_exists(objColoredTex
             
             // FPS
             case 103:
-                pre = global.showFPS;
-                global.showFPS = min(max(0, global.showFPS + xdir), 1);
-                if (global.showFPS != pre)
-                {
-                    playSFX(sfxTextBox);
-                }
+                global.showFPS = optionsMenuSelect(global.showFPS, 0, 1);
                 break;
             
             // Controller Overlay
             case 104:
-                pre = global.showControllerOverlay;
-                global.showControllerOverlay = min(max(0, global.showControllerOverlay + xdir), 2);
-                if (global.showControllerOverlay != pre)
-                {
-                    playSFX(sfxTextBox);
-                }
+                global.showControllerOverlay = optionsMenuSelect(global.showControllerOverlay, 0, 2);
                 break;
             
             // Damage popup
             case 105:
-                pre = global.damagePopup;
-                global.damagePopup = min(max(0, global.damagePopup + xdir), 1);
-                if (global.damagePopup != pre)
-                {
-                    playSFX(sfxTextBox);
-                }
+                global.damagePopup = optionsMenuSelect(global.damagePopup, 0, 1);
                 break;
             
             // Charge Bar
             case 106:
-                pre = global.chargeBar;
-                global.chargeBar = min(max(0, global.chargeBar + xdir), 1);
-                if (global.chargeBar != pre)
-                {
-                    playSFX(sfxTextBox);
-                }
+                global.chargeBar = optionsMenuSelect(global.chargeBar, 0, 1);
                 break;
             
             // Escape key behavior
             case 107:
-                pre = global.escapeBehavior;
-                global.escapeBehavior = min(max(0, global.escapeBehavior - xdir), 2);
-                if (global.escapeBehavior != pre)
-                {
-                    playSFX(sfxTextBox);
-                }
+                global.escapeBehavior = optionsMenuSelect(global.escapeBehavior, 0, 2);
                 break;
             
             // moving text effects
             case 201:
-                pre = global.showMovingText;
-                global.showMovingText = min(max(0, global.showMovingText + xdir), 1);
-                if (global.showMovingText != pre)
-                {
-                    playSFX(sfxTextBox);
-                }
+                global.showMovingText = optionsMenuSelect(global.showMovingText, 0, 1);
                 break;
             
             // flickering (photosensitivity)
             case 202:
-                pre = global.doFlashing;
-                global.doFlashing = min(max(0, global.doFlashing + xdir), 1);
-                if (global.doFlashing != pre)
-                {
-                    playSFX(sfxTextBox);
-                }
+                global.doFlashing = optionsMenuSelect(global.doFlashing, 0, 1);
                 break;
             
             case 203:   //auto charge
-                pre = global.autoCharge;
-                global.autoCharge = min(max(0, global.autoCharge + xdir), 1);
-                if (global.autoCharge != pre)
-                {
-                    playSFX(sfxTextBox);
-                }
+                global.autoCharge = optionsMenuSelect(global.autoCharge, 0, 1);
                 break;
                 
             case 204:   //auto fire
-                pre = global.autoFire;
-                global.autoFire = min(max(0, global.autoFire + xdir), 1);
-                if (global.autoFire != pre)
-                {
-                    playSFX(sfxTextBox);
-                }
+                global.autoFire = optionsMenuSelect(global.autoFire, 0, 1);
                 break;
                 
             case 205:   //hold toggle
-                pre = global.holdToggle;
-                global.holdToggle = min(max(0, global.holdToggle + xdir), 1);
-                if (global.holdToggle != pre)
-                {
-                    playSFX(sfxTextBox);
-                }
+                global.holdToggle = optionsMenuSelect(global.holdToggle, 0, 1);
                 break;
             
             // MM Color
             case 301:
-                pre = global.mmColor;
-                global.mmColor = min(max(0, global.mmColor + xdir), 1);
-                if (global.mmColor != pre)
-                {
-                    playSFX(sfxTextBox);
-                }
+                global.mmColor = optionsMenuSelect(global.mmColor, 0, 1);
                 break;
             
             // Instant refills
             case 302:
-                pre = global.healthEffect;
-                global.healthEffect = min(max(0, global.healthEffect + xdir), 1);
-                if (global.healthEffect != pre)
-                {
-                    playSFX(sfxTextBox);
-                }
+                global.healthEffect = optionsMenuSelect(global.healthEffect, 0, 1);
                 break;
             
             // Pickup Graphics
             case 303:
-                pre = global.pickupGraphics;
-                global.pickupGraphics = min(max(0, global.pickupGraphics + xdir), 2);
-                if (global.pickupGraphics != pre)
-                {
-                    playSFX(sfxTextBox);
-                }
+                global.pickupGraphics = optionsMenuSelect(global.pickupGraphics, 0, 2);
                 break;
             
             // Death Effect
             case 304:
-                pre = global.deathEffect;
-                global.deathEffect = min(max(0, global.deathEffect + xdir), 1);
-                if (global.deathEffect != pre)
-                {
-                    playSFX(sfxTextBox);
-                }
+                global.deathEffect = optionsMenuSelect(global.deathEffect, 0, 1);
                 break;
             
             // Jump Sound
             case 305:
-                pre = global.jumpSound;
-                global.jumpSound = min(max(0, global.jumpSound + xdir), 1);
-                if (global.jumpSound != pre)
-                {
-                    playSFX(sfxTextBox);
-                }
+                global.jumpSound = optionsMenuSelect(global.jumpSound, 0, 1);
                 break;
             
             // Teleport Sound
             case 306:
-                pre = global.teleportSound;
-                global.teleportSound = min(max(0, global.teleportSound + xdir), 1);
-                if (global.teleportSound != pre)
-                {
-                    playSFX(sfxTextBox);
-                }
+                global.teleportSound = optionsMenuSelect(global.teleportSound, 0, 1);
                 break;
             
             // Weapon energy HUD thing
             case 307:
-                pre = global.showHUDWeaponIcon;
-                global.showHUDWeaponIcon = min(max(0, global.showHUDWeaponIcon + xdir), 2);
-                if (global.showHUDWeaponIcon != pre)
-                {
-                    playSFX(sfxTextBox);
-                }
+                global.showHUDWeaponIcon = optionsMenuSelect(global.showHUDWeaponIcon, 0, 1);
                 break;
             
             // boss helthbar style
             case 308:
-                pre = global.bossHealthStyle;
-                global.bossHealthStyle = min(max(0, global.bossHealthStyle + xdir), 1);
-                if (global.bossHealthStyle != pre)
-                {
-                    playSFX(sfxTextBox);
-                }
+                global.bossHealthStyle = optionsMenuSelect(global.bossHealthStyle, 0, 1);
                 break;
         }
     }

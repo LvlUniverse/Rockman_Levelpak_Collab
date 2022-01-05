@@ -5062,6 +5062,7 @@
       </scripts>
       <script>scripts\scrNoEffect.gml</script>
       <script>scripts\scrInUni_ParallaxAddLayer.gml</script>
+      <script>scripts\optionsMenuSelect.gml</script>
       <script>scripts\eventExecute.gml</script>
       <script>scripts\combineObjects.gml</script>
       <script>scripts\cleanMem.gml</script>
