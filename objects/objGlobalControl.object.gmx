@@ -1428,23 +1428,6 @@ depth = depthstart;
                     draw_sprite_ext(global.weaponIcon[global.weapon[z]],
                         3, dx + b, dy + 56, 1, 1, 0,
                         c_white, 1);
-                    /*
-                    else
-                    {
-                        draw_sprite_ext(global.weaponIcon[global.weapon[z]],
-                            0, dx - 8, dy + 56, 1, 1, 0,
-                            make_color_rgb(255, 228, 164), 1);
-                        draw_sprite_ext(global.weaponIcon[global.weapon[z]],
-                            1, dx - 8, dy + 56, 1, 1, 0,
-                            global.primaryCol[z], 1);
-                        draw_sprite_ext(global.weaponIcon[global.weapon[z]],
-                            2, dx - 8, dy + 56, 1, 1, 0,
-                            global.secondaryCol[z], 1);
-                        draw_sprite_ext(global.weaponIcon[global.weapon[z]],
-                            3, dx - 8, dy + 56, 1, 1, 0,
-                            c_white, 1);
-                    }
-                    */
                 }
             }
         }
@@ -1487,7 +1470,8 @@ depth = depthstart;
                 }
             }
             
-            if(false)
+            //draw health bar
+            if global.bossHealthStyle
             {   //buster wants a different type though
                 var subHealth = floor((_currentHealth - 1) / 28);
                 var hc = subHealth mod (array_length_1d(healthBarPrimaryColor) - 1);

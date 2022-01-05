@@ -97,7 +97,6 @@ optionText[0, 5] = 'DISPLAY...';
     optionText[1, 5] = 'DAMAGE POPUP';
     optionText[1, 6] = 'CHARGE BAR';
     optionText[1, 7] = 'ESC KEY BEHAVIOR';
-    optionText[1, 8] = 'WEP. ENERGY HUD';
 
 optionText[0, 6] = 'ACCESSIBILITY...';
     optionText[2, 0] = 'BACK';
@@ -116,6 +115,8 @@ optionText[0, 7] = 'GAME STYLE...';
     optionText[3, 4] = 'DEATH EFFECT';
     optionText[3, 5] = 'JUMP SOUND';
     optionText[3, 6] = 'TELEPORT SOUND';
+    optionText[3, 7] = 'WEP. ENERGY HUD';
+    optionText[3, 8] = 'BOSS HEALTHBARS';
 
 //optionText[0, 8] = 'CHEATS...';
 </string>
@@ -432,16 +433,6 @@ if (phase &gt;= 6 &amp;&amp; !selected &amp;&amp; !instance_exists(objColoredTex
                 }
                 break;
             
-            // Weapon energy HUD thing
-            case 108:
-                pre = global.showHUDWeaponIcon;
-                global.showHUDWeaponIcon = min(max(0, global.showHUDWeaponIcon + xdir), 2);
-                if (global.showHUDWeaponIcon != pre)
-                {
-                    playSFX(sfxTextBox);
-                }
-                break;
-            
             // moving text effects
             case 201:
                 pre = global.showMovingText;
@@ -544,6 +535,26 @@ if (phase &gt;= 6 &amp;&amp; !selected &amp;&amp; !instance_exists(objColoredTex
                 pre = global.teleportSound;
                 global.teleportSound = min(max(0, global.teleportSound + xdir), 1);
                 if (global.teleportSound != pre)
+                {
+                    playSFX(sfxTextBox);
+                }
+                break;
+            
+            // Weapon energy HUD thing
+            case 307:
+                pre = global.showHUDWeaponIcon;
+                global.showHUDWeaponIcon = min(max(0, global.showHUDWeaponIcon + xdir), 2);
+                if (global.showHUDWeaponIcon != pre)
+                {
+                    playSFX(sfxTextBox);
+                }
+                break;
+            
+            // boss helthbar style
+            case 308:
+                pre = global.bossHealthStyle;
+                global.bossHealthStyle = min(max(0, global.bossHealthStyle + xdir), 1);
+                if (global.bossHealthStyle != pre)
                 {
                     playSFX(sfxTextBox);
                 }
@@ -1196,22 +1207,6 @@ for (var yoff = 0, j = 0, opt, linecnt; j &lt; array_length_2d(optionText, mySub
             }
             break;
         
-        //weapon energy HUD thing
-        case 108:
-            switch (global.showHUDWeaponIcon)
-            {
-                case 0:
-                    opt = 'CLASSIC';
-                    break;
-                case 1:
-                    opt = 'TYPE1';
-                    break;
-                case 2:
-                    opt = 'TYPE2';
-                    break;
-            }
-            break;
-        
         // moving text effects
         case 201:
             if (global.showMovingText)
@@ -1311,6 +1306,30 @@ for (var yoff = 0, j = 0, opt, linecnt; j &lt; array_length_2d(optionText, mySub
                 opt = 'MM1/MM2';
             else
                 opt = 'MM3-MM6';
+            break;
+        
+        //weapon energy HUD thing
+        case 307:
+            switch (global.showHUDWeaponIcon)
+            {
+                case 0:
+                    opt = 'CLASSIC';
+                    break;
+                case 1:
+                    opt = 'TYPE1';
+                    break;
+                case 2:
+                    opt = 'TYPE2';
+                    break;
+            }
+            break;
+        
+        //boss healthbar style
+        case 308:
+            if global.bossHealthStyle
+                opt = 'X DiVE'
+            else
+                opt = '4MI'
             break;
     }
     //draw the option name and value

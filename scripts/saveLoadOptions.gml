@@ -25,6 +25,7 @@ global.showControllerOverlay = sl(global.showControllerOverlay, "controlleroverl
 global.escapeBehavior        = sl(global.escapeBehavior, "escapebehavior");
 global.doFlashing            = sl(global.doFlashing, "doFlashing");
 global.showHUDWeaponIcon     = sl(global.showHUDWeaponIcon, "hud-wepicon");
+global.bossHealthStyle       = sl(global.bossHealthStyle, "boss-health-style");
 
 global.autoFire              = sl(global.autoFire, "auto-fire");
 global.autoCharge            = sl(global.autoCharge, "auto-charge");

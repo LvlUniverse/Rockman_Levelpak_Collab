@@ -990,7 +990,8 @@ if (phase != 0)
             }
                 
             //ammo bar
-            draw_sprite_part_ext(sprPauseMenuBar, 2, 0, 0, 56, 8, xff + 8, yff + 16, 1, 1, col[0, cl * (1 + (w == 0))], 1);
+            draw_sprite_part_ext(sprPauseMenuBar, 2, 0, 0, 56, 8, 
+                xff + 8, yff + 16, 1, 1, col[0, cl * (1 + (w == 0))], 1);
             draw_sprite_part_ext(sprPauseMenuBar, 1, 0, 0, ammo * 2, 8,
                 xff + 8, yff + 16, 1, 1, col[0, cl * (1 + (w == 0))], 1);
             draw_sprite_part_ext(sprPauseMenuBar, 2, 0, 0, ammo * 2, 8,
@@ -1009,8 +1010,12 @@ if (phase != 0)
             //"icon"
             draw_sprite_ext(sprWeaponIconsBlank, 0, xff, yff, 1, 1, 0, col[cl, 0], 1);
             //grey energy bar
-            draw_sprite_ext(sprPauseMenuBarPrimary, ammo, xff + 8, yff + 16, 1, 1, 0, col[0, 0], 1);
-            draw_sprite_ext(sprPauseMenuBarSecondary, ammo, xff + 8, yff + 16, 1, 1, 0, col[1, 0], 1);
+            draw_sprite_part_ext(sprPauseMenuBar, 2, 0, 0, 56, 8, 
+                xff + 8, yff + 16, 1, 1, col[0, 0], 1);
+            draw_sprite_part_ext(sprPauseMenuBar, 1, 0, 0, ammo * 2, 8,
+                xff + 8, yff + 16, 1, 1, col[0, 0], 1);
+            draw_sprite_part_ext(sprPauseMenuBar, 2, 0, 0, ammo * 2, 8,
+                xff + 8, yff + 16, 1, 1, col[1, 0], 1);
         }
     }
     

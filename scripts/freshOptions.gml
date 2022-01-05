@@ -15,7 +15,6 @@ global.showFPS = 0;
 global.familyFriendlyText = false;
 global.escapeBehavior = 1;
 global.showControllerOverlay = false;
-global.showHUDWeaponIcon = true;
 
 //accessibility
 global.showMovingText = true;
@@ -44,6 +43,9 @@ for (i = 0; i < global.playerSpriteMax; i += 1)
 global.playerSprite[1] = sprProtoman;
 global.playerSprite[2] = sprBass;
 global.playerSprite[3] = sprRoll;
+
+global.showHUDWeaponIcon = true;
+global.bossHealthStyle = false;
 
 //controls
 for (i = 0; i < 4; i += 1)

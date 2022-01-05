@@ -2211,15 +2211,6 @@
           <sprite>sprites\mskWeaponExplosion</sprite>
         </sprites>
       </sprites>
-      <sprites name="Health/Weapon Bar">
-        <sprite>sprites\sprHealthbarBackground</sprite>
-        <sprite>sprites\sprHealthbarPrimary</sprite>
-        <sprite>sprites\sprHealthbarSecondary</sprite>
-        <sprite>sprites\sprInfinityMarkVertical</sprite>
-        <sprite>sprites\sprInfinityMarkVerticalPrimary</sprite>
-        <sprite>sprites\sprInfinityMarkVerticalSecondary</sprite>
-        <sprite>sprites\sprExtraHealthbarDot</sprite>
-      </sprites>
       <sprites name="Other">
         <sprite>sprites\sprHitspark</sprite>
         <sprite>sprites\sprMegamanSweat</sprite>
@@ -4257,12 +4248,15 @@
       <sprite>sprites\sprSpecialCoinDupe</sprite>
     </sprites>
     <sprites name="Menu">
+      <sprites name="Health/Weapon Bar">
+        <sprite>sprites\sprHealthbarBackground</sprite>
+        <sprite>sprites\sprInfinityMarkVertical</sprite>
+        <sprite>sprites\sprExtraHealthbarDot</sprite>
+      </sprites>
       <sprites name="Pause">
         <sprite>sprites\sprDescriptionMenuBG</sprite>
         <sprite>sprites\sprPauseMenuBG</sprite>
         <sprite>sprites\sprPauseMenuBar</sprite>
-        <sprite>sprites\sprPauseMenuBarPrimary</sprite>
-        <sprite>sprites\sprPauseMenuBarSecondary</sprite>
         <sprite>sprites\sprInfinityMark</sprite>
         <sprite>sprites\sprGotoOptions</sprite>
         <sprite>sprites\sprGotoCheckpoint</sprite>
