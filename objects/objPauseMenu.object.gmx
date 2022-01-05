@@ -62,16 +62,16 @@ wtankPositionY = 16;    buttonPos[1, 1] = wtankPositionY - 100;
 mtankPositionX = 96;   buttonPos[2, 0] = mtankPositionX;
 mtankPositionY = 16;    buttonPos[2, 1] = mtankPositionY - 100;  
 
-optionsPositionX = 136; buttonPos[3, 0] = optionsPositionX + 8;
+optionsPositionX = 16; buttonPos[3, 0] = optionsPositionX + 8;
 optionsPositionY = 208; buttonPos[3, 1] = optionsPositionY + 100;
-checkPositionX = 152;   buttonPos[4, 0] = checkPositionX + 24;
+checkPositionX = 32;   buttonPos[4, 0] = checkPositionX + 24;  //+16
 checkPositionY = 208;   buttonPos[4, 1] = checkPositionY + 100;
-exitPositionX = 200;    buttonPos[5, 0] = exitPositionX + 20;
+exitPositionX = 80;    buttonPos[5, 0] = exitPositionX + 20;   //+48
 exitPositionY = 208;    buttonPos[5, 1] = exitPositionY + 100;
 
-rearrangePositionX = 16;    buttonPos[6, 0] = rearrangePositionX + 32;
+rearrangePositionX = 152;    buttonPos[6, 0] = rearrangePositionX + 32;
 rearrangePositionY = 208;    buttonPos[6, 1] = rearrangePositionY + 100;
-infoPositionX = 80;    buttonPos[7, 0] = infoPositionX + 12;
+infoPositionX = 216;    buttonPos[7, 0] = infoPositionX + 12;    //+64
 infoPositionY = 208;    buttonPos[7, 1] = infoPositionY + 100;
 
 //these buttons aren't anything. but, they could be!
