@@ -113,6 +113,7 @@ cutsceneScript = "";
 quickSpawn = false; // If true, it will spawn as a regular enemy
 destroyOnDeath = true;
 doPlayerExplosion = true; // If true it will use the same death effect as the player
+doFreezeFrame = true; // if false, wii die immediately instead of doing the brief freezeframe on the last hit
 dieToPits = true;
 useEndStageBehavior = true;
 lockTransitions = true;
@@ -128,6 +129,7 @@ facePlayerOnSpawn = true;
 
 healthpoints = 28;
 _init = 1;
+freezeFrameTimer = undefined;
 
 drawBoss = false; // Should we be visible? (Can't use the 'visible' variable as this prevents the Draw event from executing)
 rememberDepth = depth; // for the MM6 intro fade to go under the health bar.
@@ -142,7 +144,7 @@ healthBarTimer = 0; // timer for fillup
 healthBarTimerMax = 30; // how long will the boss wait between finishing intro and filling healthbar?
 
 healthBarTimerSpeed = 1; // basically health per frame
-healthBarTimerSpeedExtra = 0.25;
+healthBarTimerSpeedExtra = 1;
 
 healthBarPrimaryColor[1] = 34;
 healthBarSecondaryColor[1] = 40;
@@ -380,6 +382,17 @@ if (instance_exists(objMegaman) &amp;&amp; !global.frozen &amp;&amp; !isFight &a
                 }
             }
         }
+    }
+}
+
+//brief pause when the last boss of a level dies
+if !is_undefined(freezeFrameTimer)
+{
+    freezeFrameTimer--;
+    if freezeFrameTimer &lt;= 0
+    {
+        global.frozen = false;
+        event_user(EV_DEATH);
     }
 }
 </string>
@@ -638,14 +651,27 @@ if (!quickSpawn)
 {
     global.aliveBosses = max(0,global.aliveBosses- 1);
 }
+
 wasKilled = true;
 
 if (!quickSpawn &amp;&amp; global.aliveBosses &lt;= 0)
 {
     if (useEndStageBehavior)
     {
-        stopMusic();
-        audio_stop_all();
+        //freezeframe
+        if is_undefined(freezeFrameTimer)
+            &amp;&amp; doFreezeFrame 
+            &amp;&amp; instance_exists(self) //some bosses do a stupid and destroy themselves before calling their EV_DEATH
+        {
+            global.frozen = true;
+            freezeFrameTimer = 20;
+            exit;
+        }
+        else
+        {
+            stopMusic();
+            audio_stop_all();
+        }
     }
     else
     {

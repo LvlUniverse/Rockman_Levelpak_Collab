@@ -37,6 +37,8 @@ grav = 0; // no gravity
 introType = 2; // no intro
 blockCollision = 0; // doesnt interact with blocks
 
+doFreezeFrame = false;
+
 puyoBrickN = 0;
 puyoBrickIndex = 0;
 

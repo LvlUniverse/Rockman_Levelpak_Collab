@@ -516,11 +516,15 @@ if (spawned)
           <argument>
             <kind>1</kind>
             <string>with (objGutsBossBlock)
+{
     instance_create(x, y, objExplosion);
-instance_destroy();
+    instance_destroy();
+}
 with (objGutsBossBlockRubble)
+{
     instance_create(x, y, objExplosion);
-instance_destroy();
+    instance_destroy();
+}
 event_inherited();
 </string>
           </argument>

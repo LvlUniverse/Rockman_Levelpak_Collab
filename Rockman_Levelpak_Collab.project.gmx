@@ -1922,6 +1922,7 @@
         <sound>sound\sfxHailBreaker</sound>
         <sound>sound\sfxTinTrooper</sound>
         <sound>sound\sfxTinTrooperBonk</sound>
+        <sound>sound\sfxTinTrooperSecret</sound>
         <sound>sound\sfxSiphonTopaz</sound>
         <sound>sound\sfxSiphonTopazShatter</sound>
         <sound>sound\sfxTyphoonFunnel</sound>
