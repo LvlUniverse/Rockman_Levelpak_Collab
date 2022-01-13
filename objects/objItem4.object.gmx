@@ -221,11 +221,11 @@ if (!global.frozen)
                 jump = 1;
                 animID = 1;
                 /*
-                with(instance_create(x, y + (32 * image_yscale), objExplosion))
+                with(instance_create(x, y + (32 * image_yscale), objSingleLoopEffect))
                 {
                     sprite_index = sprMetallDaddyJump;
                     image_yscale = other.image_yscale;
-                    image_speed = 1/8;
+                    image_speed = 1/4;
                 }
                 */
             }
@@ -330,7 +330,7 @@ if (active)
     //follow parent's image_scale flippings
     if image_yscale != parent.image_yscale
     {
-        y += (sprite_get_yoffset(mask_index) - (bbox_bottom - bbox_top)) * sign(parent.image_yscale);
+        y = (bbox_bottom - (y - bbox_top)) + 1;
         image_yscale = parent.image_yscale;
         grav = gravAccel * sign(image_yscale);
     }
