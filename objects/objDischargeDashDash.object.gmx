@@ -120,7 +120,11 @@ else
     image_yscale = parent.image_yscale;
     //tell MM to do tengu blade sprites
     with(parent)
+    {
         playerHandleSprites("Tengu2");
+        ground = true;
+        checkGround();
+    }
 }
 
 if (!global.frozen &amp;&amp; !global.switchingSections)

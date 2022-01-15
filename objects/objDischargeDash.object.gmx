@@ -318,9 +318,7 @@ if instance_exists(objDischargeDashDash)
 else if chargeTimer &gt; 0
 {
     chargeTimer = 0;
-    global.primaryCol[playerID] = global.weaponPrimaryColor[global.weapon[playerID]];
-    global.secondaryCol[playerID] = global.weaponSecondaryColor[global.weapon[playerID]];
-    global.outlineCol[playerID] = c_black;
+    playerPalette();
 }
 </string>
           </argument>
@@ -427,6 +425,21 @@ if instance_exists(parent)
         global.ammo[playerID, global.weaponID[? objDischargeDash]] -= 0.2 / (global.energySaver + 1);
     
     antiRapidBuffer = 4;
+    
+    //no item drops
+    if !(object_is_ancestor(other.object_index, prtMiniBoss)
+        || !other.killOverride)
+    {
+        with(other)
+        {
+            if itemDrop != 0
+                event_perform_object(prtEntity, ev_other, ev_user10);
+            else
+                instance_create(bboxGetXCenter(), bboxGetYCenter(), objExplosion);
+            
+            y = -999;   //immediately despawns
+        }
+    }
 }
 </string>
           </argument>
