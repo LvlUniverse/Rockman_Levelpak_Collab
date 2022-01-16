@@ -36,7 +36,33 @@ grav = 0;
 
 animSpeed = 0;
 
-isMaster = false;
+//isMaster = false;
+runOnceVar = true;
+does = false;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="2">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>runOnceVar = true;
+does = false;
 </string>
           </argument>
         </arguments>
@@ -63,66 +89,53 @@ isMaster = false;
 
 if entityCanStep()
 {
-    //determine if typhoon funnel is upon us
-    var does = false;
-    with(objTyphoonFunnel)
+    if(runOnceVar)
     {
-        if instance_place(x, y, other)
+        with(object_index) //run once per step no matter the number of fans
+            runOnceVar = false;
+        
+        //step one: find active, held typhoon funnels
+        var pushForceUp, pushForceDown, me;
+        with(objTyphoonFunnel)
         {
-            //make sure it doesn't get triggered where there isn't tornado
-            if disperse == 0 || !((other.bbox_top &gt; trueY - disperse) 
-                &amp;&amp; (other.bbox_bottom &lt; trueY + disperse))
+            if disperse &gt; 0 || !instance_exists(parent)
+                continue;
+            //step two: push said funnel's owner based on nearby fans
+            with(parent)
             {
-                does = true;
+                //no pushing up off the floor
+                if ground
+                    continue;
+            
+                me = id;
+                pushForceUp = 0;
+                pushForceDown = 0;
+                //iterate through all fans to get the pushiest ones, up and down
+                with(objTyphoonFan)
+                {
+                    if me.bbox_right &gt; bbox_left &amp;&amp; me.bbox_left &lt; bbox_right
+                        &amp;&amp; ((image_yscale &gt; 0 &amp;&amp; me.bbox_top &lt; bbox_bottom)
+                        || image_yscale &lt;= 0 &amp;&amp; me.bbox_bottom &gt; bbox_top)
+                    {
+                        if image_yscale &gt; 0
+                            pushForceUp = max(animSpeed, pushForceUp);
+                        else
+                            pushForceDown = max(animSpeed, pushForceDown);
+                        does = true;
+                    }
+                }
+                //push by the combined force of pushiest up fan and pushiest down fan
+                shiftObject(0, pushForceDown - pushForceUp, true);
             }
         }
     }
-    //animate if being funneled
+    
+    //animate if pushing someone
     if(does)
         animSpeed = min(2, animSpeed + 0.3);
     else
         animSpeed = (animSpeed * 0.85) * (animSpeed &gt; 0.02);
     image_index += animSpeed * 0.25;
-    
-    //if not master, check if a master is needed, and become one if so
-    if !isMaster
-    {
-        with(objTyphoonFan)
-        {
-            if isMaster
-                exit;
-        }
-        isMaster = true;
-    }
-    else
-    {   //if master, control pushing megaman
-        var mst = id, pushForceUp, pushForceDown, me;
-        with(objMegaman)
-        {
-            //no pushing up off the floor
-            if ground
-                continue;
-            
-            me = id;
-            pushForceUp = 0;
-            pushForceDown = 0;
-            //iterate through all fans to get the pushiest ones, up and down
-            with(objTyphoonFan)
-            {
-                if me.bbox_right &gt; bbox_left &amp;&amp; me.bbox_left &lt; bbox_right
-                    &amp;&amp; ((image_yscale &gt; 0 &amp;&amp; me.bbox_top &lt; bbox_bottom)
-                    || image_yscale &lt;= 0 &amp;&amp; me.bbox_bottom &gt; bbox_top)
-                {
-                    if image_yscale &gt; 0
-                        pushForceUp = max(animSpeed, pushForceUp);
-                    else
-                        pushForceDown = max(animSpeed, pushForceDown);
-                }
-            }
-            //push by the combined force of pushiest up fan and pushiest down fan
-            shiftObject(0, pushForceDown - pushForceUp, true);
-        }
-    }
 }
 </string>
           </argument>
@@ -150,7 +163,8 @@ if entityCanStep()
 event_inherited();
 
 animSpeed = 0;
-isMaster = false;
+does = false;
+//isMaster = false;
 </string>
           </argument>
         </arguments>
