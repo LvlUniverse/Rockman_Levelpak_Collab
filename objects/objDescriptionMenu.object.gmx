@@ -42,6 +42,14 @@ option = 0;
 
 animTimer = 0;
 quickScrollTimer = 25;
+
+vScroll = 0;
+vquickScrollTimer = 25;
+
+descW = 8 * 24;
+descH = 8 * 16;
+textBoxSurface = surface_create(descW, descH);
+thisDescHeight = 1;
 </string>
           </argument>
         </arguments>
@@ -104,7 +112,7 @@ switch (phase)  //copied from pause menu
         }
         
         var xDir = (global.keyRight[0] - global.keyLeft[0]);
-        //scrolling and quickscrolling
+        //horizontal scroll &amp; quickscroll
         var doScroll = false;
         if (xDir != 0)
         {
@@ -146,6 +154,33 @@ switch (phase)  //copied from pause menu
                 with(objMegaman)
                     playerPalette();
             }
+            //reset vertical scroll
+            vScroll = 0;
+        }
+        
+        //vertical scroll
+        var yDir = (global.keyDown[0] - global.keyUp[0]);
+        doScroll = false;
+        if (yDir != 0) &amp;&amp; (quickScrollTimer == 25)//the horizontal timer
+        {
+            if vquickScrollTimer == 8
+                doScroll = true;
+            if (vquickScrollTimer == 0)
+                vquickScrollTimer = 9;
+            vquickScrollTimer--;
+        }
+        else
+            vquickScrollTimer = 8;
+        
+        if doScroll 
+            &amp;&amp; (vScroll + yDir &gt;= 0) 
+            &amp;&amp; (vScroll + yDir &lt;= thisDescHeight - 16)
+        {
+            vScroll += yDir * doScroll;
+            if yDir &gt; 0
+                playSFX(sfxMenuScrollDown);
+            else
+                playSFX(sfxMenuScrollUp);
         }
         break;
     
@@ -210,28 +245,244 @@ var drawDesc = "nothing";
 var drawStats = "-#-#-#-";
 
 //get weapon info from global weapon list
+var wep, drawTitle, drawDesc, drawStats;
 var wep = global.weapon[0];
 drawTitle = global.weaponName[wep];
-drawDesc = global.weaponDescription[wep, 0];
-drawStats = global.weaponDescription[wep, 1];
+
+//weapon descriptions are only relevant here, so here they are stored
+switch(global.weaponObject[wep])
+{
+        case objBusterShot:
+        drawStats = "1, 3#5#3#0";
+        drawDesc = " You fire bullets that 
+fly straight. You can 
+also charge up energy by 
+holding down FIRE, for a 
+shot that is larger, 
+stronger, and pierces 
+enemies it destroys.
+
+ Thanks to solar energy, 
+this can be fired 
+infinitely."
+//sorry. the indenting would get counted as a part of the string
+        break;
+
+    case objNekoClaw:
+        drawStats = "1#8#1#1/2";
+        drawDesc = " A large hydaulic 
+powered cat paw that 
+pierces shields, and can 
+retrieve minor items.
+
+ It can be aimed in 
+seven directions, but 
+its range is limited.
+
+ If you hold down FIRE, 
+it will fire again as 
+soon as it returns. If 
+you are very close to a
+foe, it will fire 
+rapidly for huge damage.";
+        break;
+    
+    case objDischargeDash:
+        drawStats = "2#4.5#1#2";
+        drawDesc = " An electric barrier 
+that can be charged by 
+absorbing shots and 
+weak enemies. Once 
+charged, you can press
+FIRE to perform an 
+invincible dash, even 
+in the air.
+
+ The barrier can hold 
+up to three charges, but
+it will still guard you
+even if it's fully 
+charged.";
+        break;
+    
+    case objTinTrooper:
+        drawStats = "2#1#3#1.5";
+        drawDesc = " A small metal soldier 
+that walks forward and 
+explodes upon contact 
+with an enemy.
+
+ The soldier can jump 
+over small obstacles and
+gaps, can fit in narrow 
+passageways, and will 
+turn around at walls.";
+        break;
+    
+    case objFlameSweeper:
+        drawStats = "3#7#1#4";
+        drawDesc = " Fires a small, 
+harmless fireball. If 
+you press FIRE again, 
+the small fireball 
+detonates into a strong
+wave of flame that goes
+the opposite direction.
+
+ The small fireball can 
+be angled up and down. 
+This doesn't affect the 
+direction of the return 
+wave.
+
+ The return wave is 
+weaker if detonated 
+directly on an enemy.";
+        break;
+    
+    case objSiphonTopaz:
+        drawStats = "2, 4#1#1#2";
+        drawDesc = " A large topaz that 
+moves in a narrow arc. 
+If the topaz hits an 
+enemy, it will bounce 
+upwards, and steal some 
+health at the cost of
+one point of energy.
+
+ If you hit multiple 
+times with one shot, it 
+will deal extra damage 
+and steal more health.
+
+ This can be fired even 
+if the shot limit has 
+been reached, at the 
+cost of the existing 
+shot.";
+        break;
+    
+    case objTyphoonFunnel:
+        drawStats = "1#-#1#2";
+        drawDesc = " A tall, narrow tropical 
+storm. While held, the 
+storm will follow your 
+movement and slow your 
+fall.
+
+ When you land on the 
+ground or release the 
+FIRE button, the storm 
+is released: it keeps 
+moving in the direction 
+it was going when it was 
+released, and slowly
+parts from its center.
+
+ The typhoon becomes 
+stronger when it sucks 
+up water, and allows you 
+to move freely in water 
+at an energy cost.";
+        break;
+    
+    case objHailBreaker:
+        drawStats = "0#3#1#5";
+        drawDesc = " A torrent of ice that 
+freezes enemies and 
+water all around you.
+ 
+ Frozen enemies can be 
+walked on without harm.
+
+ The ice persists even 
+when you switch weapons.";
+        break;
+    
+    case objBlockTurret:
+        drawStats = "1#5#1#8";
+        drawDesc = " A rapid-firing turret 
+that can be picked up or 
+put down by pressing the 
+FIRE button.
+
+ The turret can be stood 
+on, and you can adjust 
+its height by landing on 
+it, or with UP and DOWN 
+while standing on it.";
+        break;
+    
+    case objTeleportPhaser:
+        drawStats = "1#4#1#3";
+        drawDesc = " You charge up energy, 
+and then release it to 
+teleport upwards.
+
+ You are invulnerable 
+and deal minor damage to 
+foes while teleporting.";
+        break;
+    
+    case objItem4:
+        drawStats = "12#-#1#4";
+        drawDesc = " A large battle mech 
+that can walk on spikes 
+and crush foes by 
+landing on them.
+
+ The mech is invincible, 
+but its rider is still 
+vulnerable.
+
+ The mech has a gun, 
+though it is quite weak.";
+        break;
+    
+    case objSkeletuppinPakkajoe:
+        drawStats = "!!!!!#Yes#9999999#WOW";
+        drawDesc = "Debug weapon.#Ends all life.####################sand undetrale"
+        break;
+    
+    default:
+        drawStats = "?#?#?#?";
+        drawDesc = "No description provided.";
+        break;
+}
+thisDescHeight = string_height(drawDesc) / 8;
 
 //draw weapon icon
 draw_sprite_ext(global.weaponIcon[wep], 0, x + 24, y + 8, 1, 1, 0, make_color_rgb(255, 228, 164), 1);
 draw_sprite_ext(global.weaponIcon[wep], 1, x + 24, y + 8, 1, 1, 0, global.primaryCol[0], 1);
 draw_sprite_ext(global.weaponIcon[wep], 2, x + 24, y + 8, 1, 1, 0, global.secondaryCol[0], 1);
 draw_sprite_ext(global.weaponIcon[wep], 3, x + 24, y + 8, 1, 1, 0, c_white, 1);
-//todo: add quick scroll, maybe add support for descriptions longer than one screen
 
+//description
+if !surface_exists(textBoxSurface)
+    textBoxSurface = surface_create(descW, descH);
+surface_set_target(textBoxSurface);
+draw_clear_alpha(c_black, 0);
+draw_text(0, vScroll * -8, drawDesc);
+surface_reset_target();
+draw_surface(textBoxSurface, x + 32, y + 40);
+
+//other text
 draw_text(x + 48, y + 12, drawTitle);
-draw_text(x + 32, y + 40, drawDesc);
 draw_text(x + 32, y + 184, "DAMAGE#SPEED#SHOT LIMIT#COST");
 draw_set_halign(fa_right);
 draw_text(x + 216, y + 184, drawStats);
 draw_set_halign(fa_left);
 
-//arrows
-draw_sprite_ext(sprArrow, 0, x + 27 - ceil((animTimer mod 29 + 1) / 10), y + 105, 1, 1, 0, c_white, 1);
-draw_sprite_ext(sprArrow, 0, x + 229 + ceil((animTimer mod 29 + 1) / 10), y + 105, 1, 1, 180, c_white, 1);
+//horizontal arrows
+var arrowanim = ceil((animTimer mod 29 + 1) / 10);
+draw_sprite(sprArrow, 0, x + 27 + -arrowanim, y + 105);
+draw_sprite(sprArrow, 1, x + 229 + arrowanim, y + 105);
+
+//vertical arrows
+if (vScroll &gt; 0)
+    draw_sprite(sprArrow, 2, x + 228, y + 44 + -arrowanim);
+if (vScroll &lt; thisDescHeight - 16)
+    draw_sprite(sprArrow, 3, x + 228, y + 164 + arrowanim);
 
 // colored text overlays
 if (global.showColoredTextOverlays)

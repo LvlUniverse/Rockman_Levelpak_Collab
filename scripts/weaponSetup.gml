@@ -106,17 +106,4 @@ else // Setup of each of the weapons
         global.weaponCost[global.totalWeapons] = argument[4];
     else
         global.weaponCost[global.totalWeapons] = 0;
-        
-    //Description
-    if (argument_count <= 6) //default description
-    {
-        global.weaponDescription[global.totalWeapons, 0] = "No description provided.";
-        global.weaponDescription[global.totalWeapons, 1] = "?#?#?#?";
-    }
-    else
-    {
-        //automatic spacing: this should be replaced with manually-wrapped text before the game is out
-        global.weaponDescription[global.totalWeapons, 0] = autoSpaceDescription(argument[5]);
-        global.weaponDescription[global.totalWeapons, 1] = argument[6];
-    }
 }

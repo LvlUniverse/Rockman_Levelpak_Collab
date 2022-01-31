@@ -477,13 +477,9 @@ if object_is_ancestor(other.object_index, prtMiniBoss)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///weapon setup
-weaponSetup("ITEM 4", 
-    make_color_rgb(220, 0, 204), 
-    make_color_rgb(255, 188, 255), 
-    sprWeaponIconsItem4, 1.5,   //costs this much weapon energy per second of use
-    " You call down and ride a large battle mech, with which you can walk on spikes, and crush foes by jumping on them.## The mech itself is invulnerable, but it does not protect the rider in any way.## The mech has a gun installed, though it is quite weak.",
-    "12#-#1#4");
+            <string>///weapon list entry
+weaponSetup("ITEM 4", make_color_rgb(220, 0, 204), make_color_rgb(255, 188, 255), sprWeaponIconsItem4, 1.5);   
+//cost is per second of use
 </string>
           </argument>
         </arguments>

@@ -161,9 +161,7 @@ else
     default:
     case "Mega Man":
     {
-        weaponSetup("MEGA BUSTER", -1, -1, sprWeaponIconsMegaBuster, 0, 
-        "You fire bullets that fly straight. You can also charge up energyby holding down FIRE, for a shot that is larger, stronger, and that pierces enemies it destroys.## Thanks to solar energy, you can fire it infinitely.",
-        "1, 3#5#3#0");
+        weaponSetup("MEGA BUSTER", -1, -1, sprWeaponIconsMegaBuster, 0);
         break;
     }
     case "Proto Man":

@@ -176,8 +176,7 @@ if (entityCanStep())
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>weaponSetup("SKELETUPPIN PAKKAJOE", global.nesPalette[6], global.nesPalette[40], sprWeaponIconsSkeletuppinPakkajoe, 0.1,
-    "sand undetrale", "!!!!!#Yes#9999999#WOW");
+            <string>weaponSetup("SKELETUPPIN PAKKAJOE", global.nesPalette[6], global.nesPalette[40], sprWeaponIconsSkeletuppinPakkajoe, 0.1);
 </string>
           </argument>
         </arguments>
