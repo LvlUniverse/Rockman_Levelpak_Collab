@@ -132,6 +132,26 @@
     <instance objName="objMM1Met" x="800" y="48" name="inst_C3E76153" locked="0" code="itemDrop = objKey;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objMM1Met" x="944" y="64" name="inst_89C14276" locked="0" code="itemDrop = objEnergyElement;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objMM1Met" x="1056" y="112" name="inst_13D83346" locked="0" code="itemDrop = objKeyBarrier;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objFatKeyBarrier" x="1888" y="128" name="inst_BB26939B" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objKeyCoin" x="1680" y="128" name="inst_DDAD4384" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objKeyCoin" x="1272" y="64" name="inst_FD821D41" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objKeyCoin" x="1232" y="96" name="inst_9C3C578A" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objKeyCoin" x="1200" y="96" name="inst_3B1035BC" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objKeyCoin" x="1344" y="96" name="inst_83B042EB" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objKeyCoin" x="1312" y="96" name="inst_B5E07B0F" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objKeyCoin" x="368" y="96" name="inst_BF23DCFA" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objKeyCoin" x="1712" y="128" name="inst_9E92EBDD" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objKeyCoin" x="1744" y="128" name="inst_5A421AE8" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objKeyCoin" x="1776" y="128" name="inst_C7287B06" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objKeyCoin" x="1776" y="96" name="inst_4AF49A85" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objKeyCoin" x="1744" y="96" name="inst_C8C0F638" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objKeyCoin" x="1712" y="96" name="inst_0B957A06" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objKeyCoin" x="1680" y="96" name="inst_5FEE41B4" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objKeyCoin" x="1504" y="64" name="inst_0A8111D0" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objKeyCoin" x="1504" y="80" name="inst_62CAB94E" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objKeyCoin" x="1504" y="96" name="inst_A66250B5" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objKeyCoin" x="1504" y="112" name="inst_B7421C91" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objKeyCoinManager" x="1616" y="96" name="inst_50FAE13D" locked="0" code="coinKeyAwards = makeArray(3, 6, 9);&#xA;//displayMode = 1;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles>
     <tile bgName="bgBasic" x="0" y="0" w="128" h="128" xo="0" yo="0" id="11354782" name="inst_A470C83D" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
@@ -749,12 +769,6 @@
     <tile bgName="bgBasic" x="736" y="80" w="16" h="16" xo="80" yo="0" id="11377199" name="inst_017262E5" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
     <tile bgName="bgBasic" x="736" y="96" w="16" h="16" xo="0" yo="16" id="11377200" name="inst_600E43D2" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
     <tile bgName="bgBasic" x="736" y="112" w="16" h="16" xo="0" yo="16" id="11377201" name="inst_91C5B4DF" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
-    <tile bgName="bgBasic" x="1760" y="128" w="16" h="16" xo="48" yo="16" id="11378558" name="inst_042F9451" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
-    <tile bgName="bgBasic" x="1744" y="128" w="16" h="16" xo="48" yo="16" id="11378559" name="inst_8619780A" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
-    <tile bgName="bgBasic" x="1904" y="128" w="16" h="16" xo="64" yo="32" id="11378561" name="inst_A9ED828C" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
-    <tile bgName="bgBasic" x="1920" y="128" w="16" h="16" xo="64" yo="32" id="11378563" name="inst_C9CBC1B2" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
-    <tile bgName="bgBasic" x="1664" y="112" w="16" h="16" xo="48" yo="16" id="11378565" name="inst_1CBD5F1C" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
-    <tile bgName="bgBasic" x="1680" y="112" w="16" h="16" xo="48" yo="16" id="11378566" name="inst_77221DB6" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
   </tiles>
   <PhysicsWorld>0</PhysicsWorld>
   <PhysicsWorldTop>0</PhysicsWorldTop>

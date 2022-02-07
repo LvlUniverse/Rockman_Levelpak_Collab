@@ -923,8 +923,6 @@ global.aliveBosses = 0;
 global.lockTransition = false;
 global.switchingSections = false;
 
-global.keyCoinTotal = 0;
-global.keyCoinCollected = 0;
 global.keyNumber = 0;
 
 global.nextRoom = 0;
@@ -1620,10 +1618,10 @@ depth = depthstart;
     }
     
     // Key coins
-    for (i = 0; i &lt; global.keyCoinTotal; i += 1)
+    with (objKeyCoinManager)
     {
-        draw_sprite_ext(sprKeyCoinHUD, !(i &lt; global.keyCoinCollected),
-            view_xview + (8 * i), view_yview + view_hview - 8, 1, 1, 0, c_white, 1);
+        if !dead
+            event_perform_object(objKeyCoinManager, ev_draw, 0);
     }
 }
 </string>

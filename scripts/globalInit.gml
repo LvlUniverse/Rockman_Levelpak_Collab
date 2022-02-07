@@ -85,8 +85,6 @@ global.prevYView = view_yview;
 // Go to the next room if this is the initializing room
 // Also, initialize some variables
 
-global.keyCoinTotal = 0;
-global.keyCoinCollected = 0;
 global.keyNumber = 0;
 
 // game progression
@@ -132,8 +130,6 @@ global.lockTransition = false;
 global.switchingSections = false;
 
 global.inkSurface[0] = -1; // used for octone ink
-global.keyCoinTotal = 0;
-global.keyCoinCollected = 0;
 
 // The default player used
 for (i = 0; i < 5; i++)

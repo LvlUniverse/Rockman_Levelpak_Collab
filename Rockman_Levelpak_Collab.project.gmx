@@ -1909,6 +1909,8 @@
       <sound>sound\sfxElementGrab</sound>
       <sound>sound\sfxKeyGet</sound>
       <sound>sound\sfxKeySpawn</sound>
+      <sound>sound\sfxKeyCoinNotGet</sound>
+      <sound>sound\sfxFatKeyDoor</sound>
     </sounds>
     <sounds name="Weapon">
       <sound>sound\sfxBuster</sound>
@@ -4243,8 +4245,11 @@
       <sprite>sprites\sprKey</sprite>
       <sprite>sprites\sprKeyHud</sprite>
       <sprite>sprites\sprKeyGate</sprite>
+      <sprite>sprites\sprFatKeyGate</sprite>
       <sprite>sprites\sprKeyCoin</sprite>
       <sprite>sprites\sprKeyCoinHUD</sprite>
+      <sprite>sprites\sprKeyCoinHUDBracket</sprite>
+      <sprite>sprites\sprKeyCoinManager</sprite>
       <sprite>sprites\sprSpecialCoin</sprite>
       <sprite>sprites\sprSpecialCoinDupe</sprite>
     </sprites>
@@ -6605,7 +6610,9 @@
       <object>objects\objWeaponModifier</object>
       <object>objects\objKey</object>
       <object>objects\objKeyCoin</object>
+      <object>objects\objKeyCoinManager</object>
       <object>objects\objKeyBarrier</object>
+      <object>objects\objFatKeyBarrier</object>
       <object>objects\objEddie</object>
       <object>objects\objSpecialCoin</object>
     </objects>
@@ -6800,6 +6807,7 @@
         <object>objects\objDamagePopup</object>
         <object>objects\objBigExplosion</object>
         <object>objects\objDialogueBox</object>
+        <object>objects\objKeyCoinDiscard</object>
       </objects>
     </objects>
     <objects name="RLC">
