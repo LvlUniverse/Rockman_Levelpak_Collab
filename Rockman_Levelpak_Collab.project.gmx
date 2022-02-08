@@ -5082,6 +5082,7 @@
       <object>objects\objCheckpointTouch</object>
       <object>objects\objNPC</object>
       <object>objects\objNPCMobile</object>
+      <object>objects\objPitSaver</object>
       <object>objects\objSign</object>
       <object>objects\objSpawnCondition</object>
       <object>objects\objWeaponSettings</object>
@@ -6196,6 +6197,8 @@
         <object>objects\objWindLeft</object>
         <object>objects\objWindDown</object>
         <object>objects\objWindUp</object>
+        <object>objects\objSecretWallController</object>
+        <object>objects\objSecretRevealZone</object>
         <object>objects\objShift</object>
         <objects name="Easy Mode Platforms">
           <object>objects\objEasyCube16</object>

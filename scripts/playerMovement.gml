@@ -51,8 +51,40 @@ else if (dieToPit)
         if ((gravDir >= 0 && !position_meeting(x, y - 8, objSectionArrowDown))
             || (gravDir < 0 && !place_meeting(x, y + 8, objSectionArrowUp)))
         {
-            global.playerHealth[playerID] = 0;
-            deathByPit = true;
+            //death / damage to pits
+            if instance_exists(objPitSaver)
+            {
+                //reduced damage if you got knocked in
+                var dmg = instance_nearest(x, y, objPitSaver).contactDamage / ((iFrames > 0) + 1);
+                var frc = instance_nearest(x, y, objPitSaver).ejectForce;
+                if global.playerHealth[playerID] <= dmg
+                {
+                    global.playerHealth[playerID] = 0;
+                    deathByPit = true;
+                    exit;
+                }
+                else
+                {
+                    //do damage, even if player is in hitstun
+                    global.playerHealth[playerID] -= dmg;
+                    iFrames = max(iFrames, 48);
+                    playSFX(sfxHit);
+                    //eject with speed
+                    yspeed = -frc * gravDir;
+                    canMinJump = false;
+                    //remove item4
+                    if instance_exists(vehicle) && vehicle.object_index = objItem4
+                    {
+                        with(vehicle)
+                            event_user(10);
+                    }
+                }
+            }
+            else
+            {
+                global.playerHealth[playerID] = 0;
+                deathByPit = true;
+            }
         }
     }
 }
